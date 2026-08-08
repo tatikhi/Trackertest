@@ -52,7 +52,7 @@
             border-radius: 20px;
             padding: 24px;
             border: 2px solid var(--border-color);
-            box-shadow: 0 4px 16px rgba(56, 43, 44, 0.08); /* Легкая тень-подложка */
+            box-shadow: 0 4px 16px rgba(56, 43, 44, 0.08);
             display: flex;
             flex-direction: column;
             gap: 16px;
@@ -77,7 +77,7 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background-color: #4a7c59; /* Активная кнопка */
+            background-color: #4a7c59;
             color: #ffffff;
             border: none;
             padding: 8px 16px;
@@ -124,16 +124,16 @@
             transition: width 0.4s ease;
         }
 
-        /* STUDENT CARD */
+        /* STUDENT CARD (теперь 2 колонки) */
         .student-card {
             background: var(--card-bg);
             border-radius: 20px;
             padding: 20px 24px;
             border: 2px solid var(--border-color);
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 16px;
-            box-shadow: 0 4px 16px rgba(56, 43, 44, 0.08); /* Легкая тень-подложка */
+            box-shadow: 0 4px 16px rgba(56, 43, 44, 0.08);
         }
 
         .info-item {
@@ -183,7 +183,7 @@
             display: flex;
             flex-direction: column;
             gap: 16px;
-            box-shadow: 0 4px 16px rgba(56, 43, 44, 0.08); /* Легкая тень-подложка */
+            box-shadow: 0 4px 16px rgba(56, 43, 44, 0.08);
             transition: all 0.3s ease;
         }
 
@@ -197,13 +197,21 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        /* Одинаковый размер шрифта для заголовка и названия миссии */
+        .lesson-titles {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
         }
 
         .lesson-number {
-            font-size: 0.9rem;
+            font-size: 1.15rem;
             font-weight: 700;
             color: var(--text-main);
-            text-transform: uppercase;
         }
 
         .lesson-topic {
@@ -265,10 +273,8 @@
         /* BADGES & ACTIONS */
         .card-footer {
             display: flex;
-            justify-content: flex-start;
+            justify-content: center; /* Центрирование кнопки отчета */
             align-items: center;
-            flex-wrap: wrap;
-            gap: 12px;
             border-top: 2px solid var(--border-color);
             padding-top: 16px;
         }
@@ -304,16 +310,16 @@
             cursor: not-allowed;
         }
 
-        /* Кнопка отправки отчета в Telegram */
+        /* Кнопка отправки отчета в Telegram (центрированная) */
         .tg-btn {
             display: inline-flex;
             align-items: center;
             gap: 6px;
             background-color: #4a7c59;
             color: #ffffff;
-            padding: 10px 16px;
+            padding: 10px 20px;
             border-radius: 10px;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             font-weight: 600;
             text-decoration: none;
             transition: opacity 0.2s;
@@ -330,7 +336,7 @@
             border-radius: 20px;
             padding: 24px;
             border: 2px solid var(--border-color);
-            box-shadow: 0 4px 16px rgba(56, 43, 44, 0.08); /* Легкая тень-подложка */
+            box-shadow: 0 4px 16px rgba(56, 43, 44, 0.08);
             text-align: center;
             display: flex;
             flex-direction: column;
@@ -411,15 +417,11 @@
         <section class="student-card">
             <div class="info-item">
                 <span class="info-label">Ученик</span>
-                <span class="info-value">Малыш</span>
+                <span class="info-value">Имя</span>
             </div>
             <div class="info-item">
                 <span class="info-label">Возраст</span>
                 <span class="info-value">[ ] лет</span>
-            </div>
-            <div class="info-item">
-                <span class="info-label">Формат</span>
-                <span class="info-value">Микро-миссии по 3 мин</span>
             </div>
         </section>
 
@@ -444,8 +446,8 @@
         const defaultLessons = [
             { 
                 id: 1, 
-                topic: "МИССИЯ 1", 
-                subtitle: "ДЕНЬ 1 : «ОХОТА ЗА ЦВЕТАМИ»",
+                title: "МИССИЯ 1", 
+                subtitle: "«ОХОТА ЗА ЦВЕТАМИ»",
                 desc: "🏃‍♂️ Задание: Бегом найди в комнате что-то <b>КРАСНОЕ</b>, схвати предмет, покажи в камеру и громко крикни: «<b>RED!</b>»", 
                 status: "Запланировано", 
                 image: "IMG_0457.jpeg", 
@@ -453,8 +455,8 @@
             },
             { 
                 id: 2, 
-                topic: "МИССИЯ 2", 
-                subtitle: "ДЕНЬ 2 : «ОХОТА ЗА ЦВЕТАМИ»",
+                title: "МИССИЯ 2", 
+                subtitle: "«ОХОТА ЗА ЦВЕТАМИ»",
                 desc: "🏃‍♂️ Задание: Бегом найди в комнате что-то <b>СИНЕЕ</b>, схвати предмет, покажи в камеру и громко крикни: «<b>BLUE!</b>»", 
                 status: "Запланировано", 
                 image: "img/day2.jpg", 
@@ -483,15 +485,15 @@
                 const decoded = decodeData(encodedStr);
                 if (decoded) {
                     lessons = decoded;
-                    localStorage.setItem('english_2days_v3', JSON.stringify(lessons));
+                    localStorage.setItem('english_2days_v4', JSON.stringify(lessons));
                     return;
                 }
             }
-            lessons = JSON.parse(localStorage.getItem('english_2days_v3')) || defaultLessons;
+            lessons = JSON.parse(localStorage.getItem('english_2days_v4')) || defaultLessons;
         }
 
         function saveState() {
-            localStorage.setItem('english_2days_v3', JSON.stringify(lessons));
+            localStorage.setItem('english_2days_v4', JSON.stringify(lessons));
             updateProgress();
         }
 
@@ -510,7 +512,7 @@
             if (id === 2) {
                 const day1Completed = lessons.find(l => l.id === 1).status === "Пройдено";
                 if (!day1Completed) {
-                    showToast("Сначала нужно выполнить День 1!");
+                    showToast("Сначала нужно выполнить Миссию 1!");
                     return;
                 }
             }
@@ -566,7 +568,7 @@
                 
                 let badgeHTML = '';
                 if (isLocked) {
-                    badgeHTML = `<span class="status-badge status-locked">🔒 Заблокировано (пройдите День 1)</span>`;
+                    badgeHTML = `<span class="status-badge status-locked">🔒 Заблокировано (пройдите Миссию 1)</span>`;
                 } else {
                     const badgeClass = isCompleted ? "status-completed" : "status-planned";
                     badgeHTML = `<span class="status-badge ${badgeClass}" onclick="toggleStatus(${lesson.id})">
@@ -576,11 +578,13 @@
 
                 card.innerHTML = `
                     <div class="lesson-header">
-                        <span class="lesson-number">${lesson.topic}</span>
+                        <div class="lesson-titles">
+                            <span class="lesson-number">${lesson.title}</span>
+                            <span class="lesson-topic">${lesson.subtitle}</span>
+                        </div>
                         ${badgeHTML}
                     </div>
 
-                    <div class="lesson-topic">${lesson.subtitle}</div>
                     <div class="lesson-desc">${isLocked ? '🔒 Это задание откроется сразу после выполнения первой миссии!' : lesson.desc}</div>
 
                     ${!isLocked && lesson.image ? `
@@ -592,7 +596,7 @@
 
                     <div class="card-footer">
                         ${isLocked ? '<span style="font-size: 0.85rem; color: var(--text-main); opacity: 0.8;">Задание скрыто до завершения предыдущего шага</span>' : `
-                        <a href="https://t.me/tati_khi?text=${encodeURIComponent('Здравствуйте! Отправляю видео-отчет за Миссию ' + lesson.id)}" target="_blank" class="tg-btn">
+                        <a href="https://t.me/tati_khi?text=${encodeURIComponent('Здравствуйте! Отправляю отчет за Миссию ' + lesson.id)}" target="_blank" class="tg-btn">
                             ✈️ Отправить отчет в Telegram
                         </a>`}
                     </div>
