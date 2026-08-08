@@ -15,8 +15,8 @@
             --card-bg: #e4cab4;
             --text-main: #382b2c;
             --border-color: #d1b59c;
-            --accent-green: #75a4b3;
-            --accent-green-dark: #568393;
+            --accent-color: #75a4b3;
+            --accent-color-dark: #568393;
             --btn-adult: #d4b8a0;
         }
 
@@ -48,8 +48,16 @@
         .header-title { 
             font-size: 1.4rem; 
             font-weight: 700; 
-            margin-bottom: 15px; 
+            margin-bottom: 12px; 
             letter-spacing: 0.05em;
+        }
+
+        .path-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            opacity: 0.85;
         }
 
         /* ИГРОВАЯ ДОРОЖКА ИЗ 8 ЛАПОК БЕЗ РАМОК */
@@ -78,8 +86,8 @@
         }
 
         .step-node.active { 
-            background: var(--accent-green);
-            filter: drop-shadow(0 0 3px var(--accent-green)); 
+            background: var(--accent-color);
+            filter: drop-shadow(0 0 3px var(--accent-color)); 
         }
 
         /* БЛОК ИМЕНИ И ВОЗРАСТА */
@@ -155,7 +163,7 @@
         }
 
         .adult-check.completed {
-            background: var(--accent-green);
+            background: var(--accent-color);
             color: #fff;
         }
 
@@ -180,7 +188,7 @@
             background: #d4b8a0; 
             padding: 14px; 
             border-radius: 12px; 
-            border-left: 4px solid var(--accent-green); 
+            border-left: 4px solid var(--accent-color); 
             text-align: left; 
             font-size: 0.95rem;
             font-weight: 600;
@@ -240,23 +248,12 @@
             align-items: center;
             justify-content: center;
             box-shadow: 0 6px 16px rgba(0,0,0,0.15);
-        }
-
-        /* Заметная анимация пружинки (батут) */
-        @keyframes springBounce {
-            0% { transform: scale(1); }
-            35% { transform: scale(0.65); }
-            70% { transform: scale(1.15); }
-            100% { transform: scale(1); }
-        }
-
-        .round-foot-btn.bounce-anim {
-            animation: springBounce 0.4s ease;
+            outline: none;
         }
 
         .round-foot-btn.completed {
-            background: var(--accent-green); 
-            border-color: var(--accent-green-dark);
+            background: var(--accent-color); 
+            border-color: var(--accent-color-dark);
             box-shadow: inset 0 4px 8px rgba(0,0,0,0.2);
         }
 
@@ -301,7 +298,7 @@
             gap: 6px;
             background: var(--btn-adult);
             color: var(--text-main);
-            padding: 6px 12px;
+            padding: 6px 14px;
             border-radius: 8px;
             font-size: 0.75rem;
             font-weight: 700;
@@ -334,7 +331,7 @@
             align-items: center; 
             gap: 8px;
             padding: 12px 24px; 
-            background: var(--accent-green); 
+            background: var(--accent-color); 
             color: #fff; 
             border-radius: 10px; 
             text-decoration: none; 
@@ -352,6 +349,7 @@
     <!-- HEADER -->
     <header>
         <h1 class="header-title">PROGRESS TRACKER</h1>
+        <div class="path-title">ПУТЬ К ЦЕЛИ</div>
         <div class="path-progress" id="path-progress-container">
             <!-- 8 лапок -->
         </div>
@@ -387,19 +385,20 @@
         { id: 2, title: "МИССИЯ 2", subtitle: "«ОХОТА ЗА ЦВЕТАМИ»", desc: "🏃‍♂️ Задание: Найди в комнате что-то <b>СИНЕЕ</b>, покажи в камеру и громко крикни: «<b>BLUE!</b>»", status: "Запланировано", image: "img/day2.jpg", audio: "audio/day2.mp3" }
     ];
 
-    // Надежный звуковой генератор радости
+    // Звуковой эффект успеха
     function playSuccessSound() {
         try {
             const AudioContext = window.AudioContext || window.webkitAudioContext;
             if (!AudioContext) return;
             const ctx = new AudioContext();
-            
+            if (ctx.state === 'suspended') ctx.resume();
+
             const playTone = (freq, time, duration) => {
                 const osc = ctx.createOscillator();
                 const gain = ctx.createGain();
                 osc.type = 'triangle';
                 osc.frequency.value = freq;
-                gain.gain.setValueAtTime(0.25, ctx.currentTime + time);
+                gain.gain.setValueAtTime(0.3, ctx.currentTime + time);
                 gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + time + duration);
                 osc.connect(gain);
                 gain.connect(ctx.destination);
@@ -407,40 +406,41 @@
                 osc.stop(ctx.currentTime + time + duration);
             };
 
-            playTone(587.33, 0, 0.15);    // Ре 5
-            playTone(739.99, 0.12, 0.15); // Фа# 5
-            playTone(880.00, 0.24, 0.35); // Ля 5
+            playTone(587.33, 0, 0.15);    
+            playTone(739.99, 0.12, 0.15); 
+            playTone(880.00, 0.24, 0.4);  
         } catch (e) {
-            console.log("Audio context blocked");
+            console.log("Audio context error", e);
         }
     }
 
-    // Встроенный салют из конфетти (работает всегда без внешних библиотек)
+    // Встроенный салют из конфетти
     function triggerConfetti() {
         const colors = ['#75a4b3', '#e4cab4', '#f4d06f', '#ffffff', '#568393', '#ff7675', '#74b9ff'];
-        for (let i = 0; i < 70; i++) {
+        for (let i = 0; i < 90; i++) {
             const particle = document.createElement('div');
             particle.style.position = 'fixed';
-            particle.style.width = '10px';
-            particle.style.height = '10px';
+            particle.style.width = '12px';
+            particle.style.height = '12px';
             particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
             particle.style.top = '-10px';
             particle.style.left = Math.random() * 100 + 'vw';
-            particle.style.opacity = Math.random() + 0.5;
-            particle.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
-            particle.style.zIndex = '9999';
+            particle.style.opacity = '1';
+            particle.style.borderRadius = Math.random() > 0.5 ? '50%' : '3px';
+            particle.style.zIndex = '99999';
             particle.style.pointerEvents = 'none';
             
             const duration = Math.random() * 2 + 1.5;
-            const delay = Math.random() * 0.4;
+            const delay = Math.random() * 0.3;
             
             particle.style.transition = `all ${duration}s ease-in ${delay}s, transform ${duration}s linear ${delay}s`;
             document.body.appendChild(particle);
 
             setTimeout(() => {
                 particle.style.top = '105vh';
-                particle.style.transform = `rotate(${Math.random() * 540}deg) translateX(${(Math.random() - 0.5) * 300}px)`;
-            }, 50);
+                particle.style.transform = `rotate(${Math.random() * 720}deg) translateX(${(Math.random() - 0.5) * 400}px)`;
+                particle.style.opacity = '0';
+            }, 30);
 
             setTimeout(() => {
                 particle.remove();
@@ -524,12 +524,18 @@
             event.preventDefault();
         }
 
-        // Запуск красивой пружинящей анимации при клике
-        const btn = element.closest('.lesson-card')?.querySelector('.round-foot-btn');
+        // Запуск анимации пружинки через Web Animations API без скролла страницы
+        const btn = element.closest('.lesson-card')?.querySelector('.round-foot-btn') || element.closest('.round-foot-btn');
         if (btn) {
-            btn.classList.remove('bounce-anim');
-            void btn.offsetWidth; // сброс анимации
-            btn.classList.add('bounce-anim');
+            btn.animate([
+                { transform: 'scale(1)' },
+                { transform: 'scale(0.7)' },
+                { transform: 'scale(1.2)' },
+                { transform: 'scale(1)' }
+            ], {
+                duration: 400,
+                easing: 'cubic-bezier(0.175, 0.885, 0.32, 1.275)'
+            });
         }
 
         const scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
