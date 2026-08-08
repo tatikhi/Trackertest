@@ -11,22 +11,15 @@
     
     <style>
         :root {
-            /* Полное исключение белого: глубокий желтый фон */
             --bg-color: #f4d06f; 
-            /* Насыщенный бежево-песочный для карточек */
             --card-bg: #e6c587; 
             --text-main: #2b2318;
             --text-muted: #5c4d37;
-            --primary: #4f46e5;
-            --primary-hover: #4338ca;
-            --primary-light: #d6b877;
-            /* Более ярко-бежевые/медовые рамки */
             --border-color: #d1ab65;
             
-            /* Status Colors */
             --status-planned-bg: #d9b473;
             --status-planned-text: #423522;
-            --status-completed-bg: #2d8a4e; /* Насыщенный зеленый для пройденного */
+            --status-completed-bg: #2d8a4e; 
             --status-completed-text: #ffffff;
             --status-locked-bg: #c77b6b;
             --status-locked-text: #ffffff;
@@ -216,14 +209,35 @@
             border-left: 4px solid #8c672b;
         }
 
-        /* Ограничение размеров картинки, чтобы не ломала верстку */
+        /* Квадратное превью с округлыми углами и эффектом увеличения по клику */
         .preview-image {
-            max-width: 100%;
-            max-height: 200px;
-            border-radius: 12px;
+            width: 100px;
+            height: 100px;
             object-fit: cover;
+            border-radius: 16px;
+            cursor: pointer;
+            border: 2px solid var(--border-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             margin-top: 4px;
             display: block;
+        }
+
+        .preview-image:hover {
+            transform: scale(1.05);
+        }
+
+        /* Класс при клике (увеличение по центру экрана) */
+        .preview-image.expanded {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(2.8);
+            width: 180px;
+            height: 180px;
+            z-index: 1000;
+            cursor: zoom-out;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border-color: #2b2318;
         }
 
         audio {
@@ -274,7 +288,7 @@
             cursor: not-allowed;
         }
 
-        /* Кнопку написать - оранжевым */
+        /* Кнопка написать - оранжевым */
         .tg-btn {
             display: inline-flex;
             align-items: center;
@@ -385,7 +399,7 @@
             </div>
         </section>
 
-        <!-- LESSONС GRID -->
+        <!-- LESSONS GRID -->
         <main class="lessons-grid" id="lessons-container"></main>
 
         <!-- FOOTER -->
@@ -406,7 +420,7 @@
                 topic: "День 1: «Охота за цветами» (Цвета)", 
                 desc: "🏃‍♂️ Задание: Бегом найди в комнате что-то КРАСНОЕ, схвати предмет, покажи в камеру и громко крикни: «Red!»", 
                 status: "Запланировано", 
-                image: "IMG_0232.jpeg", /* Точное имя вашей картинки в корне GitHub */
+                image: "IMG_0232.jpeg", 
                 audio: "audio/day1.mp3" 
             },
             { 
@@ -440,15 +454,15 @@
                 const decoded = decodeData(encodedStr);
                 if (decoded) {
                     lessons = decoded;
-                    localStorage.setItem('english_2days_fixed', JSON.stringify(lessons));
+                    localStorage.setItem('english_2days_v2', JSON.stringify(lessons));
                     return;
                 }
             }
-            lessons = JSON.parse(localStorage.getItem('english_2days_fixed')) || defaultLessons;
+            lessons = JSON.parse(localStorage.getItem('english_2days_v2')) || defaultLessons;
         }
 
         function saveState() {
-            localStorage.setItem('english_2days_fixed', JSON.stringify(lessons));
+            localStorage.setItem('english_2days_v2', JSON.stringify(lessons));
             updateProgress();
         }
 
@@ -481,6 +495,11 @@
 
             saveState();
             renderLessons();
+        }
+
+        // Функция для увеличения картинки по тапу
+        function toggleImageZoom(imgElement) {
+            imgElement.classList.toggle('expanded');
         }
 
         function copyShareableLink() {
@@ -536,7 +555,7 @@
                     <div class="lesson-topic">${lesson.topic}</div>
                     <div class="lesson-desc">${isLocked ? '🔒 Это задание откроется сразу после выполнения первой миссии!' : lesson.desc}</div>
 
-                    ${!isLocked && lesson.image ? `<img class="preview-image" src="${lesson.image}" alt="Иллюстрация к миссии">` : ''}
+                    ${!isLocked && lesson.image ? `<img class="preview-image" src="${lesson.image}" alt="Иллюстрация к миссии" onclick="toggleImageZoom(this)">` : ''}
                     ${!isLocked && lesson.audio ? `<audio controls src="${lesson.audio}"></audio>` : ''}
 
                     <div class="card-footer">
