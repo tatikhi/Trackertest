@@ -49,26 +49,35 @@
             letter-spacing: 0.05em;
         }
 
-        /* ИГРОВАЯ ДОРОЖКА */
+        /* ИГРОВАЯ ДОРОЖКА ИЗ 10 ПАР ЛАПОК */
         .path-progress { 
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            gap: 15px; 
+            gap: 6px; 
             background: #d4b8a0; 
-            padding: 10px; 
+            padding: 10px 12px; 
             border-radius: 12px; 
+            flex-wrap: wrap;
         }
 
         .step-node { 
-            font-size: 1.5rem; 
-            opacity: 0.3; 
-            transition: all 0.3s; 
+            font-size: 1.1rem; 
+            background: #ffffff;
+            border: 1.5px solid #382b2c;
+            border-radius: 50%;
+            width: 26px;
+            height: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
         }
 
         .step-node.active { 
-            opacity: 1; 
-            filter: drop-shadow(0 0 5px var(--accent-green)); 
+            background: var(--accent-green);
+            border-color: var(--accent-green-dark);
+            filter: drop-shadow(0 0 3px var(--accent-green)); 
         }
 
         /* БЛОК ИМЕНИ И ВОЗРАСТА */
@@ -333,9 +342,8 @@
     <!-- HEADER -->
     <header>
         <h1 class="header-title">PROGRESS TRACKER</h1>
-        <div class="path-progress">
-            <span class="step-node" id="step-1">🐾</span>
-            <span class="step-node" id="step-2">🐾</span>
+        <div class="path-progress" id="path-progress-container">
+            <!-- Сгенерируем 10 пар лапок через JS -->
         </div>
     </header>
 
@@ -368,6 +376,23 @@
         { id: 1, title: "МИССИЯ 1", subtitle: "«ОХОТА ЗА ЦВЕТАМИ»", desc: "🏃‍♂️ Задание: Найди в комнате что-то <b>КРАСНОЕ</b>, покажи в камеру и громко крикни: «<b>RED!</b>»", status: "Запланировано", image: "IMG_0232.jpeg", audio: "audio/day1.mp3" },
         { id: 2, title: "МИССИЯ 2", subtitle: "«ОХОТА ЗА ЦВЕТАМИ»", desc: "🏃‍♂️ Задание: Найди в комнате что-то <b>СИНЕЕ</b>, покажи в камеру и громко крикни: «<b>BLUE!</b>»", status: "Запланировано", image: "img/day2.jpg", audio: "audio/day2.mp3" }
     ];
+
+    function renderPath() {
+        const pathContainer = document.getElementById('path-progress-container');
+        pathContainer.innerHTML = '';
+        
+        // Считаем количество выполненных заданий
+        const completedCount = lessons.filter(l => l.status === "Пройдено").length;
+        // Каждое задание дает 5 активных пар лапок (из 10 всего)
+        const activeNodesCount = completedCount * 5;
+
+        for (let i = 0; i < 10; i++) {
+            const span = document.createElement('span');
+            span.className = 'step-node' + (i < activeNodesCount ? ' active' : '');
+            span.innerHTML = '🐾';
+            pathContainer.appendChild(span);
+        }
+    }
 
     function render() {
         const container = document.getElementById('lessons-container');
@@ -415,7 +440,7 @@
             `;
             container.appendChild(card);
         });
-        updateProgress();
+        renderPath();
     }
 
     function toggleStatus(event, id) {
@@ -437,13 +462,6 @@
         render();
 
         window.scrollTo(0, scrollPosition);
-    }
-
-    function updateProgress() {
-        document.querySelectorAll('.step-node').forEach((n, i) => {
-            if (lessons[i].status === "Пройдено") n.classList.add('active');
-            else n.classList.remove('active');
-        });
     }
 
     render();
