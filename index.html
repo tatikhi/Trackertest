@@ -4,28 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>[Progress tracker - Малыш]</title>
+    <!-- Подключаем шрифт Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg-color: #f7f5f0; /* Теплый мягкий пастельный фон вместо белого */
-            --card-bg: #fffdf9; /* Нежный кремовый оттенок для карточек */
-            --text-main: #2d3748;
-            --text-muted: #718096;
-            --primary: #6b73ff;
-            --primary-hover: #5860e6;
-            --primary-light: #eceeff;
-            --border-color: #e8e3d8;
+            /* Полное исключение белого: глубокий желтый фон */
+            --bg-color: #f4d06f; 
+            /* Насыщенный бежево-песочный для карточек */
+            --card-bg: #e6c587; 
+            --text-main: #2b2318;
+            --text-muted: #5c4d37;
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --primary-light: #d6b877;
+            /* Более ярко-бежевые/медовые рамки */
+            --border-color: #d1ab65;
             
             /* Status Colors */
-            --status-planned-bg: #f3f0eb;
-            --status-planned-text: #6b7280;
-            --status-completed-bg: #e6f4ea;
-            --status-completed-text: #137333;
-            --status-locked-bg: #fce8e6;
-            --status-locked-text: #c5221f;
+            --status-planned-bg: #d9b473;
+            --status-planned-text: #423522;
+            --status-completed-bg: #2d8a4e; /* Насыщенный зеленый для пройденного */
+            --status-completed-text: #ffffff;
+            --status-locked-bg: #c77b6b;
+            --status-locked-text: #ffffff;
         }
 
         * {
@@ -55,8 +59,8 @@
             background: var(--card-bg);
             border-radius: 20px;
             padding: 24px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            border: 2px solid var(--border-color);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
             display: flex;
             flex-direction: column;
             gap: 16px;
@@ -80,9 +84,9 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background-color: #eef2ff;
-            color: var(--primary);
-            border: 1px solid #d1d5db;
+            background-color: #d6b877;
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
             padding: 8px 16px;
             border-radius: 10px;
             font-weight: 600;
@@ -92,7 +96,7 @@
         }
 
         .share-btn:hover {
-            background-color: var(--primary-light);
+            background-color: #c4a462;
         }
 
         .progress-section {
@@ -111,16 +115,18 @@
 
         .progress-bar-bg {
             width: 100%;
-            height: 12px;
-            background-color: #e5e0d5;
+            height: 14px;
+            background-color: #d1ab65;
             border-radius: 999px;
             overflow: hidden;
+            border: 1px solid #b8924f;
         }
 
+        /* Шкала прогресса - зеленая */
         .progress-bar-fill {
             height: 100%;
             width: 0%;
-            background: linear-gradient(90deg, #818cf8, #4f46e5);
+            background: #2d8a4e; 
             border-radius: 999px;
             transition: width 0.4s ease;
         }
@@ -130,11 +136,11 @@
             background: var(--card-bg);
             border-radius: 20px;
             padding: 20px 24px;
-            border: 1px solid var(--border-color);
+            border: 2px solid var(--border-color);
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 16px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
 
         .info-item {
@@ -156,7 +162,7 @@
             font-size: 1rem;
         }
 
-        /* LESSONS GRID */
+        /* LESSONскіх GRID */
         .lessons-grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -168,18 +174,17 @@
             background: var(--card-bg);
             border-radius: 20px;
             padding: 24px;
-            border: 1px solid var(--border-color);
+            border: 2px solid var(--border-color);
             display: flex;
             flex-direction: column;
             gap: 16px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
             transition: all 0.3s ease;
         }
 
-        /* Стили для заблокированной карточки */
         .lesson-card.locked {
-            background-color: #f4f0ea;
-            opacity: 0.75;
+            background-color: #d6b38c;
+            opacity: 0.85;
             border-style: dashed;
         }
 
@@ -192,7 +197,7 @@
         .lesson-number {
             font-size: 0.9rem;
             font-weight: 700;
-            color: var(--primary);
+            color: #2b2318;
             text-transform: uppercase;
         }
 
@@ -204,11 +209,11 @@
 
         .lesson-desc {
             font-size: 0.95rem;
-            color: #4a5568;
-            background: #fbf9f4;
+            color: #3b3022;
+            background: #d6b877;
             padding: 14px;
             border-radius: 12px;
-            border-left: 4px solid var(--primary);
+            border-left: 4px solid #8c672b;
         }
 
         .preview-image {
@@ -232,7 +237,7 @@
             align-items: center;
             flex-wrap: wrap;
             gap: 12px;
-            border-top: 1px solid var(--border-color);
+            border-top: 2px solid var(--border-color);
             padding-top: 16px;
         }
 
@@ -253,6 +258,7 @@
         .status-planned {
             background-color: var(--status-planned-bg);
             color: var(--status-planned-text);
+            border: 1px solid #b8924f;
         }
 
         .status-completed {
@@ -266,22 +272,24 @@
             cursor: not-allowed;
         }
 
+        /* Кнопку написать - оранжевым */
         .tg-btn {
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            background-color: #0ea5e9;
-            color: white;
-            padding: 8px 14px;
+            background-color: #e65c00;
+            color: #ffffff;
+            padding: 10px 16px;
             border-radius: 10px;
             font-size: 0.85rem;
             font-weight: 600;
             text-decoration: none;
             transition: background 0.2s;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
         }
 
         .tg-btn:hover {
-            background-color: #0284c7;
+            background-color: #cc5200;
         }
 
         /* FOOTER */
@@ -298,16 +306,17 @@
             gap: 8px;
             margin-top: 8px;
             padding: 10px 20px;
-            background-color: var(--primary);
-            color: white;
+            background-color: #e65c00;
+            color: #ffffff;
             text-decoration: none;
             border-radius: 10px;
-            font-weight: 500;
+            font-weight: 600;
             transition: background-color 0.2s ease;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
         }
 
         .contact-btn:hover {
-            background-color: var(--primary-hover);
+            background-color: #cc5200;
         }
 
         /* TOAST */
@@ -315,18 +324,19 @@
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background-color: #2d3748;
-            color: white;
+            background-color: #2b2318;
+            color: #f4d06f;
             padding: 12px 20px;
             border-radius: 10px;
             font-size: 0.9rem;
-            font-weight: 500;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
             opacity: 0;
             transform: translateY(20px);
             transition: all 0.3s ease;
             pointer-events: none;
             z-index: 1000;
+            border: 1px solid #d1ab65;
         }
 
         .toast.show {
@@ -338,6 +348,7 @@
 <body>
 
     <div class="container">
+        <!-- HEADER -->
         <header>
             <div class="header-top">
                 <h1 class="header-title">[Progress tracker - Малыш]</h1>
@@ -356,6 +367,7 @@
             </div>
         </header>
 
+        <!-- STUDENT CARD -->
         <section class="student-card">
             <div class="info-item">
                 <span class="info-label">Ученик</span>
@@ -371,8 +383,10 @@
             </div>
         </section>
 
+        <!-- LESSONS GRID -->
         <main class="lessons-grid" id="lessons-container"></main>
 
+        <!-- FOOTER -->
         <footer>
             <p>Преподаватель: Татьяна (CELTA/DELTA)</p>
             <a href="https://t.me/tati_khi" target="_blank" class="contact-btn">
@@ -424,15 +438,15 @@
                 const decoded = decodeData(encodedStr);
                 if (decoded) {
                     lessons = decoded;
-                    localStorage.setItem('english_2days_colored', JSON.stringify(lessons));
+                    localStorage.setItem('english_2days_yellow', JSON.stringify(lessons));
                     return;
                 }
             }
-            lessons = JSON.parse(localStorage.getItem('english_2days_colored')) || defaultLessons;
+            lessons = JSON.parse(localStorage.getItem('english_2days_yellow')) || defaultLessons;
         }
 
         function saveState() {
-            localStorage.setItem('english_2days_colored', JSON.stringify(lessons));
+            localStorage.setItem('english_2days_yellow', JSON.stringify(lessons));
             updateProgress();
         }
 
@@ -448,7 +462,6 @@
             const lessonIndex = lessons.findIndex(l => l.id === id);
             if (lessonIndex === -1) return;
 
-            // Проверяем условие разблокировки для 2-го задания
             if (id === 2) {
                 const day1Completed = lessons.find(l => l.id === 1).status === "Пройдено";
                 if (!day1Completed) {
@@ -460,7 +473,6 @@
             const lesson = lessons[lessonIndex];
             lesson.status = lesson.status === "Запланировано" ? "Пройдено" : "Запланировано";
             
-            // Если отменили день 1, автоматически сбрасываем день 2, чтобы логика не нарушалась
             if (id === 1 && lesson.status === "Запланировано") {
                 lessons[1].status = "Запланировано";
             }
@@ -497,8 +509,6 @@
 
             lessons.forEach(lesson => {
                 const card = document.createElement('div');
-                
-                // Проверяем, заблокировано ли второе задание
                 const isLocked = (lesson.id === 2 && !day1Completed);
                 
                 card.className = 'lesson-card' + (isLocked ? ' locked' : '');
@@ -528,11 +538,11 @@
                     ${!isLocked && lesson.audio ? `<audio controls src="${lesson.audio}"></audio>` : ''}
 
                     <div class="card-footer">
-                        ${isLocked ? '<span style="font-size: 0.85rem; color: #a0aec0;">Задание скрыто до завершения предыдущего шага</span>' : `
+                        ${isLocked ? '<span style="font-size: 0.85rem; color: #5c4d37;">Задание скрыто до завершения предыдущего шага</span>' : `
                         <a href="https://t.me/tati_khi?text=${encodeURIComponent('Здравствуйте! Отправляю видео-отчет за Миссию ' + lesson.id)}" target="_blank" class="tg-btn">
                             ✈️ Отправить видео-отчет в Telegram
                         </a>
-                        <span style="font-size: 0.8rem; color: #718096;">(Или отметьте галочкой выше)</span>`}
+                        <span style="font-size: 0.8rem; color: #5c4d37;">(Или отметьте галочкой выше)</span>`}
                     </div>
                 `;
 
