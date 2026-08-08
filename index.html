@@ -3,569 +3,328 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Progress Tracker</title>
-    <!-- Подключаем детский округлый шрифт Quicksand -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
-    
+    <title>English Adventure Tracker</title>
+    <!-- Подключаем дружелюбный детский шрифт Fredoka -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #f4f4f4;
-            --card-bg: #e4cab4;
-            --text-main: #382b2c;
-            --border-color: #d1b59c;
-            --accent-color: #75a4b3;
-            --accent-color-dark: #568393;
-            --btn-adult: #d4b8a0;
+            --bg-color: #EBF8FF;
+            --card-bg: #FFFFFF;
+            --primary: #FF6B6B;
+            --secondary: #4ECDC4;
+            --accent: #FFD166;
+            --text-color: #2D3748;
+            --shadow: 0 8px 0 rgba(0, 0, 0, 0.1);
+            --shadow-hover: data;
         }
 
-        body { 
-            font-family: 'Quicksand', sans-serif; 
-            background-color: var(--bg-color); 
-            color: var(--text-main); 
-            padding: 24px 16px; 
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
-        .container { 
-            max-width: 600px; 
-            margin: 0 auto; 
-            display: flex; 
-            flex-direction: column; 
-            gap: 20px; 
+        body {
+            font-family: 'Fredoka', cursive, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            background-image: radial-gradient(#BEE3F8 20%, transparent 20%), radial-gradient(#BEE3F8 20%, transparent 20%);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
         }
 
-        /* HEADER */
-        header { 
-            background: var(--card-bg); 
-            border-radius: 20px; 
-            padding: 20px; 
-            border: 2px solid var(--border-color); 
-            text-align: center; 
-            box-shadow: 0 4px 16px rgba(56, 43, 44, 0.08);
+        .container {
+            width: 100%;
+            max-width: 480px;
+            background: var(--card-bg);
+            border-radius: 30px;
+            border: 4px solid #3182CE;
+            box-shadow: 0 12px 0 #3182CE;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
-        .header-title { 
-            font-size: 1.4rem; 
-            font-weight: 700; 
-            margin-bottom: 12px; 
-            letter-spacing: 0.05em;
+        /* Шапка с маскотом */
+        header {
+            background: #4FD1C5;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 4px solid #319795;
+            position: relative;
         }
 
-        .path-title {
-            font-size: 0.8rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            margin-bottom: 8px;
-            opacity: 0.85;
-        }
-
-        /* ИГРОВАЯ ДОРОЖКА ИЗ 8 ЛАПОК БЕЗ РАМОК */
-        .path-progress { 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            gap: 8px; 
-            background: #d4b8a0; 
-            padding: 10px 12px; 
-            border-radius: 12px; 
-            flex-wrap: wrap;
-        }
-
-        .step-node { 
-            font-size: 1.2rem; 
-            background: #ffffff;
-            border: none;
-            border-radius: 50%;
-            width: 28px;
-            height: 28px;
+        .mascot-container {
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s;
+            gap: 15px;
         }
 
-        .step-node.active { 
-            background: var(--accent-color);
-            filter: drop-shadow(0 0 3px var(--accent-color)); 
-        }
-
-        /* БЛОК ИМЕНИ И ВОЗРАСТА */
-        .student-card {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 18px 24px;
-            border: 2px solid var(--border-color);
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-            box-shadow: 0 4px 16px rgba(56, 43, 44, 0.08);
-        }
-
-        .info-item {
+        .mascot {
+            font-size: 50px;
+            background: white;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
             display: flex;
-            flex-direction: column;
-            gap: 2px;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid #2B6CB0;
+            box-shadow: 0 4px 0 #2B6CB0;
+            animation: bounce 2s infinite;
         }
 
-        .info-label {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--text-main);
-            opacity: 0.8;
-            font-weight: 700;
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
         }
 
-        .info-value {
-            font-weight: 700;
-            font-size: 1rem;
-            color: var(--text-main);
+        .header-title h1 {
+            font-size: 24px;
+            color: white;
+            text-shadow: 2px 2px 0 #2B6CB0;
         }
 
-        /* НАДПИСЬ НЕДЕЛЯ 1 */
-        .section-title {
-            text-align: center;
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--text-main);
-            margin-top: 4px;
-            letter-spacing: 0.05em;
-        }
-
-        /* КАРТОЧКА ЗАДАНИЯ */
-        .lesson-card { 
-            background: var(--card-bg); 
-            border-radius: 20px; 
-            padding: 24px; 
-            border: 2px solid var(--border-color); 
-            position: relative; 
-            text-align: center; 
-            box-shadow: 0 4px 16px rgba(56, 43, 44, 0.08);
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-        
-        /* КНОПКА-ДУБЛЕР (ДЛЯ РОДИТЕЛЯ В УГЛУ) */
-        .adult-check { 
-            position: absolute; 
-            top: 15px; 
-            right: 15px; 
-            font-size: 0.75rem; 
-            background: var(--btn-adult); 
-            padding: 6px 12px; 
-            border-radius: 8px; 
-            cursor: pointer; 
-            border: 1px solid var(--border-color);
-            font-weight: 700;
-            transition: all 0.2s;
-        }
-
-        .adult-check.completed {
-            background: var(--accent-color);
-            color: #fff;
-        }
-
-        .lesson-header { 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            gap: 4px; 
-        }
-
-        .lesson-number { 
-            font-size: 1.15rem; 
-            font-weight: 700; 
-        }
-
-        .lesson-topic { 
-            font-size: 1.15rem; 
-            font-weight: 700; 
-        }
-
-        .lesson-desc { 
-            background: #d4b8a0; 
-            padding: 14px; 
-            border-radius: 12px; 
-            border-left: 4px solid var(--accent-color); 
-            text-align: left; 
-            font-size: 0.95rem;
+        .header-title p {
+            font-size: 14px;
+            color: #FEFCBF;
             font-weight: 600;
         }
 
-        .image-container { 
-            display: flex; 
-            justify-content: center; 
+        /* Информация об ученике */
+        .profile-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #FEFCBF;
+            margin: 15px;
+            padding: 12px 20px;
+            border-radius: 20px;
+            border: 3px solid #D69E2E;
         }
 
-        .preview-image { 
-            width: 110px; 
-            height: 110px; 
-            object-fit: cover;
-            border-radius: 18px; 
-            border: 2px solid var(--border-color); 
-            cursor: pointer; 
-            box-shadow: 0 4px 10px rgba(56, 43, 44, 0.12);
+        .student-info {
+            font-size: 18px;
+            font-weight: 700;
+            color: #744210;
         }
 
-        .preview-image.expanded {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(2.8);
-            width: 180px;
-            height: 180px;
-            z-index: 1000;
-            cursor: zoom-out;
-            box-shadow: 0 10px 30px rgba(56, 43, 44, 0.3);
-            border-color: var(--text-main);
+        .stars-counter {
+            background: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 18px;
+            font-weight: 700;
+            border: 2px solid #D69E2E;
+            color: #D69E2E;
         }
 
-        audio {
-            width: 100%;
-            height: 40px;
+        /* Тема недели */
+        .week-banner {
+            background: #FF6B6B;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            border-top: 3px solid #C53030;
+            border-bottom: 3px solid #C53030;
+            text-shadow: 1px 1px 0 #9B2C2C;
         }
 
-        /* КРУГЛАЯ ПРУЖИНЯЩАЯ КНОПКА */
-        .round-action-container {
+        /* Карта приключений (Путь) */
+        .map-path {
+            padding: 20px;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            gap: 12px;
-            margin-top: 10px;
+            gap: 15px;
         }
 
-        .round-foot-btn {
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            background: #d4b8a0; 
-            border: 3px solid var(--border-color);
+        .path-node {
+            display: flex;
+            align-items: center;
+            background: #EDF2F7;
+            padding: 12px 15px;
+            border-radius: 20px;
+            border: 3px solid #CBD5E0;
             cursor: pointer;
+            transition: all 0.2s ease;
             position: relative;
+        }
+
+        .path-node:hover {
+            transform: scale(1.02);
+        }
+
+        .path-node.completed {
+            background: #C6F6D5;
+            border-color: #38A169;
+        }
+
+        .node-icon {
+            font-size: 32px;
+            background: white;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
-            outline: none;
+            margin-right: 15px;
+            border: 3px solid inherit;
+            box-shadow: 0 3px 0 rgba(0,0,0,0.1);
         }
 
-        .round-foot-btn.completed {
-            background: var(--accent-color); 
-            border-color: var(--accent-color-dark);
-            box-shadow: inset 0 4px 8px rgba(0,0,0,0.2);
+        .node-details h3 {
+            font-size: 16px;
+            color: #2D3748;
         }
 
-        /* SVG текст по кругу */
-        .round-foot-btn svg {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            animation: rotateText 15s linear infinite;
+        .node-details p {
+            font-size: 13px;
+            color: #718096;
         }
 
-        @keyframes rotateText {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .node-status {
+            margin-left: auto;
+            font-size: 24px;
         }
 
-        .round-foot-btn svg text {
-            fill: var(--text-main); 
-            font-size: 12.5px;
-            font-weight: 700;
-            letter-spacing: 2.5px;
-            text-transform: uppercase;
-            transition: fill 0.2s ease;
-        }
-
-        .round-foot-btn.completed svg text {
-            fill: #ffffff; 
-        }
-
-        /* Центр кнопки (лапка) */
-        .foot-center-icon {
-            font-size: 2.6rem;
-            z-index: 2;
-            pointer-events: none;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
-        }
-
-        /* КНОПКА ТЕЛЕГРАМ ПОД КРУГЛОЙ КНОПКОЙ */
-        .tg-report-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: var(--btn-adult);
-            color: var(--text-main);
-            padding: 6px 14px;
-            border-radius: 8px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-decoration: none;
-            border: 1px solid var(--border-color);
-            transition: opacity 0.2s;
-        }
-
-        .tg-report-btn:hover {
-            opacity: 0.9;
-        }
-
-        /* FOOTER */
-        footer { 
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 24px;
-            border: 2px solid var(--border-color);
-            box-shadow: 0 4px 16px rgba(56, 43, 44, 0.08);
-            text-align: center;
+        /* Подвал */
+        footer {
+            background: #EDF2F7;
+            padding: 15px 20px;
             display: flex;
-            flex-direction: column;
+            justify-content: space-between;
             align-items: center;
-            gap: 12px;
-            font-weight: 700; 
+            border-top: 3px solid #E2E8F0;
+            margin-top: auto;
         }
 
-        .contact-btn { 
-            display: inline-flex; 
-            align-items: center; 
-            gap: 8px;
-            padding: 12px 24px; 
-            background: var(--accent-color); 
-            color: #fff; 
-            border-radius: 10px; 
-            text-decoration: none; 
-            box-shadow: 0 2px 6px rgba(56, 43, 44, 0.15);
+        .teacher-info {
+            font-size: 14px;
+            font-weight: 600;
+            color: #4A5568;
         }
 
-        .contact-btn:hover {
-            opacity: 0.9;
+        .btn-contact {
+            background: #48BB78;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 15px;
+            text-decoration: none;
+            font-weight: 700;
+            border: 3px solid #2F855A;
+            box-shadow: 0 4px 0 #2F855A;
+            transition: all 0.1s;
+        }
+
+        .btn-contact:active {
+            transform: translateY(4px);
+            box-shadow: 0 0 0 #2F855A;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <!-- HEADER -->
-    <header>
-        <h1 class="header-title">PROGRESS TRACKER</h1>
-        <div class="path-title">ПУТЬ К ЦЕЛИ</div>
-        <div class="path-progress" id="path-progress-container">
-            <!-- 8 лапок -->
-        </div>
-    </header>
-
-    <!-- STUDENT CARD -->
-    <section class="student-card">
-        <div class="info-item">
-            <span class="info-label">Ученик</span>
-            <span class="info-value">Имя</span>
-        </div>
-        <div class="info-item">
-            <span class="info-label">Возраст</span>
-            <span class="info-value">[ ] лет</span>
-        </div>
-    </section>
-
-    <!-- НЕДЕЛЯ 1 -->
-    <div class="section-title">НЕДЕЛЯ 1 : ЦВЕТА</div>
-
-    <main class="lessons-grid" id="lessons-container" style="display: flex; flex-direction: column; gap: 20px;"></main>
-
-    <!-- FOOTER -->
-    <footer>
-        <p>Ваш педагог : Татьяна</p>
-        <a href="https://t.me/tati_khi" target="_blank" class="contact-btn">СВЯЗАТЬСЯ</a>
-    </footer>
-</div>
-
-<script>
-    const lessons = [
-        { id: 1, title: "МИССИЯ 1", subtitle: "«ОХОТА ЗА ЦВЕТАМИ»", desc: "🏃‍♂️ Задание: Найди в комнате что-то <b>КРАСНОЕ</b>, покажи в камеру и громко крикни: «<b>RED!</b>»", status: "Запланировано", image: "IMG_0232.jpeg", audio: "audio/day1.mp3" },
-        { id: 2, title: "МИССИЯ 2", subtitle: "«ОХОТА ЗА ЦВЕТАМИ»", desc: "🏃‍♂️ Задание: Найди в комнате что-то <b>СИНЕЕ</b>, покажи в камеру и громко крикни: «<b>BLUE!</b>»", status: "Запланировано", image: "img/day2.jpg", audio: "audio/day2.mp3" }
-    ];
-
-    // Звуковой эффект успеха
-    function playSuccessSound() {
-        try {
-            const AudioContext = window.AudioContext || window.webkitAudioContext;
-            if (!AudioContext) return;
-            const ctx = new AudioContext();
-            if (ctx.state === 'suspended') ctx.resume();
-
-            const playTone = (freq, time, duration) => {
-                const osc = ctx.createOscillator();
-                const gain = ctx.createGain();
-                osc.type = 'triangle';
-                osc.frequency.value = freq;
-                gain.gain.setValueAtTime(0.3, ctx.currentTime + time);
-                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + time + duration);
-                osc.connect(gain);
-                gain.connect(ctx.destination);
-                osc.start(ctx.currentTime + time);
-                osc.stop(ctx.currentTime + time + duration);
-            };
-
-            playTone(587.33, 0, 0.15);    
-            playTone(739.99, 0.12, 0.15); 
-            playTone(880.00, 0.24, 0.4);  
-        } catch (e) {
-            console.log("Audio context error", e);
-        }
-    }
-
-    // Надежный салют из конфетти с принудительным reflow
-    function triggerConfetti() {
-        const colors = ['#75a4b3', '#e4cab4', '#f4d06f', '#ffffff', '#568393', '#ff7675', '#74b9ff'];
-        for (let i = 0; i < 100; i++) {
-            const particle = document.createElement('div');
-            particle.style.position = 'fixed';
-            particle.style.width = '12px';
-            particle.style.height = '12px';
-            particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            particle.style.top = '-20px';
-            particle.style.left = Math.random() * 100 + 'vw';
-            particle.style.opacity = '1';
-            particle.style.borderRadius = Math.random() > 0.5 ? '50%' : '3px';
-            particle.style.zIndex = '999999';
-            particle.style.pointerEvents = 'none';
-            document.body.appendChild(particle);
-
-            // Принудительный расчет геометрии, чтобы браузер зафиксировал начальную позицию
-            particle.offsetHeight;
-
-            const duration = Math.random() * 2 + 1.5;
-            const delay = Math.random() * 0.3;
-            const endX = (Math.random() - 0.5) * 400;
-            const endRot = Math.random() * 720;
-
-            particle.style.transition = `top ${duration}s ease-in ${delay}s, left ${duration}s ease-out ${delay}s, transform ${duration}s linear ${delay}s, opacity ${duration}s ease-in ${delay + 1}s`;
-
-            setTimeout(() => {
-                particle.style.top = '105vh';
-                particle.style.left = (parseFloat(particle.style.left) + endX / 10) + 'vw';
-                particle.style.transform = `rotate(${endRot}deg)`;
-                particle.style.opacity = '0';
-            }, 30);
-
-            setTimeout(() => {
-                particle.remove();
-            }, (duration + delay + 0.5) * 1000);
-        }
-    }
-
-    function renderPath() {
-        const pathContainer = document.getElementById('path-progress-container');
-        pathContainer.innerHTML = '';
-        
-        const completedCount = lessons.filter(l => l.status === "Пройдено").length;
-        const activeNodesCount = completedCount * 4;
-
-        for (let i = 0; i < 8; i++) {
-            const span = document.createElement('span');
-            span.className = 'step-node' + (i < activeNodesCount ? ' active' : '');
-            span.innerHTML = '🐾';
-            pathContainer.appendChild(span);
-        }
-    }
-
-    function render() {
-        const container = document.getElementById('lessons-container');
-        container.innerHTML = '';
-        
-        const allCompletedBefore = lessons.every(l => l.status === "Пройдено");
-
-        lessons.forEach((l, i) => {
-            const isLocked = (i > 0 && lessons[0].status !== "Пройдено");
-            const isCompleted = (l.status === "Пройдено");
-            
-            const card = document.createElement('div');
-            card.className = `lesson-card ${isLocked ? 'locked' : ''}`;
-            
-            card.innerHTML = `
-                <div class="adult-check ${isCompleted ? 'completed' : ''}" onclick="toggleStatus(event, ${l.id}, this)">
-                    ${isCompleted ? '✓ Выполнено' : '✓ Отметить'}
+    <div class="container">
+        <!-- Шапка с маскотом -->
+        <header>
+            <div class="mascot-container">
+                <div class="mascot">🦊</div>
+                <div class="header-title">
+                    <h1>STAR ADVENTURE</h1>
+                    <p>Английский для детей</p>
                 </div>
+            </div>
+        </header>
 
-                <div class="lesson-header">
-                    <div class="lesson-number">${l.title}</div>
-                    <div class="lesson-topic">${l.subtitle}</div>
+        <!-- Профиль ученика -->
+        <div class="profile-card">
+            <div class="student-info">👤 Алиса, 6 лет</div>
+            <div class="stars-counter" id="starsDisplay">⭐ 2/4</div>
+        </div>
+
+        <!-- Название недели -->
+        <div class="week-banner">НЕДЕЛЯ 1 : ЦВЕТА 🎨</div>
+
+        <!-- Карта заданий (Интерактивный путь) -->
+        <div class="map-path">
+            <div class="path-node completed" onclick="toggleNode(this)">
+                <div class="node-icon">🔴</div>
+                <div class="node-details">
+                    <h3>Красный цвет</h3>
+                    <p>Найти дома красный предмет</p>
                 </div>
+                <div class="node-status">🌟</div>
+            </div>
 
-                <div class="lesson-desc">${isLocked ? '🔒 Выполни Миссию 1, чтобы открыть это задание!' : l.desc}</div>
+            <div class="path-node completed" onclick="toggleNode(this)">
+                <div class="node-icon">🔵</div>
+                <div class="node-details">
+                    <h3>Синий цвет</h3>
+                    <p>Спеть песенку о синем небе</p>
+                </div>
+                <div class="node-status">🌟</div>
+            </div>
 
-                ${!isLocked ? `
-                    <div class="image-container">
-                        <img src="${l.image}" class="preview-image" alt="Иллюстрация" onclick="this.classList.toggle('expanded')">
-                    </div>
-                    <audio controls src="${l.audio}"></audio>
-                    
-                    <div class="round-action-container">
-                        <button class="round-foot-btn ${isCompleted ? 'completed' : ''}" onclick="toggleStatus(event, ${l.id}, this)">
-                            <svg viewBox="0 0 100 100">
-                                <path id="circlePath-${l.id}" d="M 15, 50 a 35,35 0 1,1 70,0 a 35,35 0 1,1 -70,0" fill="transparent"/>
-                                <text><textPath href="#circlePath-${l.id}" startOffset="0%">ТОП-ТОП! ГОТОВО! • ТОП-ТОП! ГОТОВО! •</textPath></text>
-                            </svg>
-                            <span class="foot-center-icon">🐾</span>
-                        </button>
-                        
-                        <a href="https://t.me/tati_khi?text=${encodeURIComponent('Здравствуйте! Отправляю отчет за Миссию ' + l.id)}" target="_blank" class="tg-report-btn">
-                            ✈️ Отправить отчет в Telegram
-                        </a>
-                    </div>
-                ` : ''}
-            `;
-            container.appendChild(card);
-        });
-        renderPath();
+            <div class="path-node" onclick="toggleNode(this)">
+                <div class="node-icon">🟡</div>
+                <div class="node-details">
+                    <h3>Желтый цвет</h3>
+                    <p>Нарисовать солнце по-английски</p>
+                </div>
+                <div class="node-status">🔒</div>
+            </div>
 
-        const allCompletedNow = lessons.every(l => l.status === "Пройдено");
-        if (!allCompletedBefore && allCompletedNow) {
-            setTimeout(triggerConfetti, 300);
+            <div class="path-node" onclick="toggleNode(this)">
+                <div class="node-icon">🟢</div>
+                <div class="node-details">
+                    <h3>Зеленый цвет</h3>
+                    <p>Игра «Найди листочек»</p>
+                </div>
+                <div class="node-status">🔒</div>
+            </div>
+        </div>
+
+        <!-- Контакты преподавателя -->
+        <footer>
+            <div class="teacher-info">Педагог: Татьяна 👩‍🏫</div>
+            <a href="https://t.me/tati_khi" target="_blank" class="btn-contact">СВЯЗАТЬСЯ</a>
+        </footer>
+    </div>
+
+    <script>
+        // Простая интерактивность для демонстрации геймификации
+        function toggleNode(element) {
+            const status = element.querySelector('.node-status');
+            
+            if (element.classList.contains('completed')) {
+                element.classList.remove('completed');
+                status.textContent = '🔒';
+            } else {
+                element.classList.add('completed');
+                status.textContent = '🌟';
+                // Небольшой эффект подпрыгивания при клике
+                element.style.transform = 'scale(1.05)';
+                setTimeout(() => { element.style.transform = 'scale(1)'; }, 200);
+            }
+            
+            updateStars();
         }
-    }
 
-    function toggleStatus(event, id, element) {
-        if (event) {
-            event.preventDefault();
+        function updateStars() {
+            const completedCount = document.querySelectorAll('.path-node.completed').length;
+            const totalCount = document.querySelectorAll('.path-node').length;
+            document.getElementById('starsDisplay').textContent = `⭐ ${completedCount}/${totalCount}`;
         }
-
-        // Запуск анимации пружинки
-        const btn = element.closest('.lesson-card')?.querySelector('.round-foot-btn') || element.closest('.round-foot-btn');
-        if (btn) {
-            btn.animate([
-                { transform: 'scale(1)' },
-                { transform: 'scale(0.7)' },
-                { transform: 'scale(1.2)' },
-                { transform: 'scale(1)' }
-            ], {
-                duration: 400,
-                easing: 'cubic-bezier(0.175, 0.885, 0.32, 1.275)'
-            });
-        }
-
-        const scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
-
-        const l = lessons.find(x => x.id === id);
-        if (id === 2 && lessons[0].status !== "Пройдено") return;
-        
-        const wasCompleted = (l.status === "Пройдено");
-        l.status = wasCompleted ? "Запланировано" : "Пройдено";
-        
-        if (!wasCompleted) {
-            playSuccessSound();
-        }
-        
-        if (id === 1 && l.status === "Запланировано") {
-            lessons[1].status = "Запланировано";
-        }
-        
-        render();
-
-        window.scrollTo(0, scrollPosition);
-    }
-
-    render();
-</script>
+    </script>
 </body>
 </html>
