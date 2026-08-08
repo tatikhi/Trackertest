@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
-    <!-- Подключаем библиотеку конфетти для праздничного салюта -->
+    <!-- Подключаем библиотеку конфетти -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
     <style>
@@ -243,13 +243,12 @@
             align-items: center;
             justify-content: center;
             box-shadow: 0 6px 16px rgba(0,0,0,0.15);
-            transition: background 0.2s ease;
+            transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.2s ease;
         }
 
-        /* Анимация пружинки при нажатии */
-        .round-foot-btn:active {
-            transform: scale(0.9);
-            transition: transform 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        /* Класс для гарантированной пружинки на телефоне */
+        .round-foot-btn.bounce-anim {
+            transform: scale(0.85);
         }
 
         .round-foot-btn.completed {
@@ -385,41 +384,44 @@
         { id: 2, title: "МИССИЯ 2", subtitle: "«ОХОТА ЗА ЦВЕТАМИ»", desc: "🏃‍♂️ Задание: Найди в комнате что-то <b>СИНЕЕ</b>, покажи в камеру и громко крикни: «<b>BLUE!</b>»", status: "Запланировано", image: "img/day2.jpg", audio: "audio/day2.mp3" }
     ];
 
-    // Функция генерации радостного звука успеха без внешних файлов
+    let audioCtx = null;
+
     function playSuccessSound() {
         try {
-            const AudioContext = window.AudioContext || window.webkitAudioContext;
-            if (!AudioContext) return;
-            const ctx = new AudioContext();
+            if (!audioCtx) {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                audioCtx = new AudioContext();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
             
             const playTone = (freq, time, duration) => {
-                const osc = ctx.createOscillator();
-                const gain = ctx.createGain();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
                 osc.type = 'sine';
                 osc.frequency.value = freq;
-                gain.gain.setValueAtTime(0.15, ctx.currentTime + time);
-                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + time + duration);
+                gain.gain.setValueAtTime(0.2, audioCtx.currentTime + time);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + time + duration);
                 osc.connect(gain);
-                gain.connect(ctx.destination);
-                osc.start(ctx.currentTime + time);
-                osc.stop(ctx.currentTime + time + duration);
+                gain.connect(audioCtx.destination);
+                osc.start(audioCtx.currentTime + time);
+                osc.stop(audioCtx.currentTime + time + duration);
             };
 
-            // Веселая мажорная нотка (дзынь-радость)
             playTone(523.25, 0, 0.15); // До
             playTone(659.25, 0.12, 0.15); // Ми
             playTone(783.99, 0.24, 0.3);  // Соль
         } catch (e) {
-            // Аудиоконтекст заблокирован браузером до первого клика — это нормально
+            console.log("Audio skipped");
         }
     }
 
-    // Запуск салюта из конфетти
     function triggerConfetti() {
         if (typeof confetti === 'function') {
             confetti({
-                particleCount: 120,
-                spread: 80,
+                particleCount: 150,
+                spread: 100,
                 origin: { y: 0.6 },
                 colors: ['#75a4b3', '#e4cab4', '#f4d06f', '#ffffff', '#568393']
             });
@@ -455,7 +457,7 @@
             card.className = `lesson-card ${isLocked ? 'locked' : ''}`;
             
             card.innerHTML = `
-                <div class="adult-check ${isCompleted ? 'completed' : ''}" onclick="toggleStatus(event, ${l.id})">
+                <div class="adult-check ${isCompleted ? 'completed' : ''}" onclick="toggleStatus(event, ${l.id}, this)">
                     ${isCompleted ? '✓ Выполнено' : '✓ Отметить'}
                 </div>
 
@@ -473,7 +475,7 @@
                     <audio controls src="${l.audio}"></audio>
                     
                     <div class="round-action-container">
-                        <button class="round-foot-btn ${isCompleted ? 'completed' : ''}" onclick="toggleStatus(event, ${l.id})">
+                        <button class="round-foot-btn ${isCompleted ? 'completed' : ''}" onclick="toggleStatus(event, ${l.id}, this)">
                             <svg viewBox="0 0 100 100">
                                 <path id="circlePath-${l.id}" d="M 15, 50 a 35,35 0 1,1 70,0 a 35,35 0 1,1 -70,0" fill="transparent"/>
                                 <text><textPath href="#circlePath-${l.id}" startOffset="0%">ТОП-ТОП! ГОТОВО! • ТОП-ТОП! ГОТОВО! •</textPath></text>
@@ -491,16 +493,22 @@
         });
         renderPath();
 
-        // Проверяем, если все задания только что стали выполненными — запускаем салют!
         const allCompletedNow = lessons.every(l => l.status === "Пройдено");
         if (!allCompletedBefore && allCompletedNow) {
             setTimeout(triggerConfetti, 300);
         }
     }
 
-    function toggleStatus(event, id) {
+    function toggleStatus(event, id, element) {
         if (event) {
             event.preventDefault();
+        }
+
+        // Анимация пружинки через JS-класс для надежности на телефонах
+        const btn = element.closest('.lesson-card')?.querySelector('.round-foot-btn');
+        if (btn) {
+            btn.classList.add('bounce-anim');
+            setTimeout(() => btn.classList.remove('bounce-anim'), 150);
         }
 
         const scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
@@ -511,7 +519,6 @@
         const wasCompleted = (l.status === "Пройдено");
         l.status = wasCompleted ? "Запланировано" : "Пройдено";
         
-        // Если включили выполнение — играем звук радости
         if (!wasCompleted) {
             playSuccessSound();
         }
