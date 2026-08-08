@@ -414,37 +414,43 @@
         }
     }
 
-    // Встроенный салют из конфетти
+    // Надежный салют из конфетти с принудительным reflow
     function triggerConfetti() {
         const colors = ['#75a4b3', '#e4cab4', '#f4d06f', '#ffffff', '#568393', '#ff7675', '#74b9ff'];
-        for (let i = 0; i < 90; i++) {
+        for (let i = 0; i < 100; i++) {
             const particle = document.createElement('div');
             particle.style.position = 'fixed';
             particle.style.width = '12px';
             particle.style.height = '12px';
             particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            particle.style.top = '-10px';
+            particle.style.top = '-20px';
             particle.style.left = Math.random() * 100 + 'vw';
             particle.style.opacity = '1';
             particle.style.borderRadius = Math.random() > 0.5 ? '50%' : '3px';
-            particle.style.zIndex = '99999';
+            particle.style.zIndex = '999999';
             particle.style.pointerEvents = 'none';
-            
+            document.body.appendChild(particle);
+
+            // Принудительный расчет геометрии, чтобы браузер зафиксировал начальную позицию
+            particle.offsetHeight;
+
             const duration = Math.random() * 2 + 1.5;
             const delay = Math.random() * 0.3;
-            
-            particle.style.transition = `all ${duration}s ease-in ${delay}s, transform ${duration}s linear ${delay}s`;
-            document.body.appendChild(particle);
+            const endX = (Math.random() - 0.5) * 400;
+            const endRot = Math.random() * 720;
+
+            particle.style.transition = `top ${duration}s ease-in ${delay}s, left ${duration}s ease-out ${delay}s, transform ${duration}s linear ${delay}s, opacity ${duration}s ease-in ${delay + 1}s`;
 
             setTimeout(() => {
                 particle.style.top = '105vh';
-                particle.style.transform = `rotate(${Math.random() * 720}deg) translateX(${(Math.random() - 0.5) * 400}px)`;
+                particle.style.left = (parseFloat(particle.style.left) + endX / 10) + 'vw';
+                particle.style.transform = `rotate(${endRot}deg)`;
                 particle.style.opacity = '0';
             }, 30);
 
             setTimeout(() => {
                 particle.remove();
-            }, (duration + delay) * 1000);
+            }, (duration + delay + 0.5) * 1000);
         }
     }
 
@@ -524,7 +530,7 @@
             event.preventDefault();
         }
 
-        // Запуск анимации пружинки через Web Animations API без скролла страницы
+        // Запуск анимации пружинки
         const btn = element.closest('.lesson-card')?.querySelector('.round-foot-btn') || element.closest('.round-foot-btn');
         if (btn) {
             btn.animate([
