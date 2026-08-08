@@ -49,12 +49,12 @@
             letter-spacing: 0.05em;
         }
 
-        /* ИГРОВАЯ ДОРОЖКА ИЗ 10 ПАР ЛАПОК */
+        /* ИГРОВАЯ ДОРОЖКА ИЗ 8 ЛАПОК БЕЗ РАМОК */
         .path-progress { 
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            gap: 6px; 
+            gap: 8px; 
             background: #d4b8a0; 
             padding: 10px 12px; 
             border-radius: 12px; 
@@ -62,12 +62,12 @@
         }
 
         .step-node { 
-            font-size: 1.1rem; 
+            font-size: 1.2rem; 
             background: #ffffff;
-            border: 1.5px solid #382b2c;
+            border: none;
             border-radius: 50%;
-            width: 26px;
-            height: 26px;
+            width: 28px;
+            height: 28px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -76,7 +76,6 @@
 
         .step-node.active { 
             background: var(--accent-green);
-            border-color: var(--accent-green-dark);
             filter: drop-shadow(0 0 3px var(--accent-green)); 
         }
 
@@ -343,7 +342,7 @@
     <header>
         <h1 class="header-title">PROGRESS TRACKER</h1>
         <div class="path-progress" id="path-progress-container">
-            <!-- Сгенерируем 10 пар лапок через JS -->
+            <!-- Сгенерируем 8 лапок через JS -->
         </div>
     </header>
 
@@ -383,10 +382,10 @@
         
         // Считаем количество выполненных заданий
         const completedCount = lessons.filter(l => l.status === "Пройдено").length;
-        // Каждое задание дает 5 активных пар лапок (из 10 всего)
-        const activeNodesCount = completedCount * 5;
+        // Всего 8 лапок: по 4 лапки на каждое задание
+        const activeNodesCount = completedCount * 4;
 
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 8; i++) {
             const span = document.createElement('span');
             span.className = 'step-node' + (i < activeNodesCount ? ' active' : '');
             span.innerHTML = '🐾';
