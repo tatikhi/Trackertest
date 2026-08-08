@@ -6,7 +6,7 @@
     <title>English Movement Adventure</title>
     <!-- Подключаем мягкий округлый шрифт Quicksand -->
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
-    <!-- Подключаем специализированные иконки FontAwesome -->
+    <!-- Подключаем иконки FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -129,7 +129,7 @@
             height: 24px;
             border-radius: 12px;
             position: relative;
-            overflow: visible; /* Чтобы звездочка могла слегка выступать */
+            overflow: visible;
             border: 2px solid #CBD5E0;
         }
 
@@ -141,7 +141,6 @@
             transition: width 0.5s ease-in-out;
         }
 
-        /* Бегущая иконка-звездочка на конце шкалы */
         .progress-runner {
             position: absolute;
             top: 50%;
@@ -168,14 +167,28 @@
             text-shadow: 1px 1px 0 #9B2C2C;
         }
 
-        /* Список заданий */
+        /* Список заданий и недели */
         .map-path {
             padding: 15px;
             display: flex;
             flex-direction: column;
             gap: 12px;
-            max-height: 360px;
+            max-height: 400px;
             overflow-y: auto;
+        }
+
+        /* Центрированные заголовки недель */
+        .week-divider {
+            text-align: center;
+            font-weight: 700;
+            font-size: 13px;
+            color: #2B6CB0;
+            background: #EBF8FF;
+            padding: 6px 12px;
+            border-radius: 12px;
+            border: 2px dashed #90CDF4;
+            margin: 8px 0 4px 0;
+            letter-spacing: 0.5px;
         }
 
         .path-node {
@@ -261,23 +274,39 @@
             background: rgba(255, 255, 255, 0.7);
             padding: 6px 10px;
             border-radius: 8px;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
+        }
+
+        /* Крупная детская кнопка «выполнено» по центру */
+        .btn-done-container {
+            display: flex;
+            justify-content: center;
         }
 
         .btn-done {
-            background: #3182CE;
+            background: #FF6B6B;
             color: white;
             border: none;
-            padding: 6px 12px;
-            border-radius: 10px;
+            padding: 12px 24px;
+            border-radius: 20px;
             font-family: 'Quicksand', sans-serif;
             font-weight: 700;
             cursor: pointer;
-            font-size: 12px;
+            font-size: 15px;
+            border: 3px solid #C53030;
+            box-shadow: 0 4px 0 #C53030;
+            transition: transform 0.1s;
+        }
+
+        .btn-done:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 #C53030;
         }
 
         .path-node.completed .btn-done {
-            background: #38A169;
+            background: #48BB78;
+            border-color: #2F855A;
+            box-shadow: 0 4px 0 #2F855A;
         }
 
         /* Кнопка поделиться */
@@ -352,9 +381,9 @@
             </div>
         </header>
 
-        <!-- Профиль -->
+        <!-- Профиль с бантиком -->
         <div class="profile-card">
-            <div class="student-info"><i class="fa-solid fa-user-astronaut"></i> Алиса, 5 лет</div>
+            <div class="student-info"><i class="fa-solid fa-ribbon" style="color: #FF6B6B;"></i> Алиса, 5 лет</div>
             <div id="progressText">0 / 30 заданий</div>
         </div>
 
@@ -362,19 +391,21 @@
         <div class="progress-wrapper">
             <div class="progress-container">
                 <div id="progressBar"></div>
-                <!-- Специализированная иконка звезды на шкале -->
                 <div id="progressRunner" class="progress-runner">
                     <i class="fa-solid fa-star"></i>
                 </div>
             </div>
         </div>
 
-        <!-- Название марафона -->
+        <!-- Баннер марафона -->
         <div class="week-banner">МАРАФОН НА 30 ДНЕЙ 🚀</div>
 
-        <!-- Карточки заданий -->
+        <!-- Список заданий по неделям -->
         <div class="map-path">
             
+            <!-- НЕДЕЛЯ 1 -->
+            <div class="week-divider">НЕДЕЛЯ 1 : ЦВЕТА</div>
+
             <!-- День 1 -->
             <div class="path-node" id="day-1">
                 <div class="node-header" onclick="toggleCard('day-1')">
@@ -388,9 +419,14 @@
                 <div class="node-content">
                     <div class="parent-hint">💡 <b>Родителям:</b> Включите аудио, покажите ребенку задачу. Нужно быстро найти дома красный предмет, дотронуться до него и громко сказать «RED!».</div>
                     <audio class="audio-player" controls src="https://www.w3schools.com/html/horse.mp3"></audio>
-                    <button class="btn-done" onclick="completeTask(event, 'day-1')">Выполнено! 🎉</button>
+                    <div class="btn-done-container">
+                        <button class="btn-done" onclick="completeTask(event, 'day-1')">ТОП-ТОП, ГОТОВО!</button>
+                    </div>
                 </div>
             </div>
+
+            <!-- НЕДЕЛЯ 2 -->
+            <div class="week-divider">НЕДЕЛЯ 2 : ДВИЖЕНИЯ</div>
 
             <!-- День 2 -->
             <div class="path-node" id="day-2">
@@ -405,24 +441,35 @@
                 <div class="node-content">
                     <div class="parent-hint">💡 <b>Родителям:</b> Когда играет аудио с командой «Jump!», ребенок должен прыгать на месте, как лягушка, повторяя слово.</div>
                     <audio class="audio-player" controls src="https://www.w3schools.com/html/horse.mp3"></audio>
-                    <button class="btn-done" onclick="completeTask(event, 'day-2')">Выполнено! 🎉</button>
+                    <div class="btn-done-container">
+                        <button class="btn-done" onclick="completeTask(event, 'day-2')">ТОП-ТОП, ГОТОВО!</button>
+                    </div>
                 </div>
             </div>
 
-            <!-- День 29 (Пример бонусного) -->
-            <div class="path-node" id="day-29">
-                <div class="node-header" onclick="toggleCard('day-29')">
-                    <div class="node-icon"><i class="fa-solid fa-gift"></i></div>
+            <!-- НЕДЕЛЯ 3 -->
+            <div class="week-divider">НЕДЕЛЯ 3 : УЧИМ ЧАСТИ ТЕЛА</div>
+            <!-- Дни с 3 по 28 скрыты для демонстрации -->
+
+            <!-- НЕДЕЛЯ 4 -->
+            <div class="week-divider">НЕДЕЛЯ 4 : ЖИВОТНЫЕ</div>
+
+            <!-- День 30 -->
+            <div class="path-node" id="day-30">
+                <div class="node-header" onclick="toggleCard('day-30')">
+                    <div class="node-icon"><i class="fa-solid fa-cat"></i></div>
                     <div class="node-details">
-                        <h3>День 29: Бонус-квест</h3>
-                        <p>Секретное задание от Татьяны</p>
+                        <h3>День 30: Итоговый квест</h3>
+                        <p>Звуки животных в квартире</p>
                     </div>
                     <div class="node-status"><i class="fa-solid fa-lock"></i></div>
                 </div>
                 <div class="node-content">
-                    <div class="parent-hint">💡 <b>Родителям:</b> Итоговый квест-бродилка по всей квартире!</div>
+                    <div class="parent-hint">💡 <b>Родителям:</b> Финальный квест-бродилка! Имитируем животных и повторяем их названия на английском.</div>
                     <audio class="audio-player" controls src="https://www.w3schools.com/html/horse.mp3"></audio>
-                    <button class="btn-done" onclick="completeTask(event, 'day-29')">Пройдено! 🏆</button>
+                    <div class="btn-done-container">
+                        <button class="btn-done" onclick="completeTask(event, 'day-30')">ТОП-ТОП, ГОТОВО!</button>
+                    </div>
                 </div>
             </div>
 
@@ -455,11 +502,11 @@
             if (card.classList.contains('completed')) {
                 card.classList.remove('completed');
                 status.innerHTML = '<i class="fa-solid fa-lock"></i>';
-                btn.textContent = 'Выполнено! 🎉';
+                btn.textContent = 'ТОП-ТОП, ГОТОВО!';
             } else {
                 card.classList.add('completed');
                 status.innerHTML = '<i class="fa-solid fa-star"></i>';
-                btn.textContent = 'Сделано! ✅';
+                btn.textContent = 'УРА, СДЕЛАНО! 🎉';
             }
             updateProgress();
         }
@@ -469,11 +516,8 @@
             const totalCount = 30;
             const percent = (completedCount / totalCount) * 100;
             
-            // Двигаем полоску и бегущую иконку-звездочку
             document.getElementById('progressBar').style.width = percent + '%';
             document.getElementById('progressRunner').style.left = percent + '%';
-            
-            // Обновляем текст
             document.getElementById('progressText').textContent = `${completedCount} / ${totalCount} заданий`;
         }
 
@@ -482,7 +526,7 @@
             const text = `🏆 Успехи Алисы в английском марафоне!\nМы выполнили уже ${completedCount} из 30 заданий! 🎉 Учим английский через движения и игры с Татьяной.`;
             
             navigator.clipboard.writeText(text).then(() => {
-                alert('✨ Отчет скопирован! Теперь вставьте его в чат (Telegram/WhatsApp) бабушке или второму родителю.');
+                alert('Прогресс скопирован! Теперь им можно поделиться!');
             }).catch(err => {
                 prompt('Скопируйте текст ниже для отправки:', text);
             });
