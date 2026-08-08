@@ -4,18 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>English Movement Adventure</title>
-    <!-- Подключаем мягкий округлый шрифт Quicksand -->
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
-    <!-- Подключаем иконки FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg-color: #F0F4F8;
+            --bg-gradient: linear-gradient(135deg, #E0F2FE 0%, #E0E7FF 100%);
             --card-bg: #FFFFFF;
             --primary: #FF6B6B;
+            --primary-shadow: #C53030;
             --secondary: #4ECDC4;
+            --secondary-shadow: #2B6CB0;
             --accent: #FFD166;
             --text-color: #2D3748;
+            --card-radius: 28px;
         }
 
         * {
@@ -26,511 +27,95 @@
 
         body {
             font-family: 'Quicksand', sans-serif;
-            background-color: var(--bg-color);
+            background: var(--bg-gradient);
             color: var(--text-color);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             padding: 15px;
-            background-image: radial-gradient(#CBD5E0 15%, transparent 15%);
-            background-size: 30px 30px;
         }
 
         .container {
             width: 100%;
-            max-width: 500px;
+            max-width: 480px;
             background: var(--card-bg);
-            border-radius: 30px;
-            border: 4px solid #3182CE;
-            box-shadow: 0 10px 0 #3182CE;
+            border-radius: 35px;
+            border: 4px solid #63B3ED;
+            box-shadow: 0 20px 40px rgba(49, 130, 206, 0.15), 0 8px 0 #3182CE;
             overflow: hidden;
             display: flex;
             flex-direction: column;
+            position: relative;
         }
 
-        /* Шапка */
+        /* Премиальная шапка с маскотом и облачком */
         header {
-            background: #4FD1C5;
-            padding: 15px;
+            background: linear-gradient(135deg, #4FD1C5 0%, #319795 100%);
+            padding: 20px 15px;
             text-align: center;
-            border-bottom: 4px solid #319795;
+            border-bottom: 4px solid #285E61;
+            position: relative;
         }
 
-        .mascot-container {
+        .mascot-row {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
+            gap: 15px;
+        }
+
+        .mascot-wrapper {
+            position: relative;
         }
 
         .mascot {
-            font-size: 40px;
-            background: white;
-            width: 70px;
-            height: 70px;
+            font-size: 44px;
+            background: #FFF;
+            width: 75px;
+            height: 75px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 3px solid #2B6CB0;
-            box-shadow: 0 3px 0 #2B6CB0;
-            animation: bounce 2s infinite;
+            border: 4px solid #2B6CB0;
+            box-shadow: 0 6px 0 #2B6CB0;
+            animation: bounce 2.5s infinite ease-in-out;
         }
 
         @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-6px) rotate(-3deg); }
+        }
+
+        /* Облачко с репликой лисенка */
+        .speech-bubble {
+            background: #FFFFFF;
+            padding: 8px 14px;
+            border-radius: 16px;
+            border: 3px solid #2B6CB0;
+            box-shadow: 0 4px 0 rgba(0,0,0,0.08);
+            font-size: 13px;
+            font-weight: 700;
+            color: #2C5282;
+            position: relative;
+            max-width: 220px;
+            text-align: left;
         }
 
         .header-title h1 {
-            font-size: 20px;
+            font-size: 22px;
             color: white;
             text-shadow: 2px 2px 0 #2B6CB0;
-        }
-
-        .header-title p {
-            font-size: 13px;
-            color: #FEFCBF;
-            font-weight: 600;
-        }
-
-        /* Профиль */
-        .profile-card {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #FEFCBF;
-            margin: 12px 15px 5px 15px;
-            padding: 10px 15px;
-            border-radius: 18px;
-            border: 3px solid #D69E2E;
-        }
-
-        .student-info {
-            font-size: 16px;
-            font-weight: 700;
-            color: #744210;
-        }
-
-        #progressText {
-            font-weight: 700;
-            color: #D69E2E;
-            font-size: 15px;
-        }
-
-        /* Шкала прогресса с бегущей звездочкой */
-        .progress-wrapper {
-            padding: 0 15px 10px 15px;
-        }
-
-        .progress-container {
-            background: #E2E8F0;
-            height: 24px;
-            border-radius: 12px;
-            position: relative;
-            overflow: visible;
-            border: 2px solid #CBD5E0;
-        }
-
-        #progressBar {
-            background: linear-gradient(90deg, #48BB78, #38A169);
-            height: 100%;
-            width: 0%;
-            border-radius: 10px 0 0 10px;
-            transition: width 0.5s ease-in-out;
-        }
-
-        .progress-runner {
-            position: absolute;
-            top: 50%;
-            left: 0%;
-            transform: translate(-50%, -50%);
-            font-size: 24px;
-            color: #ECC94B;
-            filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2));
-            transition: left 0.5s ease-in-out;
-            z-index: 5;
-            pointer-events: none;
-        }
-
-        /* Баннер марафона */
-        .week-banner {
-            background: #FF6B6B;
-            color: white;
-            text-align: center;
-            padding: 8px;
-            font-size: 16px;
-            font-weight: 700;
-            border-top: 3px solid #C53030;
-            border-bottom: 3px solid #C53030;
-            text-shadow: 1px 1px 0 #9B2C2C;
-        }
-
-        /* Список заданий и недели */
-        .map-path {
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-
-        /* Центрированные заголовки недель */
-        .week-divider {
-            text-align: center;
-            font-weight: 700;
-            font-size: 13px;
-            color: #2B6CB0;
-            background: #EBF8FF;
-            padding: 6px 12px;
-            border-radius: 12px;
-            border: 2px dashed #90CDF4;
-            margin: 8px 0 4px 0;
             letter-spacing: 0.5px;
         }
 
-        .path-node {
-            background: #EDF2F7;
-            padding: 12px;
-            border-radius: 18px;
-            border: 3px solid #CBD5E0;
-            transition: all 0.2s ease;
-        }
-
-        .path-node.completed {
-            background: #C6F6D5;
-            border-color: #38A169;
-        }
-
-        .node-header {
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-        }
-
-        .node-icon {
-            font-size: 22px;
-            color: #3182CE;
-            background: white;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 12px;
-            border: 3px solid #CBD5E0;
-            flex-shrink: 0;
-        }
-
-        .path-node.completed .node-icon {
-            border-color: #38A169;
-            color: #38A169;
-        }
-
-        .node-details h3 {
-            font-size: 15px;
-            color: #2D3748;
-        }
-
-        .node-details p {
+        .header-title p {
             font-size: 12px;
-            color: #718096;
-        }
-
-        .node-status {
-            margin-left: auto;
-            font-size: 18px;
-            color: #A0AEC0;
-        }
-
-        .path-node.completed .node-status {
-            color: #D69E2E;
-        }
-
-        /* Контент карточки */
-        .node-content {
-            display: none;
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 2px dashed #CBD5E0;
-        }
-
-        .path-node.active .node-content {
-            display: block;
-        }
-
-        .audio-player {
-            width: 100%;
-            margin-bottom: 8px;
-            height: 35px;
-        }
-
-        .parent-hint {
-            font-size: 12px;
-            color: #4A5568;
-            background: rgba(255, 255, 255, 0.7);
-            padding: 6px 10px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-        }
-
-        /* Крупная детская кнопка «выполнено» по центру */
-        .btn-done-container {
-            display: flex;
-            justify-content: center;
-        }
-
-        .btn-done {
-            background: #FF6B6B;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 20px;
-            font-family: 'Quicksand', sans-serif;
-            font-weight: 700;
-            cursor: pointer;
-            font-size: 15px;
-            border: 3px solid #C53030;
-            box-shadow: 0 4px 0 #C53030;
-            transition: transform 0.1s;
-        }
-
-        .btn-done:active {
-            transform: translateY(3px);
-            box-shadow: 0 1px 0 #C53030;
-        }
-
-        .path-node.completed .btn-done {
-            background: #48BB78;
-            border-color: #2F855A;
-            box-shadow: 0 4px 0 #2F855A;
-        }
-
-        /* Кнопка поделиться */
-        .share-section {
-            padding: 10px 15px;
-            background: #FFF5F5;
-            border-top: 2px solid #FEB2B2;
-            text-align: center;
-        }
-
-        .btn-share {
-            background: #ED8936;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 14px;
-            font-family: 'Quicksand', sans-serif;
-            font-weight: 700;
-            font-size: 13px;
-            cursor: pointer;
-            border: 2px solid #C05621;
-            box-shadow: 0 3px 0 #C05621;
-            width: 100%;
-            transition: transform 0.1s;
-        }
-
-        .btn-share:active {
-            transform: translateY(2px);
-            box-shadow: 0 1px 0 #C05621;
-        }
-
-        /* Подвал */
-        footer {
-            background: #EDF2F7;
-            padding: 12px 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top: 3px solid #E2E8F0;
-        }
-
-        .teacher-info {
-            font-size: 13px;
+            color: #FEFCBF;
             font-weight: 600;
-            color: #4A5568;
+            margin-top: 2px;
         }
 
-        .btn-contact {
-            background: #48BB78;
-            color: white;
-            padding: 6px 14px;
-            border-radius: 12px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 13px;
-            border: 2px solid #2F855A;
-            box-shadow: 0 3px 0 #2F855A;
-        }
-    </style>
-</head>
-<body>
-
-    <div class="container">
-        <!-- Шапка -->
-        <header>
-            <div class="mascot-container">
-                <div class="mascot">🦊</div>
-                <div class="header-title">
-                    <h1>ENGLISH ADVENTURE</h1>
-                    <p>Двигайся, играй, говори!</p>
-                </div>
-            </div>
-        </header>
-
-        <!-- Профиль с бантиком -->
-        <div class="profile-card">
-            <div class="student-info"><i class="fa-solid fa-ribbon" style="color: #FF6B6B;"></i> Алиса, 5 лет</div>
-            <div id="progressText">0 / 30 заданий</div>
-        </div>
-
-        <!-- Шкала прогресса с бегущей иконкой -->
-        <div class="progress-wrapper">
-            <div class="progress-container">
-                <div id="progressBar"></div>
-                <div id="progressRunner" class="progress-runner">
-                    <i class="fa-solid fa-star"></i>
-                </div>
-            </div>
-        </div>
-
-        <!-- Баннер марафона -->
-        <div class="week-banner">МАРАФОН НА 30 ДНЕЙ 🚀</div>
-
-        <!-- Список заданий по неделям -->
-        <div class="map-path">
-            
-            <!-- НЕДЕЛЯ 1 -->
-            <div class="week-divider">НЕДЕЛЯ 1 : ЦВЕТА</div>
-
-            <!-- День 1 -->
-            <div class="path-node" id="day-1">
-                <div class="node-header" onclick="toggleCard('day-1')">
-                    <div class="node-icon"><i class="fa-solid fa-palette"></i></div>
-                    <div class="node-details">
-                        <h3>День 1: Цвета (Красный)</h3>
-                        <p>Найти и коснуться</p>
-                    </div>
-                    <div class="node-status"><i class="fa-solid fa-lock"></i></div>
-                </div>
-                <div class="node-content">
-                    <div class="parent-hint">💡 <b>Родителям:</b> Включите аудио, покажите ребенку задачу. Нужно быстро найти дома красный предмет, дотронуться до него и громко сказать «RED!».</div>
-                    <audio class="audio-player" controls src="https://www.w3schools.com/html/horse.mp3"></audio>
-                    <div class="btn-done-container">
-                        <button class="btn-done" onclick="completeTask(event, 'day-1')">ТОП-ТОП, ГОТОВО!</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- НЕДЕЛЯ 2 -->
-            <div class="week-divider">НЕДЕЛЯ 2 : ДВИЖЕНИЯ</div>
-
-            <!-- День 2 -->
-            <div class="path-node" id="day-2">
-                <div class="node-header" onclick="toggleCard('day-2')">
-                    <div class="node-icon"><i class="fa-solid fa-person-running"></i></div>
-                    <div class="node-details">
-                        <h3>День 2: Команды (Jump)</h3>
-                        <p>Прыжки по комнате</p>
-                    </div>
-                    <div class="node-status"><i class="fa-solid fa-lock"></i></div>
-                </div>
-                <div class="node-content">
-                    <div class="parent-hint">💡 <b>Родителям:</b> Когда играет аудио с командой «Jump!», ребенок должен прыгать на месте, как лягушка, повторяя слово.</div>
-                    <audio class="audio-player" controls src="https://www.w3schools.com/html/horse.mp3"></audio>
-                    <div class="btn-done-container">
-                        <button class="btn-done" onclick="completeTask(event, 'day-2')">ТОП-ТОП, ГОТОВО!</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- НЕДЕЛЯ 3 -->
-            <div class="week-divider">НЕДЕЛЯ 3 : УЧИМ ЧАСТИ ТЕЛА</div>
-            <!-- Дни с 3 по 28 скрыты для демонстрации -->
-
-            <!-- НЕДЕЛЯ 4 -->
-            <div class="week-divider">НЕДЕЛЯ 4 : ЖИВОТНЫЕ</div>
-
-            <!-- День 30 -->
-            <div class="path-node" id="day-30">
-                <div class="node-header" onclick="toggleCard('day-30')">
-                    <div class="node-icon"><i class="fa-solid fa-cat"></i></div>
-                    <div class="node-details">
-                        <h3>День 30: Итоговый квест</h3>
-                        <p>Звуки животных в квартире</p>
-                    </div>
-                    <div class="node-status"><i class="fa-solid fa-lock"></i></div>
-                </div>
-                <div class="node-content">
-                    <div class="parent-hint">💡 <b>Родителям:</b> Финальный квест-бродилка! Имитируем животных и повторяем их названия на английском.</div>
-                    <audio class="audio-player" controls src="https://www.w3schools.com/html/horse.mp3"></audio>
-                    <div class="btn-done-container">
-                        <button class="btn-done" onclick="completeTask(event, 'day-30')">ТОП-ТОП, ГОТОВО!</button>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- Кнопка «Поделиться результатом» -->
-        <div class="share-section">
-            <button class="btn-share" onclick="shareResult()"><i class="fa-solid fa-share-nodes"></i> Поделиться результатом</button>
-        </div>
-
-        <!-- Подвал -->
-        <footer>
-            <div class="teacher-info">Педагог: Татьяна 👩‍🏫</div>
-            <a href="https://t.me/tati_khi" target="_blank" class="btn-contact"><i class="fa-brands fa-telegram"></i> СВЯЗАТЬСЯ</a>
-        </footer>
-    </div>
-
-    <script>
-        function toggleCard(dayId) {
-            const card = document.getElementById(dayId);
-            card.classList.toggle('active');
-        }
-
-        function completeTask(event, dayId) {
-            event.stopPropagation();
-            const card = document.getElementById(dayId);
-            const status = card.querySelector('.node-status');
-            const btn = card.querySelector('.btn-done');
-
-            if (card.classList.contains('completed')) {
-                card.classList.remove('completed');
-                status.innerHTML = '<i class="fa-solid fa-lock"></i>';
-                btn.textContent = 'ТОП-ТОП, ГОТОВО!';
-            } else {
-                card.classList.add('completed');
-                status.innerHTML = '<i class="fa-solid fa-star"></i>';
-                btn.textContent = 'УРА, СДЕЛАНО! 🎉';
-            }
-            updateProgress();
-        }
-
-        function updateProgress() {
-            const completedCount = document.querySelectorAll('.path-node.completed').length;
-            const totalCount = 30;
-            const percent = (completedCount / totalCount) * 100;
-            
-            document.getElementById('progressBar').style.width = percent + '%';
-            document.getElementById('progressRunner').style.left = percent + '%';
-            document.getElementById('progressText').textContent = `${completedCount} / ${totalCount} заданий`;
-        }
-
-        function shareResult() {
-            const completedCount = document.querySelectorAll('.path-node.completed').length;
-            const text = `🏆 Успехи Алисы в английском марафоне!\nМы выполнили уже ${completedCount} из 30 заданий! 🎉 Учим английский через движения и игры с Татьяной.`;
-            
-            navigator.clipboard.writeText(text).then(() => {
-                alert('Прогресс скопирован! Теперь им можно поделиться!');
-            }).catch(err => {
-                prompt('Скопируйте текст ниже для отправки:', text);
-            });
-        }
-    </script>
-</body>
-</html>
+        /* Подзаголовок методики для мам */
+        .method-badge
