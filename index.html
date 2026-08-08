@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Progress Tracker</title>
-    <!-- Подключаем шрифт Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -18,7 +17,7 @@
             
             --status-planned-bg: #d4b8a0;
             --status-planned-text: #382b2c;
-            --status-completed-bg: #4a7c59; /* Активный зеленый для шкалы и кнопок */
+            --status-completed-bg: #4a7c59; /* Зеленый для активных элементов */
             --status-completed-text: #ffffff;
             --status-locked-bg: #b87a6b;
             --status-locked-text: #ffffff;
@@ -43,31 +42,31 @@
             margin: 0 auto;
             display: flex;
             flex-direction: column;
-            gap: 24px;
+            gap: 20px;
         }
 
-        /* HEADER & PROGRESS */
+        /* HEADER */
         header {
             background: var(--card-bg);
             border-radius: 20px;
-            padding: 24px;
+            padding: 20px 24px;
             border: 2px solid var(--border-color);
             box-shadow: 0 4px 16px rgba(56, 43, 44, 0.08);
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 14px;
         }
 
         .header-top {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
+            align-items: center;
             flex-wrap: wrap;
             gap: 12px;
         }
 
         .header-title {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: 700;
             color: var(--text-main);
             letter-spacing: 0.05em;
@@ -80,7 +79,7 @@
             background-color: #4a7c59;
             color: #ffffff;
             border: none;
-            padding: 8px 16px;
+            padding: 8px 14px;
             border-radius: 10px;
             font-weight: 600;
             font-size: 0.85rem;
@@ -93,45 +92,78 @@
             opacity: 0.9;
         }
 
-        .progress-section {
+        /* ИГРОВАЯ ТРОПИНКА ДОСТИЖЕНИЙ (ВМЕСТО ПРОЦЕНТОВ) */
+        .path-progress {
             display: flex;
-            flex-direction: column;
-            gap: 8px;
+            align-items: center;
+            justify-content: space-between;
+            background: #d4b8a0;
+            padding: 12px 20px;
+            border-radius: 14px;
+            border: 1px solid var(--border-color);
         }
 
-        .progress-info {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.9rem;
-            font-weight: 600;
+        .path-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
             color: var(--text-main);
         }
 
-        .progress-bar-bg {
-            width: 100%;
-            height: 14px;
-            background-color: #d1b59c;
-            border-radius: 999px;
-            overflow: hidden;
+        .path-steps {
+            display: flex;
+            gap: 10px;
+            align-items: center;
         }
 
-        /* Шкала прогресса - зеленая */
-        .progress-bar-fill {
-            height: 100%;
-            width: 0%;
-            background: #4a7c59; 
-            border-radius: 999px;
-            transition: width 0.4s ease;
+        .step-node {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #c4a992;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            border: 2px solid var(--border-color);
+            transition: all 0.3s ease;
         }
 
-        /* STUDENT CARD (теперь 2 колонки) */
+        .step-node.active {
+            background-color: #4a7c59;
+            color: #ffffff;
+            border-color: #385e44;
+            transform: scale(1.1);
+        }
+
+        /* ИНСТРУКЦИЯ ДЛЯ МАМЫ */
+        .mom-tip {
+            background-color: #ebd7c5;
+            border: 1px dashed var(--border-color);
+            border-radius: 14px;
+            padding: 12px 16px;
+            font-size: 0.9rem;
+            color: var(--text-main);
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            box-shadow: 0 2px 8px rgba(56, 43, 44, 0.04);
+        }
+
+        .mom-tip span {
+            font-size: 1.2rem;
+        }
+
+        /* STUDENT CARD */
         .student-card {
             background: var(--card-bg);
             border-radius: 20px;
-            padding: 20px 24px;
+            padding: 18px 24px;
             border: 2px solid var(--border-color);
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 16px;
             box-shadow: 0 4px 16px rgba(56, 43, 44, 0.08);
         }
@@ -139,11 +171,11 @@
         .info-item {
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 2px;
         }
 
         .info-label {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 0.05em;
             color: var(--text-main);
@@ -163,7 +195,7 @@
             font-size: 1.2rem;
             font-weight: 700;
             color: var(--text-main);
-            margin-top: 8px;
+            margin-top: 4px;
             letter-spacing: 0.05em;
         }
 
@@ -201,8 +233,28 @@
             gap: 10px;
         }
 
-        /* Одинаковый размер шрифта для заголовка и названия миссии */
         .lesson-titles {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* Крупные визуальные иконки цветов для ребенка */
+        .mission-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+        }
+
+        .icon-red { background-color: #d9534f; color: white; }
+        .icon-blue { background-color: #0275d8; color: white; }
+
+        .lesson-titles-text {
             display: flex;
             flex-direction: column;
             gap: 2px;
@@ -237,12 +289,13 @@
         }
 
         .preview-image {
-            width: 100px;
-            height: 100px;
+            width: 110px;
+            height: 110px;
             object-fit: cover;
-            border-radius: 16px;
+            border-radius: 18px;
             cursor: pointer;
             border: 2px solid var(--border-color);
+            box-shadow: 0 4px 10px rgba(56, 43, 44, 0.12);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             display: block;
         }
@@ -273,7 +326,7 @@
         /* BADGES & ACTIONS */
         .card-footer {
             display: flex;
-            justify-content: center; /* Центрирование кнопки отчета */
+            justify-content: center;
             align-items: center;
             border-top: 2px solid var(--border-color);
             padding-top: 16px;
@@ -394,26 +447,27 @@
 <body>
 
     <div class="container">
-        <!-- HEADER -->
         <header>
             <div class="header-top">
                 <h1 class="header-title">PROGRESS TRACKER</h1>
                 <button class="share-btn" onclick="copyShareableLink()">
-                    🔗 Поделиться прогрессом
+                    🔗 Поделиться
                 </button>
             </div>
-            <div class="progress-section">
-                <div class="progress-info">
-                    <span>Выполнено миссий</span>
-                    <span id="progress-text">0 / 2 (0%)</span>
-                </div>
-                <div class="progress-bar-bg">
-                    <div class="progress-bar-fill" id="progress-bar"></div>
+            <div class="path-progress">
+                <span class="path-title">Путь к цели:</span>
+                <div class="path-steps">
+                    <div class="step-node" id="step-1">1</div>
+                    <div class="step-node" id="step-2">2</div>
                 </div>
             </div>
         </header>
 
-        <!-- STUDENT CARD -->
+        <div class="mom-tip">
+            <span>💡</span>
+            <div><strong>Мам, привет!</strong> Открой миссию, включи ребенку аудиозапись педагога, выполните мини-задание за 3 минуты и жми галочку прохождения!</div>
+        </div>
+
         <section class="student-card">
             <div class="info-item">
                 <span class="info-label">Ученик</span>
@@ -425,13 +479,10 @@
             </div>
         </section>
 
-        <!-- НЕДЕЛЯ 1 -->
         <div class="section-title">НЕДЕЛЯ 1 : ЦВЕТА</div>
 
-        <!-- LESSONS GRID -->
         <main class="lessons-grid" id="lessons-container"></main>
 
-        <!-- FOOTER -->
         <footer>
             <p>Ваш педагог : Татьяна</p>
             <a href="https://t.me/tati_khi" target="_blank" class="contact-btn">
@@ -450,8 +501,10 @@
                 subtitle: "«ОХОТА ЗА ЦВЕТАМИ»",
                 desc: "🏃‍♂️ Задание: Бегом найди в комнате что-то <b>КРАСНОЕ</b>, схвати предмет, покажи в камеру и громко крикни: «<b>RED!</b>»", 
                 status: "Запланировано", 
-                image: "IMG_0457.jpeg", 
-                audio: "audio/day1.mp3" 
+                image: "IMG_0232.jpeg", 
+                audio: "audio/day1.mp3",
+                iconClass: "icon-red",
+                iconSymbol: "🔴"
             },
             { 
                 id: 2, 
@@ -460,7 +513,9 @@
                 desc: "🏃‍♂️ Задание: Бегом найди в комнате что-то <b>СИНЕЕ</b>, схвати предмет, покажи в камеру и громко крикни: «<b>BLUE!</b>»", 
                 status: "Запланировано", 
                 image: "img/day2.jpg", 
-                audio: "audio/day2.mp3" 
+                audio: "audio/day2.mp3",
+                iconClass: "icon-blue",
+                iconSymbol: "🔵"
             }
         ];
 
@@ -485,24 +540,40 @@
                 const decoded = decodeData(encodedStr);
                 if (decoded) {
                     lessons = decoded;
-                    localStorage.setItem('english_2days_v4', JSON.stringify(lessons));
+                    localStorage.setItem('english_2days_v6', JSON.stringify(lessons));
                     return;
                 }
             }
-            lessons = JSON.parse(localStorage.getItem('english_2days_v4')) || defaultLessons;
+            lessons = JSON.parse(localStorage.getItem('english_2days_v6')) || defaultLessons;
         }
 
         function saveState() {
-            localStorage.setItem('english_2days_v4', JSON.stringify(lessons));
+            localStorage.setItem('english_2days_v6', JSON.stringify(lessons));
             updateProgress();
         }
 
         function updateProgress() {
-            const completedCount = lessons.filter(l => l.status === "Пройдено").length;
-            const percentage = Math.round((completedCount / lessons.length) * 100);
-            
-            document.getElementById('progress-text').innerText = `${completedCount} / ${lessons.length} (${percentage}%)`;
-            document.getElementById('progress-bar').style.width = `${percentage}%`;
+            const step1 = lessons.find(l => l.id === 1).status === "Пройдено";
+            const step2 = lessons.find(l => l.id === 2).status === "Пройдено";
+
+            const node1 = document.getElementById('step-1');
+            const node2 = document.getElementById('step-2');
+
+            if (step1) {
+                node1.classList.add('active');
+                node1.innerHTML = '✓';
+            } else {
+                node1.classList.remove('active');
+                node1.innerHTML = '1';
+            }
+
+            if (step2) {
+                node2.classList.add('active');
+                node2.innerHTML = '✓';
+            } else {
+                node2.classList.remove('active');
+                node2.innerHTML = '2';
+            }
         }
 
         function toggleStatus(id) {
@@ -526,6 +597,7 @@
 
             saveState();
             renderLessons();
+            updateProgress();
         }
 
         function toggleImageZoom(imgElement) {
@@ -537,7 +609,7 @@
             const shareUrl = `${window.location.origin}${window.location.pathname}#data=${encoded}`;
             
             navigator.clipboard.writeText(shareUrl).then(() => {
-                showToast("Ссылка с актуальным прогрессом скопирована!");
+                showToast("Ссылка с прогрессом скопирована!");
             }).catch(() => {
                 showToast("Не удалось скопировать ссылку");
             });
@@ -568,19 +640,22 @@
                 
                 let badgeHTML = '';
                 if (isLocked) {
-                    badgeHTML = `<span class="status-badge status-locked">🔒 Заблокировано (пройдите Миссию 1)</span>`;
+                    badgeHTML = `<span class="status-badge status-locked">🔒 Скрыто (пройдите Миссию 1)</span>`;
                 } else {
                     const badgeClass = isCompleted ? "status-completed" : "status-planned";
                     badgeHTML = `<span class="status-badge ${badgeClass}" onclick="toggleStatus(${lesson.id})">
-                        ${lesson.status === "Запланировано" ? "⏳ Ожидает выполнения" : "✅ Пройдено!"}
+                        ${lesson.status === "Запланировано" ? "⏳ Ждем выполнения" : "✅ Пройдено!"}
                     </span>`;
                 }
 
                 card.innerHTML = `
                     <div class="lesson-header">
                         <div class="lesson-titles">
-                            <span class="lesson-number">${lesson.title}</span>
-                            <span class="lesson-topic">${lesson.subtitle}</span>
+                            <div class="mission-icon ${lesson.iconClass}">${lesson.iconSymbol}</div>
+                            <div class="lesson-titles-text">
+                                <span class="lesson-number">${lesson.title}</span>
+                                <span class="lesson-topic">${lesson.subtitle}</span>
+                            </div>
                         </div>
                         ${badgeHTML}
                     </div>
