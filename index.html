@@ -92,7 +92,7 @@
             opacity: 0.9;
         }
 
-        /* ИГРОВАЯ ТРОПИНКА ДОСТИЖЕНИЙ (ВМЕСТО ПРОЦЕНТОВ) */
+        /* ДОРОЖКА ИЗ СЛЕДОВ ЖИВОТНОГО */
         .path-progress {
             display: flex;
             align-items: center;
@@ -112,48 +112,21 @@
 
         .path-steps {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             align-items: center;
         }
 
         .step-node {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background-color: #c4a992;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 0.9rem;
-            border: 2px solid var(--border-color);
+            font-size: 1.4rem;
+            opacity: 0.35; /* Прозрачные по умолчанию */
+            filter: grayscale(100%);
             transition: all 0.3s ease;
         }
 
         .step-node.active {
-            background-color: #4a7c59;
-            color: #ffffff;
-            border-color: #385e44;
-            transform: scale(1.1);
-        }
-
-        /* ИНСТРУКЦИЯ ДЛЯ МАМЫ */
-        .mom-tip {
-            background-color: #ebd7c5;
-            border: 1px dashed var(--border-color);
-            border-radius: 14px;
-            padding: 12px 16px;
-            font-size: 0.9rem;
-            color: var(--text-main);
-            display: flex;
-            gap: 10px;
-            align-items: flex-start;
-            box-shadow: 0 2px 8px rgba(56, 43, 44, 0.04);
-        }
-
-        .mom-tip span {
-            font-size: 1.2rem;
+            opacity: 1; /* Яркие/зеленые по мере заполнения */
+            filter: none;
+            transform: scale(1.15);
         }
 
         /* STUDENT CARD */
@@ -206,7 +179,7 @@
             gap: 16px;
         }
 
-        /* LESSON CARD */
+        /* LESSON CARD (с легкой тенью-подложкой) */
         .lesson-card {
             background: var(--card-bg);
             border-radius: 20px;
@@ -234,27 +207,6 @@
         }
 
         .lesson-titles {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        /* Крупные визуальные иконки цветов для ребенка */
-        .mission-icon {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.1rem;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
-        }
-
-        .icon-red { background-color: #d9534f; color: white; }
-        .icon-blue { background-color: #0275d8; color: white; }
-
-        .lesson-titles-text {
             display: flex;
             flex-direction: column;
             gap: 2px;
@@ -455,18 +407,13 @@
                 </button>
             </div>
             <div class="path-progress">
-                <span class="path-title">Путь к цели:</span>
+                <span class="path-title">ПУТЬ К ЦЕЛИ</span>
                 <div class="path-steps">
-                    <div class="step-node" id="step-1">1</div>
-                    <div class="step-node" id="step-2">2</div>
+                    <span class="step-node" id="step-1">🐾</span>
+                    <span class="step-node" id="step-2">🐾</span>
                 </div>
             </div>
         </header>
-
-        <div class="mom-tip">
-            <span>💡</span>
-            <div><strong>Мам, привет!</strong> Открой миссию, включи ребенку аудиозапись педагога, выполните мини-задание за 3 минуты и жми галочку прохождения!</div>
-        </div>
 
         <section class="student-card">
             <div class="info-item">
@@ -502,9 +449,7 @@
                 desc: "🏃‍♂️ Задание: Бегом найди в комнате что-то <b>КРАСНОЕ</b>, схвати предмет, покажи в камеру и громко крикни: «<b>RED!</b>»", 
                 status: "Запланировано", 
                 image: "IMG_0232.jpeg", 
-                audio: "audio/day1.mp3",
-                iconClass: "icon-red",
-                iconSymbol: "🔴"
+                audio: "audio/day1.mp3"
             },
             { 
                 id: 2, 
@@ -513,9 +458,7 @@
                 desc: "🏃‍♂️ Задание: Бегом найди в комнате что-то <b>СИНЕЕ</b>, схвати предмет, покажи в камеру и громко крикни: «<b>BLUE!</b>»", 
                 status: "Запланировано", 
                 image: "img/day2.jpg", 
-                audio: "audio/day2.mp3",
-                iconClass: "icon-blue",
-                iconSymbol: "🔵"
+                audio: "audio/day2.mp3"
             }
         ];
 
@@ -540,15 +483,15 @@
                 const decoded = decodeData(encodedStr);
                 if (decoded) {
                     lessons = decoded;
-                    localStorage.setItem('english_2days_v6', JSON.stringify(lessons));
+                    localStorage.setItem('english_2days_v7', JSON.stringify(lessons));
                     return;
                 }
             }
-            lessons = JSON.parse(localStorage.getItem('english_2days_v6')) || defaultLessons;
+            lessons = JSON.parse(localStorage.getItem('english_2days_v7')) || defaultLessons;
         }
 
         function saveState() {
-            localStorage.setItem('english_2days_v6', JSON.stringify(lessons));
+            localStorage.setItem('english_2days_v7', JSON.stringify(lessons));
             updateProgress();
         }
 
@@ -561,18 +504,14 @@
 
             if (step1) {
                 node1.classList.add('active');
-                node1.innerHTML = '✓';
             } else {
                 node1.classList.remove('active');
-                node1.innerHTML = '1';
             }
 
             if (step2) {
                 node2.classList.add('active');
-                node2.innerHTML = '✓';
             } else {
                 node2.classList.remove('active');
-                node2.innerHTML = '2';
             }
         }
 
@@ -651,11 +590,8 @@
                 card.innerHTML = `
                     <div class="lesson-header">
                         <div class="lesson-titles">
-                            <div class="mission-icon ${lesson.iconClass}">${lesson.iconSymbol}</div>
-                            <div class="lesson-titles-text">
-                                <span class="lesson-number">${lesson.title}</span>
-                                <span class="lesson-topic">${lesson.subtitle}</span>
-                            </div>
+                            <span class="lesson-number">${lesson.title}</span>
+                            <span class="lesson-topic">${lesson.subtitle}</span>
                         </div>
                         ${badgeHTML}
                     </div>
