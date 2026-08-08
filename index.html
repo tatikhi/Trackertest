@@ -139,6 +139,7 @@
             cursor: pointer; 
             border: 1px solid var(--border-color);
             font-weight: 600;
+            transition: all 0.2s;
         }
 
         .adult-check.completed {
@@ -206,25 +207,27 @@
         }
 
         /* КРУГЛАЯ КНОПКА С ТЕКСТОМ ПО ПЕРИМЕТРУ И ЛАПКОЙ В ЦЕНТРЕ */
-        .round-action-btn-container {
+        .round-action-container {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
             margin-top: 10px;
         }
 
         .round-foot-btn {
-            width: 110px;
-            height: 110px;
+            width: 140px;
+            height: 140px;
             border-radius: 50%;
-            background: var(--accent-green);
-            border: 3px solid #385e44;
+            background: #d4b8a0; 
+            border: 3px solid var(--border-color);
             cursor: pointer;
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
-            transition: transform 0.2s ease;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+            transition: transform 0.2s ease, background 0.2s ease;
         }
 
         .round-foot-btn:hover {
@@ -232,8 +235,9 @@
         }
 
         .round-foot-btn.completed {
-            background: #385e44;
-            box-shadow: inset 0 4px 8px rgba(0,0,0,0.3);
+            background: var(--accent-green); 
+            border-color: #385e44;
+            box-shadow: inset 0 4px 8px rgba(0,0,0,0.2);
         }
 
         /* SVG текст по кругу */
@@ -250,19 +254,44 @@
         }
 
         .round-foot-btn svg text {
-            fill: #ffffff;
-            font-size: 13.5px;
+            fill: var(--text-main); 
+            font-size: 12.5px;
             font-weight: 700;
-            letter-spacing: 3.5px;
+            letter-spacing: 2.5px;
             text-transform: uppercase;
+            transition: fill 0.2s ease;
+        }
+
+        .round-foot-btn.completed svg text {
+            fill: #ffffff; 
         }
 
         /* Центр кнопки (лапка) */
         .foot-center-icon {
-            font-size: 2.2rem;
+            font-size: 2.6rem;
             z-index: 2;
             pointer-events: none;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
+        }
+
+        /* КНОПКА ТЕЛЕГРАМ ПОД КРУГЛОЙ КНОПКОЙ */
+        .tg-report-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--btn-adult);
+            color: var(--text-main);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-decoration: none;
+            border: 1px solid var(--border-color);
+            transition: opacity 0.2s;
+        }
+
+        .tg-report-btn:hover {
+            opacity: 0.9;
         }
 
         /* FOOTER */
@@ -300,6 +329,7 @@
 <body>
 
 <div class="container">
+    <!-- HEADER -->
     <header>
         <h1 class="header-title">PROGRESS TRACKER</h1>
         <div class="path-progress">
@@ -308,6 +338,7 @@
         </div>
     </header>
 
+    <!-- STUDENT CARD -->
     <section class="student-card">
         <div class="info-item">
             <span class="info-label">Ученик</span>
@@ -319,10 +350,12 @@
         </div>
     </section>
 
+    <!-- НЕДЕЛЯ 1 -->
     <div class="section-title">НЕДЕЛЯ 1 : ЦВЕТА</div>
 
     <main class="lessons-grid" id="lessons-container" style="display: flex; flex-direction: column; gap: 20px;"></main>
 
+    <!-- FOOTER -->
     <footer>
         <p>Ваш педагог : Татьяна</p>
         <a href="https://t.me/tati_khi" target="_blank" class="contact-btn">СВЯЗАТЬСЯ</a>
@@ -347,7 +380,7 @@
             card.className = `lesson-card ${isLocked ? 'locked' : ''}`;
             
             card.innerHTML = `
-                <div class="adult-check ${isCompleted ? 'completed' : ''}" onclick="toggleStatus(${l.id})">
+                <div class="adult-check ${isCompleted ? 'completed' : ''}" onclick="toggleStatus(event, ${l.id})">
                     ${isCompleted ? '✓ Выполнено' : '✓ Отметить'}
                 </div>
 
@@ -364,14 +397,18 @@
                     </div>
                     <audio controls src="${l.audio}"></audio>
                     
-                    <div class="round-action-btn-container">
-                        <button class="round-foot-btn ${isCompleted ? 'completed' : ''}" onclick="toggleStatus(${l.id})">
+                    <div class="round-action-container">
+                        <button class="round-foot-btn ${isCompleted ? 'completed' : ''}" onclick="toggleStatus(event, ${l.id})">
                             <svg viewBox="0 0 100 100">
                                 <path id="circlePath-${l.id}" d="M 15, 50 a 35,35 0 1,1 70,0 a 35,35 0 1,1 -70,0" fill="transparent"/>
-                                <text><textPath href="#circlePath-${l.id}" startOffset="0%">ТОП-ТОП, ГОТОВО! • ТОП-ТОП, ГОТОВО! •</textPath></text>
+                                <text><textPath href="#circlePath-${l.id}" startOffset="0%">ТОП-ТОП! ГОТОВО! • ТОП-ТОП! ГОТОВО! •</textPath></text>
                             </svg>
                             <span class="foot-center-icon">🐾</span>
                         </button>
+                        
+                        <a href="https://t.me/tati_khi?text=${encodeURIComponent('Здравствуйте! Отправляю отчет за Миссию ' + l.id)}" target="_blank" class="tg-report-btn">
+                            ✈️ Отправить отчет в Telegram
+                        </a>
                     </div>
                 ` : ''}
             `;
@@ -380,19 +417,25 @@
         updateProgress();
     }
 
-    function toggleStatus(id) {
+    function toggleStatus(event, id) {
+        if (event) {
+            event.preventDefault();
+        }
+
+        const scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+
         const l = lessons.find(x => x.id === id);
-        // Проверка блокировки для второй миссии
         if (id === 2 && lessons[0].status !== "Пройдено") return;
         
         l.status = l.status === "Пройдено" ? "Запланировано" : "Пройдено";
         
-        // Если отменили первую миссию, сбрасываем вторую
         if (id === 1 && l.status === "Запланировано") {
             lessons[1].status = "Запланировано";
         }
         
         render();
+
+        window.scrollTo(0, scrollPosition);
     }
 
     function updateProgress() {
