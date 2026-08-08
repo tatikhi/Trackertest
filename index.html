@@ -4,7 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Progress Tracker</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Подключаем детский округлый шрифт Quicksand -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- Подключаем библиотеку конфетти для праздничного салюта -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
     <style>
         :root {
@@ -18,7 +23,7 @@
         }
 
         body { 
-            font-family: 'Inter', sans-serif; 
+            font-family: 'Quicksand', sans-serif; 
             background-color: var(--bg-color); 
             color: var(--text-main); 
             padding: 24px 16px; 
@@ -49,7 +54,7 @@
             letter-spacing: 0.05em;
         }
 
-        /* ИГРОВАЯ ДОРОЖКА ИЗ 8 ЛАПОК БЕЗ РАМОК */
+        /* ИГРОВАЯ ДОРОЖКА ИЗ 8 ЛАПОК */
         .path-progress { 
             display: flex; 
             align-items: center; 
@@ -77,6 +82,7 @@
         .step-node.active { 
             background: var(--accent-green);
             filter: drop-shadow(0 0 3px var(--accent-green)); 
+            transform: scale(1.1);
         }
 
         /* БЛОК ИМЕНИ И ВОЗРАСТА */
@@ -103,11 +109,11 @@
             letter-spacing: 0.05em;
             color: var(--text-main);
             opacity: 0.8;
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .info-value {
-            font-weight: 600;
+            font-weight: 700;
             font-size: 1rem;
             color: var(--text-main);
         }
@@ -147,7 +153,7 @@
             border-radius: 8px; 
             cursor: pointer; 
             border: 1px solid var(--border-color);
-            font-weight: 600;
+            font-weight: 700;
             transition: all 0.2s;
         }
 
@@ -180,6 +186,7 @@
             border-left: 4px solid var(--accent-green); 
             text-align: left; 
             font-size: 0.95rem;
+            font-weight: 600;
         }
 
         .image-container { 
@@ -215,7 +222,7 @@
             height: 40px;
         }
 
-        /* КРУГЛАЯ КНОПКА С ТЕКСТОМ ПО ПЕРИМЕТРУ И ЛАПКОЙ В ЦЕНТРЕ */
+        /* КРУГЛАЯ ПРУЖИНЯЩАЯ КНОПКА */
         .round-action-container {
             display: flex;
             flex-direction: column;
@@ -236,11 +243,13 @@
             align-items: center;
             justify-content: center;
             box-shadow: 0 6px 16px rgba(0,0,0,0.15);
-            transition: transform 0.2s ease, background 0.2s ease;
+            transition: background 0.2s ease;
         }
 
-        .round-foot-btn:hover {
-            transform: scale(1.05);
+        /* Анимация пружинки при нажатии */
+        .round-foot-btn:active {
+            transform: scale(0.9);
+            transition: transform 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .round-foot-btn.completed {
@@ -293,7 +302,7 @@
             padding: 6px 12px;
             border-radius: 8px;
             font-size: 0.75rem;
-            font-weight: 600;
+            font-weight: 700;
             text-decoration: none;
             border: 1px solid var(--border-color);
             transition: opacity 0.2s;
@@ -315,7 +324,7 @@
             flex-direction: column;
             align-items: center;
             gap: 12px;
-            font-weight: 600; 
+            font-weight: 700; 
         }
 
         .contact-btn { 
@@ -342,7 +351,7 @@
     <header>
         <h1 class="header-title">PROGRESS TRACKER</h1>
         <div class="path-progress" id="path-progress-container">
-            <!-- Сгенерируем 8 лапок через JS -->
+            <!-- 8 лапок -->
         </div>
     </header>
 
@@ -376,13 +385,52 @@
         { id: 2, title: "МИССИЯ 2", subtitle: "«ОХОТА ЗА ЦВЕТАМИ»", desc: "🏃‍♂️ Задание: Найди в комнате что-то <b>СИНЕЕ</b>, покажи в камеру и громко крикни: «<b>BLUE!</b>»", status: "Запланировано", image: "img/day2.jpg", audio: "audio/day2.mp3" }
     ];
 
+    // Функция генерации радостного звука успеха без внешних файлов
+    function playSuccessSound() {
+        try {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            if (!AudioContext) return;
+            const ctx = new AudioContext();
+            
+            const playTone = (freq, time, duration) => {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.value = freq;
+                gain.gain.setValueAtTime(0.15, ctx.currentTime + time);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + time + duration);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start(ctx.currentTime + time);
+                osc.stop(ctx.currentTime + time + duration);
+            };
+
+            // Веселая мажорная нотка (дзынь-радость)
+            playTone(523.25, 0, 0.15); // До
+            playTone(659.25, 0.12, 0.15); // Ми
+            playTone(783.99, 0.24, 0.3);  // Соль
+        } catch (e) {
+            // Аудиоконтекст заблокирован браузером до первого клика — это нормально
+        }
+    }
+
+    // Запуск салюта из конфетти
+    function triggerConfetti() {
+        if (typeof confetti === 'function') {
+            confetti({
+                particleCount: 120,
+                spread: 80,
+                origin: { y: 0.6 },
+                colors: ['#75a4b3', '#e4cab4', '#f4d06f', '#ffffff', '#568393']
+            });
+        }
+    }
+
     function renderPath() {
         const pathContainer = document.getElementById('path-progress-container');
         pathContainer.innerHTML = '';
         
-        // Считаем количество выполненных заданий
         const completedCount = lessons.filter(l => l.status === "Пройдено").length;
-        // Всего 8 лапок: по 4 лапки на каждое задание
         const activeNodesCount = completedCount * 4;
 
         for (let i = 0; i < 8; i++) {
@@ -397,6 +445,8 @@
         const container = document.getElementById('lessons-container');
         container.innerHTML = '';
         
+        const allCompletedBefore = lessons.every(l => l.status === "Пройдено");
+
         lessons.forEach((l, i) => {
             const isLocked = (i > 0 && lessons[0].status !== "Пройдено");
             const isCompleted = (l.status === "Пройдено");
@@ -440,6 +490,12 @@
             container.appendChild(card);
         });
         renderPath();
+
+        // Проверяем, если все задания только что стали выполненными — запускаем салют!
+        const allCompletedNow = lessons.every(l => l.status === "Пройдено");
+        if (!allCompletedBefore && allCompletedNow) {
+            setTimeout(triggerConfetti, 300);
+        }
     }
 
     function toggleStatus(event, id) {
@@ -452,7 +508,13 @@
         const l = lessons.find(x => x.id === id);
         if (id === 2 && lessons[0].status !== "Пройдено") return;
         
-        l.status = l.status === "Пройдено" ? "Запланировано" : "Пройдено";
+        const wasCompleted = (l.status === "Пройдено");
+        l.status = wasCompleted ? "Запланировано" : "Пройдено";
+        
+        // Если включили выполнение — играем звук радости
+        if (!wasCompleted) {
+            playSuccessSound();
+        }
         
         if (id === 1 && l.status === "Запланировано") {
             lessons[1].status = "Запланировано";
