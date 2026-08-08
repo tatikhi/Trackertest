@@ -4,622 +4,123 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Progress Tracker</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg-color: #f4f4f4; /* Фон сайта */
-            --card-bg: #e4cab4; /* Блоки с заданиями */
-            --text-main: #382b2c; /* Весь текст */
+            --bg-color: #f4f4f4;
+            --card-bg: #e4cab4;
+            --text-main: #382b2c;
             --border-color: #d1b59c;
-            
-            --status-planned-bg: #d4b8a0;
-            --status-planned-text: #382b2c;
-            --status-completed-bg: #4a7c59; /* Зеленый для активных элементов */
-            --status-completed-text: #ffffff;
-            --status-locked-bg: #b87a6b;
-            --status-locked-text: #ffffff;
+            --accent-green: #4a7c59;
+            --btn-adult: #d4b8a0;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            line-height: 1.5;
-            padding: 24px 16px;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-main); padding: 20px 16px; }
+        .container { max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
 
         /* HEADER */
-        header {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 20px 24px;
-            border: 2px solid var(--border-color);
-            box-shadow: 0 4px 16px rgba(56, 43, 44, 0.08);
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
+        header { background: var(--card-bg); border-radius: 20px; padding: 20px; border: 2px solid var(--border-color); text-align: center; }
+        .header-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 15px; }
+
+        /* ИГРОВАЯ ДОРОЖКА */
+        .path-progress { display: flex; align-items: center; justify-content: center; gap: 15px; background: #d4b8a0; padding: 10px; border-radius: 12px; }
+        .step-node { font-size: 1.5rem; opacity: 0.3; transition: all 0.3s; }
+        .step-node.active { opacity: 1; filter: drop-shadow(0 0 5px var(--accent-green)); }
+
+        /* КАРТОЧКА ЗАДАНИЯ */
+        .lesson-card { background: var(--card-bg); border-radius: 20px; padding: 20px; border: 2px solid var(--border-color); position: relative; text-align: center; }
+        
+        /* КНОПКА-ДУБЛЕР (ДЛЯ РОДИТЕЛЯ) */
+        .adult-check { 
+            position: absolute; top: 15px; right: 15px; font-size: 0.7rem; 
+            background: var(--btn-adult); padding: 5px 10px; border-radius: 8px; 
+            cursor: pointer; border: 1px solid var(--border-color); 
         }
 
-        .header-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 12px;
+        .lesson-header { display: flex; flex-direction: column; align-items: center; gap: 5px; margin-bottom: 15px; }
+        .lesson-number { font-size: 1.1rem; font-weight: 700; }
+        .lesson-topic { font-size: 1.1rem; font-weight: 700; }
+        .lesson-desc { background: #d4b8a0; padding: 12px; border-radius: 12px; border-left: 4px solid var(--accent-green); margin-bottom: 15px; text-align: left; }
+
+        /* ГЛАВНАЯ КНОПКА "ТОП-ТОП" */
+        .big-foot-btn {
+            display: block; width: 100%; padding: 20px; background: var(--accent-green);
+            color: #fff; border-radius: 15px; font-size: 1.2rem; font-weight: 700;
+            border: none; cursor: pointer; margin: 15px 0; box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
 
-        .header-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--text-main);
-            letter-spacing: 0.05em;
-        }
-
-        .share-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background-color: #4a7c59;
-            color: #ffffff;
-            border: none;
-            padding: 8px 14px;
-            border-radius: 10px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: opacity 0.2s ease;
-            box-shadow: 0 2px 6px rgba(56, 43, 44, 0.15);
-        }
-
-        .share-btn:hover {
-            opacity: 0.9;
-        }
-
-        /* ДОРОЖКА ИЗ СЛЕДОВ ЖИВОТНОГО */
-        .path-progress {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: #d4b8a0;
-            padding: 12px 20px;
-            border-radius: 14px;
-            border: 1px solid var(--border-color);
-        }
-
-        .path-title {
-            font-size: 0.85rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            color: var(--text-main);
-        }
-
-        .path-steps {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-        }
-
-        .step-node {
-            font-size: 1.4rem;
-            opacity: 0.35; /* Прозрачные по умолчанию */
-            filter: grayscale(100%);
-            transition: all 0.3s ease;
-        }
-
-        .step-node.active {
-            opacity: 1; /* Яркие/зеленые по мере заполнения */
-            filter: none;
-            transform: scale(1.15);
-        }
-
-        /* STUDENT CARD */
-        .student-card {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 18px 24px;
-            border: 2px solid var(--border-color);
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-            box-shadow: 0 4px 16px rgba(56, 43, 44, 0.08);
-        }
-
-        .info-item {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-
-        .info-label {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--text-main);
-            opacity: 0.8;
-            font-weight: 600;
-        }
-
-        .info-value {
-            font-weight: 600;
-            font-size: 1rem;
-            color: var(--text-main);
-        }
-
-        /* SECTION TITLE (НЕДЕЛЯ 1) */
-        .section-title {
-            text-align: center;
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--text-main);
-            margin-top: 4px;
-            letter-spacing: 0.05em;
-        }
-
-        /* LESSONS GRID */
-        .lessons-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 16px;
-        }
-
-        /* LESSON CARD (с легкой тенью-подложкой) */
-        .lesson-card {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 24px;
-            border: 2px solid var(--border-color);
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            box-shadow: 0 4px 16px rgba(56, 43, 44, 0.08);
-            transition: all 0.3s ease;
-        }
-
-        .lesson-card.locked {
-            background-color: #dbc3af;
-            opacity: 0.85;
-            border-style: dashed;
-        }
-
-        .lesson-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .lesson-titles {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-
-        .lesson-number {
-            font-size: 1.15rem;
-            font-weight: 700;
-            color: var(--text-main);
-        }
-
-        .lesson-topic {
-            font-weight: 700;
-            font-size: 1.15rem;
-            color: var(--text-main);
-        }
-
-        .lesson-desc {
-            font-size: 0.95rem;
-            color: var(--text-main);
-            background: #d4b8a0;
-            padding: 14px;
-            border-radius: 12px;
-            border-left: 4px solid #4a7c59;
-        }
-
-        /* Блок с превью картинки центрирован */
-        .image-container {
-            display: flex;
-            justify-content: center;
-            width: 100%;
-        }
-
-        .preview-image {
-            width: 110px;
-            height: 110px;
-            object-fit: cover;
-            border-radius: 18px;
-            cursor: pointer;
-            border: 2px solid var(--border-color);
-            box-shadow: 0 4px 10px rgba(56, 43, 44, 0.12);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            display: block;
-        }
-
-        .preview-image:hover {
-            transform: scale(1.05);
-        }
-
-        .preview-image.expanded {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(2.8);
-            width: 180px;
-            height: 180px;
-            z-index: 1000;
-            cursor: zoom-out;
-            box-shadow: 0 10px 30px rgba(56, 43, 44, 0.3);
-            border-color: var(--text-main);
-        }
-
-        audio {
-            width: 100%;
-            height: 40px;
-            margin-top: 4px;
-        }
-
-        /* BADGES & ACTIONS */
-        .card-footer {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-top: 2px solid var(--border-color);
-            padding-top: 16px;
-        }
-
-        .status-badge {
-            font-size: 0.85rem;
-            font-weight: 600;
-            padding: 8px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            user-select: none;
-            transition: opacity 0.2s ease;
-        }
-
-        .status-badge:hover {
-            opacity: 0.85;
-        }
-
-        .status-planned {
-            background-color: var(--status-planned-bg);
-            color: var(--status-planned-text);
-            border: 1px solid var(--border-color);
-        }
-
-        .status-completed {
-            background-color: var(--status-completed-bg);
-            color: var(--status-completed-text);
-        }
-
-        .status-locked {
-            background-color: var(--status-locked-bg);
-            color: var(--status-locked-text);
-            cursor: not-allowed;
-        }
-
-        /* Кнопка отправки отчета в Telegram (центрированная) */
-        .tg-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background-color: #4a7c59;
-            color: #ffffff;
-            padding: 10px 20px;
-            border-radius: 10px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            text-decoration: none;
-            transition: opacity 0.2s;
-            box-shadow: 0 2px 6px rgba(56, 43, 44, 0.15);
-        }
-
-        .tg-btn:hover {
-            opacity: 0.9;
-        }
-
-        /* FOOTER */
-        footer {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 24px;
-            border: 2px solid var(--border-color);
-            box-shadow: 0 4px 16px rgba(56, 43, 44, 0.08);
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-            color: var(--text-main);
-            font-size: 1rem;
-            font-weight: 600;
-        }
-
-        .contact-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 24px;
-            background-color: #4a7c59;
-            color: #ffffff;
-            text-decoration: none;
-            border-radius: 10px;
-            font-weight: 600;
-            transition: opacity 0.2s ease;
-            box-shadow: 0 2px 6px rgba(56, 43, 44, 0.15);
-        }
-
-        .contact-btn:hover {
-            opacity: 0.9;
-        }
-
-        /* TOAST */
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: var(--text-main);
-            color: #f4f4f4;
-            padding: 12px 20px;
-            border-radius: 10px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            box-shadow: 0 4px 16px rgba(56, 43, 44, 0.25);
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.3s ease;
-            pointer-events: none;
-            z-index: 1000;
-            border: 1px solid var(--border-color);
-        }
-
-        .toast.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .image-container { display: flex; justify-content: center; margin-bottom: 15px; }
+        .preview-image { width: 120px; height: 120px; border-radius: 20px; border: 3px solid var(--border-color); cursor: pointer; }
+        
+        footer { text-align: center; margin-top: 20px; font-weight: 600; }
+        .contact-btn { display: inline-block; padding: 12px 24px; background: var(--accent-green); color: #fff; border-radius: 10px; text-decoration: none; margin-top: 10px; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <header>
-            <div class="header-top">
-                <h1 class="header-title">PROGRESS TRACKER</h1>
-                <button class="share-btn" onclick="copyShareableLink()">
-                    🔗 Поделиться
-                </button>
-            </div>
-            <div class="path-progress">
-                <span class="path-title">ПУТЬ К ЦЕЛИ</span>
-                <div class="path-steps">
-                    <span class="step-node" id="step-1">🐾</span>
-                    <span class="step-node" id="step-2">🐾</span>
+<div class="container">
+    <header>
+        <h1 class="header-title">PROGRESS TRACKER</h1>
+        <div class="path-progress">
+            <span class="step-node" id="step-1">🐾</span>
+            <span class="step-node" id="step-2">🐾</span>
+        </div>
+    </header>
+
+    <main id="lessons-container"></main>
+
+    <footer>
+        <p>Ваш педагог : Татьяна</p>
+        <a href="https://t.me/tati_khi" class="contact-btn">СВЯЗАТЬСЯ</a>
+    </footer>
+</div>
+
+<script>
+    const lessons = [
+        { id: 1, title: "МИССИЯ 1", subtitle: "«ОХОТА ЗА ЦВЕТАМИ»", desc: "🏃‍♂️ Задание: Найди <b>КРАСНОЕ</b>, покажи в камеру и крикни: «<b>RED!</b>»", status: "Запланировано", image: "IMG_0232.jpeg", audio: "audio/day1.mp3" },
+        { id: 2, title: "МИССИЯ 2", subtitle: "«ОХОТА ЗА ЦВЕТАМИ»", desc: "🏃‍♂️ Задание: Найди <b>СИНЕЕ</b>, покажи в камеру и крикни: «<b>BLUE!</b>»", status: "Запланировано", image: "img/day2.jpg", audio: "audio/day2.mp3" }
+    ];
+
+    function render() {
+        const container = document.getElementById('lessons-container');
+        container.innerHTML = '';
+        lessons.forEach((l, i) => {
+            const isLocked = (i > 0 && lessons[0].status !== "Пройдено");
+            const card = document.createElement('div');
+            card.className = `lesson-card ${isLocked ? 'locked' : ''}`;
+            card.innerHTML = `
+                <div class="adult-check" onclick="toggleStatus(${l.id})">✓ Выполнено</div>
+                <div class="lesson-header">
+                    <div class="lesson-number">${l.title}</div>
+                    <div class="lesson-topic">${l.subtitle}</div>
                 </div>
-            </div>
-        </header>
-
-        <section class="student-card">
-            <div class="info-item">
-                <span class="info-label">Ученик</span>
-                <span class="info-value">Имя</span>
-            </div>
-            <div class="info-item">
-                <span class="info-label">Возраст</span>
-                <span class="info-value">[ ] лет</span>
-            </div>
-        </section>
-
-        <div class="section-title">НЕДЕЛЯ 1 : ЦВЕТА</div>
-
-        <main class="lessons-grid" id="lessons-container"></main>
-
-        <footer>
-            <p>Ваш педагог : Татьяна</p>
-            <a href="https://t.me/tati_khi" target="_blank" class="contact-btn">
-                СВЯЗАТЬСЯ
-            </a>
-        </footer>
-    </div>
-
-    <div class="toast" id="toast">Ссылка скопирована!</div>
-
-    <script>
-        const defaultLessons = [
-            { 
-                id: 1, 
-                title: "МИССИЯ 1", 
-                subtitle: "«ОХОТА ЗА ЦВЕТАМИ»",
-                desc: "🏃‍♂️ Задание: Бегом найди в комнате что-то <b>КРАСНОЕ</b>, схвати предмет, покажи в камеру и громко крикни: «<b>RED!</b>»", 
-                status: "Запланировано", 
-                image: "IMG_0232.jpeg", 
-                audio: "audio/day1.mp3"
-            },
-            { 
-                id: 2, 
-                title: "МИССИЯ 2", 
-                subtitle: "«ОХОТА ЗА ЦВЕТАМИ»",
-                desc: "🏃‍♂️ Задание: Бегом найди в комнате что-то <b>СИНЕЕ</b>, схвати предмет, покажи в камеру и громко крикни: «<b>BLUE!</b>»", 
-                status: "Запланировано", 
-                image: "img/day2.jpg", 
-                audio: "audio/day2.mp3"
-            }
-        ];
-
-        let lessons = [];
-
-        function encodeData(data) {
-            return btoa(encodeURIComponent(JSON.stringify(data)));
-        }
-
-        function decodeData(str) {
-            try {
-                return JSON.parse(decodeURIComponent(atob(str)));
-            } catch (e) {
-                return null;
-            }
-        }
-
-        function initData() {
-            const hash = window.location.hash;
-            if (hash && hash.startsWith('#data=')) {
-                const encodedStr = hash.replace('#data=', '');
-                const decoded = decodeData(encodedStr);
-                if (decoded) {
-                    lessons = decoded;
-                    localStorage.setItem('english_2days_v7', JSON.stringify(lessons));
-                    return;
-                }
-            }
-            lessons = JSON.parse(localStorage.getItem('english_2days_v7')) || defaultLessons;
-        }
-
-        function saveState() {
-            localStorage.setItem('english_2days_v7', JSON.stringify(lessons));
-            updateProgress();
-        }
-
-        function updateProgress() {
-            const step1 = lessons.find(l => l.id === 1).status === "Пройдено";
-            const step2 = lessons.find(l => l.id === 2).status === "Пройдено";
-
-            const node1 = document.getElementById('step-1');
-            const node2 = document.getElementById('step-2');
-
-            if (step1) {
-                node1.classList.add('active');
-            } else {
-                node1.classList.remove('active');
-            }
-
-            if (step2) {
-                node2.classList.add('active');
-            } else {
-                node2.classList.remove('active');
-            }
-        }
-
-        function toggleStatus(id) {
-            const lessonIndex = lessons.findIndex(l => l.id === id);
-            if (lessonIndex === -1) return;
-
-            if (id === 2) {
-                const day1Completed = lessons.find(l => l.id === 1).status === "Пройдено";
-                if (!day1Completed) {
-                    showToast("Сначала нужно выполнить Миссию 1!");
-                    return;
-                }
-            }
-
-            const lesson = lessons[lessonIndex];
-            lesson.status = lesson.status === "Запланировано" ? "Пройдено" : "Запланировано";
-            
-            if (id === 1 && lesson.status === "Запланировано") {
-                lessons[1].status = "Запланировано";
-            }
-
-            saveState();
-            renderLessons();
-            updateProgress();
-        }
-
-        function toggleImageZoom(imgElement) {
-            imgElement.classList.toggle('expanded');
-        }
-
-        function copyShareableLink() {
-            const encoded = encodeData(lessons);
-            const shareUrl = `${window.location.origin}${window.location.pathname}#data=${encoded}`;
-            
-            navigator.clipboard.writeText(shareUrl).then(() => {
-                showToast("Ссылка с прогрессом скопирована!");
-            }).catch(() => {
-                showToast("Не удалось скопировать ссылку");
-            });
-        }
-
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            toast.innerText = message;
-            toast.classList.add('show');
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
-        }
-
-        function renderLessons() {
-            const container = document.getElementById('lessons-container');
-            container.innerHTML = '';
-
-            const day1Completed = lessons.find(l => l.id === 1).status === "Пройдено";
-
-            lessons.forEach(lesson => {
-                const card = document.createElement('div');
-                const isLocked = (lesson.id === 2 && !day1Completed);
-                
-                card.className = 'lesson-card' + (isLocked ? ' locked' : '');
-
-                const isCompleted = lesson.status === "Пройдено";
-                
-                let badgeHTML = '';
-                if (isLocked) {
-                    badgeHTML = `<span class="status-badge status-locked">🔒 Скрыто (пройдите Миссию 1)</span>`;
-                } else {
-                    const badgeClass = isCompleted ? "status-completed" : "status-planned";
-                    badgeHTML = `<span class="status-badge ${badgeClass}" onclick="toggleStatus(${lesson.id})">
-                        ${lesson.status === "Запланировано" ? "⏳ Ждем выполнения" : "✅ Пройдено!"}
-                    </span>`;
-                }
-
-                card.innerHTML = `
-                    <div class="lesson-header">
-                        <div class="lesson-titles">
-                            <span class="lesson-number">${lesson.title}</span>
-                            <span class="lesson-topic">${lesson.subtitle}</span>
-                        </div>
-                        ${badgeHTML}
-                    </div>
-
-                    <div class="lesson-desc">${isLocked ? '🔒 Это задание откроется сразу после выполнения первой миссии!' : lesson.desc}</div>
-
-                    ${!isLocked && lesson.image ? `
-                    <div class="image-container">
-                        <img class="preview-image" src="${lesson.image}" alt="Иллюстрация к миссии" onclick="toggleImageZoom(this)">
-                    </div>` : ''}
-                    
-                    ${!isLocked && lesson.audio ? `<audio controls src="${lesson.audio}"></audio>` : ''}
-
-                    <div class="card-footer">
-                        ${isLocked ? '<span style="font-size: 0.85rem; color: var(--text-main); opacity: 0.8;">Задание скрыто до завершения предыдущего шага</span>' : `
-                        <a href="https://t.me/tati_khi?text=${encodeURIComponent('Здравствуйте! Отправляю отчет за Миссию ' + lesson.id)}" target="_blank" class="tg-btn">
-                            ✈️ Отправить отчет в Telegram
-                        </a>`}
-                    </div>
-                `;
-
-                container.appendChild(card);
-            });
-        }
-
-        initData();
-        renderLessons();
+                <div class="lesson-desc">${isLocked ? '🔒 Выполни Миссию 1!' : l.desc}</div>
+                ${!isLocked ? `
+                    <div class="image-container"><img src="${l.image}" class="preview-image"></div>
+                    <audio controls src="${l.audio}"></audio>
+                    <button class="big-foot-btn" onclick="toggleStatus(${l.id})">🐾 Топ-топ, готово!</button>
+                ` : ''}
+            `;
+            container.appendChild(card);
+        });
         updateProgress();
-    </script>
+    }
+
+    function toggleStatus(id) {
+        const l = lessons.find(x => x.id === id);
+        l.status = l.status === "Пройдено" ? "Запланировано" : "Пройдено";
+        render();
+    }
+
+    function updateProgress() {
+        document.querySelectorAll('.step-node').forEach((n, i) => {
+            if (lessons[i].status === "Пройдено") n.classList.add('active');
+            else n.classList.remove('active');
+        });
+    }
+
+    render();
+</script>
 </body>
 </html>
