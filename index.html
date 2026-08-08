@@ -8,8 +8,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
-    <!-- Подключаем библиотеку конфетти -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
     <style>
         :root {
@@ -54,7 +52,7 @@
             letter-spacing: 0.05em;
         }
 
-        /* ИГРОВАЯ ДОРОЖКА ИЗ 8 ЛАПОК */
+        /* ИГРОВАЯ ДОРОЖКА ИЗ 8 ЛАПОК БЕЗ РАМОК */
         .path-progress { 
             display: flex; 
             align-items: center; 
@@ -82,7 +80,6 @@
         .step-node.active { 
             background: var(--accent-green);
             filter: drop-shadow(0 0 3px var(--accent-green)); 
-            transform: scale(1.1);
         }
 
         /* БЛОК ИМЕНИ И ВОЗРАСТА */
@@ -243,12 +240,18 @@
             align-items: center;
             justify-content: center;
             box-shadow: 0 6px 16px rgba(0,0,0,0.15);
-            transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.2s ease;
         }
 
-        /* Класс для гарантированной пружинки на телефоне */
+        /* Заметная анимация пружинки (батут) */
+        @keyframes springBounce {
+            0% { transform: scale(1); }
+            35% { transform: scale(0.65); }
+            70% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+
         .round-foot-btn.bounce-anim {
-            transform: scale(0.85);
+            animation: springBounce 0.4s ease;
         }
 
         .round-foot-btn.completed {
@@ -384,47 +387,64 @@
         { id: 2, title: "МИССИЯ 2", subtitle: "«ОХОТА ЗА ЦВЕТАМИ»", desc: "🏃‍♂️ Задание: Найди в комнате что-то <b>СИНЕЕ</b>, покажи в камеру и громко крикни: «<b>BLUE!</b>»", status: "Запланировано", image: "img/day2.jpg", audio: "audio/day2.mp3" }
     ];
 
-    let audioCtx = null;
-
+    // Надежный звуковой генератор радости
     function playSuccessSound() {
         try {
-            if (!audioCtx) {
-                const AudioContext = window.AudioContext || window.webkitAudioContext;
-                audioCtx = new AudioContext();
-            }
-            if (audioCtx.state === 'suspended') {
-                audioCtx.resume();
-            }
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            if (!AudioContext) return;
+            const ctx = new AudioContext();
             
             const playTone = (freq, time, duration) => {
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                osc.type = 'sine';
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'triangle';
                 osc.frequency.value = freq;
-                gain.gain.setValueAtTime(0.2, audioCtx.currentTime + time);
-                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + time + duration);
+                gain.gain.setValueAtTime(0.25, ctx.currentTime + time);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + time + duration);
                 osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.start(audioCtx.currentTime + time);
-                osc.stop(audioCtx.currentTime + time + duration);
+                gain.connect(ctx.destination);
+                osc.start(ctx.currentTime + time);
+                osc.stop(ctx.currentTime + time + duration);
             };
 
-            playTone(523.25, 0, 0.15); // До
-            playTone(659.25, 0.12, 0.15); // Ми
-            playTone(783.99, 0.24, 0.3);  // Соль
+            playTone(587.33, 0, 0.15);    // Ре 5
+            playTone(739.99, 0.12, 0.15); // Фа# 5
+            playTone(880.00, 0.24, 0.35); // Ля 5
         } catch (e) {
-            console.log("Audio skipped");
+            console.log("Audio context blocked");
         }
     }
 
+    // Встроенный салют из конфетти (работает всегда без внешних библиотек)
     function triggerConfetti() {
-        if (typeof confetti === 'function') {
-            confetti({
-                particleCount: 150,
-                spread: 100,
-                origin: { y: 0.6 },
-                colors: ['#75a4b3', '#e4cab4', '#f4d06f', '#ffffff', '#568393']
-            });
+        const colors = ['#75a4b3', '#e4cab4', '#f4d06f', '#ffffff', '#568393', '#ff7675', '#74b9ff'];
+        for (let i = 0; i < 70; i++) {
+            const particle = document.createElement('div');
+            particle.style.position = 'fixed';
+            particle.style.width = '10px';
+            particle.style.height = '10px';
+            particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            particle.style.top = '-10px';
+            particle.style.left = Math.random() * 100 + 'vw';
+            particle.style.opacity = Math.random() + 0.5;
+            particle.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+            particle.style.zIndex = '9999';
+            particle.style.pointerEvents = 'none';
+            
+            const duration = Math.random() * 2 + 1.5;
+            const delay = Math.random() * 0.4;
+            
+            particle.style.transition = `all ${duration}s ease-in ${delay}s, transform ${duration}s linear ${delay}s`;
+            document.body.appendChild(particle);
+
+            setTimeout(() => {
+                particle.style.top = '105vh';
+                particle.style.transform = `rotate(${Math.random() * 540}deg) translateX(${(Math.random() - 0.5) * 300}px)`;
+            }, 50);
+
+            setTimeout(() => {
+                particle.remove();
+            }, (duration + delay) * 1000);
         }
     }
 
@@ -504,11 +524,12 @@
             event.preventDefault();
         }
 
-        // Анимация пружинки через JS-класс для надежности на телефонах
+        // Запуск красивой пружинящей анимации при клике
         const btn = element.closest('.lesson-card')?.querySelector('.round-foot-btn');
         if (btn) {
+            btn.classList.remove('bounce-anim');
+            void btn.offsetWidth; // сброс анимации
             btn.classList.add('bounce-anim');
-            setTimeout(() => btn.classList.remove('bounce-anim'), 150);
         }
 
         const scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
