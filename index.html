@@ -162,7 +162,7 @@
             font-size: 1rem;
         }
 
-        /* LESSONскіх GRID */
+        /* LESSONS GRID */
         .lessons-grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -216,12 +216,14 @@
             border-left: 4px solid #8c672b;
         }
 
+        /* Ограничение размеров картинки, чтобы не ломала верстку */
         .preview-image {
             max-width: 100%;
             max-height: 200px;
             border-radius: 12px;
             object-fit: cover;
             margin-top: 4px;
+            display: block;
         }
 
         audio {
@@ -383,7 +385,7 @@
             </div>
         </section>
 
-        <!-- LESSONS GRID -->
+        <!-- LESSONС GRID -->
         <main class="lessons-grid" id="lessons-container"></main>
 
         <!-- FOOTER -->
@@ -404,7 +406,7 @@
                 topic: "День 1: «Охота за цветами» (Цвета)", 
                 desc: "🏃‍♂️ Задание: Бегом найди в комнате что-то КРАСНОЕ, схвати предмет, покажи в камеру и громко крикни: «Red!»", 
                 status: "Запланировано", 
-                image: "IMG_0232.jpeg", 
+                image: "IMG_0232.jpeg", /* Точное имя вашей картинки в корне GitHub */
                 audio: "audio/day1.mp3" 
             },
             { 
@@ -438,15 +440,15 @@
                 const decoded = decodeData(encodedStr);
                 if (decoded) {
                     lessons = decoded;
-                    localStorage.setItem('english_2days_yellow', JSON.stringify(lessons));
+                    localStorage.setItem('english_2days_fixed', JSON.stringify(lessons));
                     return;
                 }
             }
-            lessons = JSON.parse(localStorage.getItem('english_2days_yellow')) || defaultLessons;
+            lessons = JSON.parse(localStorage.getItem('english_2days_fixed')) || defaultLessons;
         }
 
         function saveState() {
-            localStorage.setItem('english_2days_yellow', JSON.stringify(lessons));
+            localStorage.setItem('english_2days_fixed', JSON.stringify(lessons));
             updateProgress();
         }
 
