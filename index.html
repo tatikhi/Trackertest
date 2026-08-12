@@ -4,19 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Progress Tracker</title>
+    <!-- Подключение детского шрифта Quicksand -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg-color: #f4f4f4;
+            --bg-color: #eef6fa;
             --card-bg: #e4cab4;
             --text-main: #382b2c;
             --border-color: #d1b59c;
             --accent-color: #75a4b3;
             --accent-color-dark: #568393;
             --btn-adult: #d4b8a0;
+            --soft-red: #e56b6f;
+            --soft-red-hover: #d9534f;
         }
 
         * {
@@ -27,8 +30,19 @@
             -webkit-tap-highlight-color: transparent;
         }
 
+        /* ФОН СО СВЕТЛО-ГОЛУБЫМИ И ТЁМНО-ГОЛУБЫМИ КРУЖКАМИ РАЗНОГО РАЗМЕРА */
         body { 
             background-color: var(--bg-color); 
+            background-image: 
+                radial-gradient(circle at 10% 15%, rgba(117, 164, 179, 0.22) 22px, transparent 23px),
+                radial-gradient(circle at 85% 10%, rgba(86, 131, 147, 0.25) 38px, transparent 39px),
+                radial-gradient(circle at 20% 45%, rgba(86, 131, 147, 0.18) 16px, transparent 17px),
+                radial-gradient(circle at 75% 40%, rgba(117, 164, 179, 0.28) 48px, transparent 49px),
+                radial-gradient(circle at 12% 75%, rgba(86, 131, 147, 0.22) 32px, transparent 33px),
+                radial-gradient(circle at 88% 70%, rgba(117, 164, 179, 0.2) 24px, transparent 25px),
+                radial-gradient(circle at 45% 92%, rgba(86, 131, 147, 0.24) 28px, transparent 29px),
+                radial-gradient(circle at 55% 18%, rgba(117, 164, 179, 0.18) 14px, transparent 15px);
+            background-attachment: fixed;
             color: var(--text-main); 
             padding: 24px 16px; 
             display: flex;
@@ -48,37 +62,62 @@
         header { 
             background: var(--card-bg); 
             border-radius: 20px; 
-            padding: 20px; 
+            padding: 22px 20px; 
             border: 2px solid var(--border-color); 
             text-align: center; 
             box-shadow: 0 4px 16px rgba(56, 43, 44, 0.08);
             display: flex;
             flex-direction: column;
+            align-items: center;
             gap: 12px;
         }
 
-        .header-title { 
-            font-size: 1.3rem; 
-            font-weight: 700; 
-            letter-spacing: 0.03em;
+        .header-top-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+        }
+
+        /* АНИМАЦИЯ ЛИСЕНКА В КРУГЕ */
+        .fox-avatar {
+            width: 46px;
+            height: 46px;
+            background: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 4px 10px rgba(56, 43, 44, 0.12);
+            animation: floatVertical 2.5s ease-in-out infinite;
+            flex-shrink: 0;
+            border: 2px solid var(--border-color);
+        }
+
+        @keyframes floatVertical {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-6px); }
         }
 
         .speech-bubble {
             background: #ffffff;
             color: var(--text-main);
-            padding: 10px 16px;
+            padding: 10px 18px;
             border-radius: 16px;
             font-weight: 700;
             font-size: 0.95rem;
             display: inline-block;
-            margin: 0 auto;
             box-shadow: 0 2px 8px rgba(56, 43, 44, 0.06);
+            text-align: center;
         }
 
         .tpr-banner {
             font-size: 0.85rem;
             font-weight: 700;
             opacity: 0.9;
+            text-align: center;
         }
 
         .marathon-banner {
@@ -86,26 +125,26 @@
             color: #ffffff;
             font-weight: 700;
             font-size: 0.9rem;
-            padding: 8px 14px;
+            padding: 8px 16px;
             border-radius: 12px;
             letter-spacing: 0.05em;
             display: inline-block;
-            margin: 0 auto;
+            text-align: center;
         }
 
         .btn-copy-link {
             background: var(--btn-adult);
             color: var(--text-main);
             border: 1px solid var(--border-color);
-            padding: 10px 16px;
+            padding: 10px 18px;
             border-radius: 12px;
             font-weight: 700;
             font-size: 0.85rem;
             cursor: pointer;
             transition: all 0.2s;
-            margin: 0 auto;
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 6px;
         }
 
@@ -114,23 +153,24 @@
             color: #ffffff;
         }
 
+        /* МЯГКАЯ КРАСНАЯ КНОПКА ПОДАРОК */
         .btn-gift-header {
-            background: #e74c3c;
+            background: var(--soft-red);
             color: #ffffff;
             border: none;
-            padding: 12px 20px;
+            padding: 12px 24px;
             border-radius: 14px;
             font-weight: 700;
             font-size: 0.95rem;
             cursor: pointer;
             text-decoration: none;
             display: inline-block;
-            margin: 0 auto;
-            box-shadow: 0 4px 12px rgba(231, 76, 60, 0.25);
-            transition: transform 0.2s;
+            box-shadow: 0 4px 12px rgba(229, 107, 111, 0.3);
+            transition: all 0.2s ease;
         }
 
         .btn-gift-header:hover {
+            background: var(--soft-red-hover);
             transform: translateY(-2px);
         }
 
@@ -142,6 +182,7 @@
             letter-spacing: 0.05em;
             opacity: 0.85;
             margin-top: 5px;
+            text-align: center;
         }
 
         .path-progress { 
@@ -153,6 +194,7 @@
             padding: 10px 12px; 
             border-radius: 12px; 
             flex-wrap: wrap;
+            width: 100%;
         }
 
         .step-node { 
@@ -183,7 +225,7 @@
             justify-content: space-between;
             align-items: center;
             box-shadow: 0 4px 16px rgba(56, 43, 44, 0.08);
-            margin-bottom: 8px; /* Увеличенный отступ */
+            margin-bottom: 8px;
         }
 
         .info-item {
@@ -210,18 +252,19 @@
         /* ЗАГОЛОВКИ НЕДЕЛЬ */
         .section-title {
             text-align: center;
-            font-size: 1.15rem;
+            font-size: 1.2rem;
             font-weight: 700;
             color: var(--text-main);
-            margin: 12px 0 6px 0;
+            margin: 14px 0 6px 0;
             letter-spacing: 0.05em;
+            width: 100%;
         }
 
         /* КАРТОЧКА ЗАДАНИЯ */
         .lesson-card { 
             background: var(--card-bg); 
             border-radius: 20px; 
-            padding: 24px; 
+            padding: 22px; 
             border: 2px solid var(--border-color); 
             position: relative; 
             text-align: center; 
@@ -242,43 +285,28 @@
             align-items: center;
             justify-content: center;
             gap: 12px;
-        }
-
-        /* АНИМАЦИЯ ЛИСЕНКА В КРУГЕ */
-        .fox-avatar {
-            width: 44px;
-            height: 44px;
-            background: #ffffff;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            animation: floatVertical 2.5s ease-in-out infinite;
-            flex-shrink: 0;
-        }
-
-        @keyframes floatVertical {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-6px); }
+            width: 100%;
         }
 
         .lesson-header-text { 
             display: flex; 
             flex-direction: column; 
             align-items: center; 
-            gap: 2px; 
+            justify-content: center;
+            gap: 3px; 
+            text-align: center;
         }
 
         .lesson-number { 
             font-size: 1.15rem; 
             font-weight: 700; 
+            text-align: center;
         }
 
         .lesson-topic { 
             font-size: 1.1rem; 
             font-weight: 700; 
+            text-align: center;
         }
 
         .lesson-desc { 
@@ -314,13 +342,15 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
             gap: 12px;
             margin-top: 5px;
+            width: 100%;
         }
 
         .round-foot-btn {
-            width: 130px;
-            height: 130px;
+            width: 125px;
+            height: 125px;
             border-radius: 50%;
             background: #d4b8a0; 
             border: 3px solid var(--border-color);
@@ -426,11 +456,13 @@
             align-items: center;
             gap: 12px;
             margin-top: 10px;
+            text-align: center;
         }
 
         .reward-title {
             font-weight: 700;
             font-size: 1.05rem;
+            text-align: center;
         }
 
         /* FOOTER */
@@ -451,6 +483,7 @@
         .contact-btn { 
             display: inline-flex; 
             align-items: center; 
+            justify-content: center;
             gap: 8px;
             padding: 12px 24px; 
             background: var(--accent-color); 
@@ -468,14 +501,20 @@
             max-width: 500px;
             margin-top: 10px;
             font-weight: 500;
+            text-align: center;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
+    <!-- HEADER -->
     <header>
-        <h1 class="header-title">Привет! 🌟 Поиграем в Английский?</h1>
+        <div class="header-top-row">
+            <div class="fox-avatar">🦊</div>
+            <div class="speech-bubble">Привет! Поиграем в Английский? 🌟</div>
+        </div>
+
         <div class="tpr-banner">✨ Методика TPR : учим английский через движение и игры</div>
         
         <button class="btn-copy-link" onclick="copyPersonalLink()">
@@ -490,6 +529,7 @@
         <div class="path-progress" id="path-progress-container"></div>
     </header>
 
+    <!-- STUDENT CARD -->
     <section class="student-card">
         <div class="info-item">
             <span class="info-label">Ученик</span>
@@ -501,8 +541,10 @@
         </div>
     </section>
 
+    <!-- LESSONS CONTAINER -->
     <main id="lessons-container" style="display: flex; flex-direction: column; gap: 20px;"></main>
 
+    <!-- FOOTER -->
     <footer>
         <div id="certificate-block" style="display: none; width: 100%;">
             <button class="contact-btn" style="width: 100%; justify-content: center; background: var(--accent-color-dark);" onclick="generateCertificate()">
@@ -697,7 +739,7 @@ function updateProgressText() {
 
 function playAudio(dayId) {
     const audio = new Audio(`audio${dayId}.mp3`);
-    audio.play().catch(() => alert(`Аудио файл audio${dayId}.mp3 пока не добавлен в папку на GitHub.`));
+    audio.play().catch(() => alert(`Аудио файл audio${dayId}.mp3 пока не добавлен в папку.`));
 }
 
 function playSuccessSound() {
@@ -782,7 +824,7 @@ function renderColoringHtml() {
 
 function copyPersonalLink() {
     navigator.clipboard.writeText(window.location.href);
-    alert('Персональная ссылка скопирована в буфер обмена!');
+    alert('Персональная ссылка скопирована!');
 }
 
 function generateCertificate() {
