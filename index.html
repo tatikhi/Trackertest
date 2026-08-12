@@ -15,6 +15,7 @@
             --pastel-green: #5CDB95;    /* Пастельный зелёный */
             --grey-btn: #A0AEC0;        /* Серая неактивная кнопка */
             --turquoise-accent: #68C4C6;/* Пастельно-бирюзовый цвет акцентов */
+            --btn-text-dark: #1A3636;   /* Тёмно-пастельный цвет для максимальной читаемости */
             --text-color: #2C3E50;
             --soft-dark-yellow: #5C4A28;/* Мягкий тёмный цвет текста для жёлтой плашки */
             --bg-color: #EBF5FB;
@@ -81,6 +82,7 @@
             animation: floatVertical 2.5s ease-in-out infinite;
             flex-shrink: 0;
             border: 2px solid #E2E8F0;
+            transition: background 0.3s ease, border-color 0.3s ease;
         }
 
         @keyframes floatVertical {
@@ -136,7 +138,7 @@
             background: #F8F9FA;
         }
 
-        /* ИНФОРМАЦИЯ О РЕБЕНКЕ (МЯГКИЙ ТЁМНЫЙ ШРИФТ) */
+        /* ИНФОРМАЦИЯ О РЕБЕНКЕ */
         .child-info-box {
             background: var(--yellow-box);
             border: none;
@@ -219,14 +221,25 @@
             opacity: 1;
         }
 
+        /* НЕАКТИВНЫЙ ДЕНЬ: Анимация лисенка отключена */
         .day-card.disabled {
             opacity: 0.5;
             background: #F8F9FA;
         }
+        
+        .day-card.disabled .fox-avatar {
+            animation: none;
+        }
 
+        /* ВЫПОЛНЕННЫЙ ДЕНЬ: Фон лисенка пастельно-зелёный */
         .day-card.completed {
             border-color: var(--pastel-green);
             background: #F4FBF7;
+        }
+
+        .day-card.completed .fox-avatar {
+            background: var(--pastel-green);
+            border-color: var(--pastel-green);
         }
 
         .card-top {
@@ -270,11 +283,11 @@
             text-align: left;
         }
 
-        /* КНОПКА АУДИО (ПАСТЕЛЬНО-БИРЮЗОВАЯ) */
+        /* КНОПКА АУДИО (ТЁМНО-ПАСТЕЛЬНЫЙ ШРИФТ ДЛЯ ЧИТАЕМОСТИ) */
         .btn-audio {
             width: 100%;
             background: var(--turquoise-accent);
-            color: white;
+            color: var(--btn-text-dark);
             border: none;
             padding: 12px;
             border-radius: 12px;
@@ -303,16 +316,18 @@
             transition: all 0.3s ease;
         }
 
+        /* КНОПКА ПОБЕДА (ТЁМНО-ПАСТЕЛЬНЫЙ ШРИФТ ДЛЯ ЧИТАЕМОСТИ) */
         .btn-action.completed {
             background: var(--pastel-green);
+            color: var(--btn-text-dark);
             box-shadow: 0 4px 10px rgba(92, 219, 149, 0.3);
         }
 
-        /* КНОПКА СКАЧАТЬ СЕРТИФИКАТ (БИРЮЗОВАЯ) */
+        /* КНОПКА СКАЧАТЬ СЕРТИФИКАТ */
         .btn-certificate {
             width: 100%;
             background: var(--turquoise-accent);
-            color: white;
+            color: var(--btn-text-dark);
             border: none;
             padding: 12px;
             border-radius: 12px;
@@ -329,7 +344,7 @@
             fill: currentColor;
         }
 
-        /* МЕМОРИ ИГРА (ОБЛОЖКИ БИРЮЗОВЫЕ) */
+        /* МЕМОРИ ИГРА */
         .memory-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -350,7 +365,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
+            color: var(--btn-text-dark);
             font-weight: 800;
             font-size: 11px;
             cursor: pointer;
@@ -366,7 +381,7 @@
 
         .memory-card.matched {
             background: var(--pastel-green);
-            color: white;
+            color: var(--btn-text-dark);
         }
 
         /* FOOTER */
@@ -377,10 +392,9 @@
             padding-top: 20px;
         }
 
-        /* КНОПКА СВЯЗИ (ПАСТЕЛЬНО-БИРЮЗОВАЯ) */
         .btn-contact {
             background: var(--turquoise-accent);
-            color: white;
+            color: var(--btn-text-dark);
             text-decoration: none;
             padding: 8px 16px;
             border-radius: 10px;
