@@ -13,7 +13,6 @@
             --yellow-border: #FFE680;
             --red-banner: #E56B6F;      /* Приглушённый кораллово-красный */
             --pastel-green: #5CDB95;    /* Пастельный зелёный */
-            --grey-btn: #A0AEC0;        /* Серая неактивная кнопка */
             --turquoise-accent: #68C4C6;/* Пастельно-бирюзовый цвет акцентов */
             --btn-text-dark: #1A3636;   /* Тёмно-пастельный цвет для максимальной читаемости */
             --header-text-unified: #2C3E50; /* Единый цвет текста для элементов шапки */
@@ -30,7 +29,7 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* ХОСТ-КАНВАС ДЛЯ КОНФЕТТИ НА ВСЕЙ ПЛОЩАДИ */
+        /* ХОСТ-КАНВАС ДЛЯ КОНФЕТТИ */
         #confetti-canvas {
             position: fixed;
             top: 0;
@@ -184,7 +183,6 @@
             transition: width 0.4s ease;
         }
 
-        /* КОРАЛЛОВАЯ ЗВЕЗДОЧКА НА ШКАЛЕ (В ТОН МАРАФОНА) */
         .star-marker {
             position: absolute;
             right: -15px;
@@ -301,7 +299,7 @@
             gap: 10px;
         }
 
-        /* КНОПКА АУДИО (ИКОНКА КРУПНЕЕ ШРИФТА) */
+        /* КНОПКА АУДИО */
         .btn-audio {
             width: 100%;
             background: var(--turquoise-accent);
@@ -325,11 +323,12 @@
             height: 22px;
         }
 
+        /* КНОПКА ВСЕ СДЕЛАНО (СВЕТЛО-ЖЁЛТАЯ С ТЁМНЫМ ТЕКСТОМ) */
         .btn-action {
             width: 100%;
-            background: var(--grey-btn);
-            color: white;
-            border: none;
+            background: #FFF9E6;
+            color: var(--btn-text-dark);
+            border: 1px solid #FFE680;
             padding: 12px;
             border-radius: 12px;
             font-weight: 800;
@@ -340,11 +339,13 @@
             justify-content: center;
             gap: 8px;
             transition: all 0.3s ease;
+            box-shadow: 0 2px 6px rgba(255, 230, 128, 0.3);
         }
 
         .btn-action.completed {
             background: var(--pastel-green);
             color: var(--btn-text-dark);
+            border: none;
             box-shadow: 0 4px 10px rgba(92, 219, 149, 0.3);
         }
 
@@ -417,6 +418,18 @@
             padding: 4px;
         }
 
+        /* АДАПТИВНАЯ ИКОНКА ЗНАКА ВОПРОСА ДЛЯ МЕМОРИ */
+        .memory-q-icon {
+            width: 50%;
+            height: 50%;
+            min-width: 22px;
+            min-height: 22px;
+            max-width: 36px;
+            max-height: 36px;
+            fill: var(--btn-text-dark);
+            flex-shrink: 0;
+        }
+
         .memory-card.flipped {
             background: #FFFFFF;
             border: 2px solid var(--turquoise-accent);
@@ -436,21 +449,6 @@
             padding-top: 20px;
         }
 
-        .btn-contact {
-            background: var(--turquoise-accent);
-            color: var(--btn-text-dark);
-            text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 10px;
-            font-size: 13px;
-            font-weight: 800;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 6px rgba(104, 196, 198, 0.25);
-        }
-
         .copyright {
             font-size: 11px;
             color: #95A5A6;
@@ -461,7 +459,7 @@
 </head>
 <body>
 
-<!-- КАНВАС ДЛЯ ОРИГИНАЛЬНОГО КОНФЕТТИ -->
+<!-- КАНВАС ДЛЯ КОНФЕТТИ -->
 <canvas id="confetti-canvas"></canvas>
 
 <div class="container">
@@ -487,7 +485,6 @@
         <div class="progress-bar-container">
             <div class="progress-bar-fill" id="progress-fill" style="width: 0%;">
                 <div class="star-marker">
-                    <!-- КОРАЛЛОВАЯ ЗВЕЗДОЧКА (#E56B6F) -->
                     <svg class="svg-icon" style="fill:#E56B6F; width:33px; height:33px;" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
                 </div>
             </div>
@@ -508,12 +505,6 @@
             </button>
         </div>
 
-        <div style="font-weight: 800; margin-bottom: 10px;">Ваш педагог: Татьяна</div>
-        <a href="https://t.me/tatikhi" target="_blank" class="btn-contact">
-            <svg class="svg-icon" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/></svg>
-            СВЯЗАТЬСЯ
-        </a>
-
         <div class="copyright">
             2026 [@tatikhi]. Все права защищены. Материалы предназначены исключительно для индивидуального личного использования. Распространение, копирование и передача доступа третьим лицам запрещены.
         </div>
@@ -532,6 +523,9 @@ const svgSparklyTrophy = `
         <path d="M20.5 1.5l.5 1.2 1.2.5-1.2.5-.5 1.2-.5-1.2-1.2-.5 1.2-.5z" fill="#F1C40F"/>
     </svg>
 `;
+
+// ИКОНКА ЗНАКА ВОПРОСА ДЛЯ МЕМОРИ
+const svgQuestionCard = `<svg class="memory-q-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 16h-2v-2h2v2zm1.07-7.75l-.9.92C12.45 11.9 12 12.5 12 14h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/></svg>`;
 
 // --- 1. ДАННЫЕ ДНЕЙ ---
 const daysData = [
@@ -671,7 +665,7 @@ function toggleDay(day, event) {
     }
 }
 
-// ДВИЖОК КОНФЕТТИ ДЛЯ ВСЕХ УСТРОЙСТВ И БРАУЗЕРОВ
+// ДВИЖОК КОНФЕТТИ
 function launchConfetti(event) {
     const canvas = document.getElementById('confetti-canvas');
     if (!canvas) return;
@@ -767,14 +761,14 @@ function playAudio(dayNumber) {
 function renderMemoryGameHtml() {
     return `
         <div class="memory-grid">
-            <div class="memory-card" onclick="flipCard(this, 'YELLOW')">CARD</div>
-            <div class="memory-card" onclick="flipCard(this, 'YELLOW')">CARD</div>
-            <div class="memory-card" onclick="flipCard(this, 'RUN')">CARD</div>
-            <div class="memory-card" onclick="flipCard(this, 'RUN')">CARD</div>
-            <div class="memory-card" onclick="flipCard(this, 'HANDS')">CARD</div>
-            <div class="memory-card" onclick="flipCard(this, 'HANDS')">CARD</div>
-            <div class="memory-card" onclick="flipCard(this, 'TIGER')">CARD</div>
-            <div class="memory-card" onclick="flipCard(this, 'TIGER')">CARD</div>
+            <div class="memory-card" onclick="flipCard(this, 'YELLOW')">${svgQuestionCard}</div>
+            <div class="memory-card" onclick="flipCard(this, 'YELLOW')">${svgQuestionCard}</div>
+            <div class="memory-card" onclick="flipCard(this, 'RUN')">${svgQuestionCard}</div>
+            <div class="memory-card" onclick="flipCard(this, 'RUN')">${svgQuestionCard}</div>
+            <div class="memory-card" onclick="flipCard(this, 'HANDS')">${svgQuestionCard}</div>
+            <div class="memory-card" onclick="flipCard(this, 'HANDS')">${svgQuestionCard}</div>
+            <div class="memory-card" onclick="flipCard(this, 'TIGER')">${svgQuestionCard}</div>
+            <div class="memory-card" onclick="flipCard(this, 'TIGER')">${svgQuestionCard}</div>
         </div>
     `;
 }
@@ -794,8 +788,8 @@ function flipCard(card, word) {
                 } else {
                     activeCards[0].card.classList.remove('flipped');
                     activeCards[1].card.classList.remove('flipped');
-                    activeCards[0].card.textContent = 'CARD';
-                    activeCards[1].card.textContent = 'CARD';
+                    activeCards[0].card.innerHTML = svgQuestionCard;
+                    activeCards[1].card.innerHTML = svgQuestionCard;
                 }
                 activeCards = [];
             }, 800);
