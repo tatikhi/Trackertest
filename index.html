@@ -3,627 +3,792 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>English Movement Adventure</title>
-    <!-- Мягкий округлый шрифт -->
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
-    <!-- Иконки FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Трекер Английского</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #EBF8FF;
+            --primary: #6C5CE7;
+            --primary-light: #A29BFE;
+            --accent: #FD79A8;
+            --success: #00B894;
+            --bg: #F8F9FA;
             --card-bg: #FFFFFF;
-            --primary: #FF6B6B;
-            --secondary: #4ECDC4;
-            --accent: #FFD166;
-            --text-color: #2D3748;
+            --text: #2D3436;
+            --text-muted: #636E72;
+            --border-radius: 20px;
+            --shadow: 0 10px 25px rgba(108, 92, 231, 0.12);
+            --shadow-hover: 0 15px 35px rgba(108, 92, 231, 0.22);
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            font-family: 'Nunito', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        /* Сказочный фон с облачками и деталями */
         body {
-            font-family: 'Quicksand', sans-serif;
-            background-color: var(--bg-color);
-            background-image: 
-                radial-gradient(#BEE3F8 20%, transparent 20%), 
-                radial-gradient(#90CDF4 15%, transparent 15%);
-            background-size: 60px 60px;
-            background-position: 0 0, 30px 30px;
-            color: var(--text-color);
+            background-color: #F0F3F8;
+            color: var(--text);
+            padding: 15px;
             display: flex;
             justify-content: center;
-            align-items: flex-start;
-            min-height: 100vh;
-            padding: 20px 10px;
         }
 
         .container {
             width: 100%;
-            max-width: 480px;
-            background: var(--card-bg);
-            border-radius: 35px;
-            border: 5px solid #3182CE;
-            box-shadow: 0 16px 0 #2B6CB0, 0 20px 30px rgba(0, 0, 0, 0.15);
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            margin-bottom: 30px;
-            overflow: hidden;
+            max-width: 600px;
+            background: var(--bg);
+            border-radius: 28px;
+            padding: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
         }
 
-        /* Премиальная шапка с маскотом и облачком */
-        header {
-            background: linear-gradient(135deg, #4FD1C5 0%, #319795 100%);
-            padding: 20px 15px;
+        /* HEADER */
+        .header {
             text-align: center;
-            border-bottom: 5px solid #285E61;
-        }
-
-        .mascot-row {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-        }
-
-        .mascot {
-            font-size: 42px;
-            background: #FFF;
-            width: 75px;
-            height: 75px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 4px solid #2B6CB0;
-            box-shadow: 0 6px 0 #2B6CB0;
-            animation: bounce 2.5s infinite ease-in-out;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-6px); }
-        }
-
-        .speech-bubble {
-            background: #FFFFFF;
-            padding: 10px 15px;
-            border-radius: 18px;
-            border: 3px solid #2B6CB0;
-            box-shadow: 0 5px 0 rgba(0,0,0,0.1);
-            font-size: 13px;
-            font-weight: 700;
-            color: #2C5282;
-            text-align: left;
-        }
-
-        /* Подзаголовок методики для мам */
-        .method-badge {
-            background: #EDF2F7;
-            text-align: center;
-            padding: 8px 15px;
-            font-size: 11px;
-            font-weight: 700;
-            color: #4A5568;
-            border-bottom: 3px solid #CBD5E0;
-        }
-
-        /* Профиль ребенка */
-        .profile-card {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #FEFCBF;
-            margin: 15px 15px 5px 15px;
-            padding: 12px 18px;
-            border-radius: 20px;
-            border: 3px solid #D69E2E;
-            box-shadow: 0 5px 0 rgba(214, 158, 46, 0.3);
-        }
-
-        .student-info {
-            font-size: 16px;
-            font-weight: 700;
-            color: #744210;
-        }
-
-        #progressText {
-            font-weight: 700;
-            color: #D69E2E;
-            font-size: 15px;
-        }
-
-        /* Шкала прогресса с бегущей звездочкой */
-        .progress-wrapper {
-            padding: 0 15px 15px 15px;
-        }
-
-        .progress-container {
-            background: #EDF2F7;
-            height: 26px;
-            border-radius: 13px;
-            position: relative;
-            border: 3px solid #CBD5E0;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.06);
-        }
-
-        #progressBar {
-            background: linear-gradient(90deg, #48BB78, #38A169);
-            height: 100%;
-            width: 0%;
-            border-radius: 10px 0 0 10px;
-            transition: width 0.5s ease-in-out;
-        }
-
-        .progress-runner {
-            position: absolute;
-            top: 50%;
-            left: 0%;
-            transform: translate(-50%, -50%);
-            font-size: 26px;
-            color: #ECC94B;
-            filter: drop-shadow(0 2px 3px rgba(0,0,0,0.3));
-            transition: left 0.5s ease-in-out;
-            z-index: 5;
-            pointer-events: none;
-        }
-
-        /* Баннер марафона */
-        .week-banner {
-            background: linear-gradient(135deg, #FF6B6B 0%, #EE5253 100%);
+            background: linear-gradient(135deg, #6C5CE7, #8E44AD);
             color: white;
-            text-align: center;
-            padding: 10px;
-            font-size: 16px;
-            font-weight: 700;
-            border-top: 4px solid #C53030;
-            border-bottom: 4px solid #C53030;
-            text-shadow: 1px 1px 0 #9B2C2C;
-            box-shadow: 0 4px 0 rgba(197, 48, 48, 0.2);
+            padding: 25px 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow);
         }
 
-        /* Список карточек и недель */
-        .map-path {
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
+        .header h1 {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 8px;
         }
 
-        .week-divider {
-            text-align: center;
-            font-weight: 700;
-            font-size: 13px;
-            color: #2B6CB0;
-            background: #EBF8FF;
-            padding: 8px 12px;
-            border-radius: 16px;
-            border: 2px dashed #63B3ED;
-            margin: 8px 0 4px 0;
-            letter-spacing: 0.8px;
-            box-shadow: 0 3px 0 rgba(43, 108, 176, 0.1);
+        .header .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 6px 14px;
+            border-radius: 20px;
+            display: inline-block;
         }
 
-        /* Объемные пластилиновые карточки с тенями */
-        .path-node {
-            background: #F7FAFC;
-            padding: 15px;
-            border-radius: 24px;
-            border: 3px solid #CBD5E0;
-            transition: all 0.2s ease;
-            box-shadow: 0 6px 0 #CBD5E0;
-        }
-
-        .path-node.completed {
-            background: #F0FFF4;
-            border-color: #48BB78;
-            box-shadow: 0 6px 0 #68D391;
-        }
-
-        .node-header {
+        .child-info {
             display: flex;
             align-items: center;
-            cursor: pointer;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 12px 20px;
+            border-radius: 16px;
+            margin-bottom: 20px;
         }
 
-        .node-icon {
-            font-size: 24px;
-            color: #3182CE;
-            background: white;
-            width: 52px;
-            height: 52px;
+        .child-name-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .child-name {
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .progress-badge {
+            background: #FFE17D;
+            color: #D63031;
+            font-weight: 800;
+            padding: 6px 14px;
+            border-radius: 12px;
+            font-size: 14px;
+        }
+
+        .module-banner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-weight: 800;
+            font-size: 13px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            opacity: 0.95;
+        }
+
+        .btn-gift-header {
+            background: #FF7675;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 14px;
+            font-weight: 800;
+            font-size: 15px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 118, 117, 0.4);
+            transition: all 0.2s ease;
+            width: 100%;
+        }
+
+        .btn-gift-header:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 118, 117, 0.6);
+        }
+
+        /* SVG ICONS BASE */
+        .svg-icon {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        /* FOX ANIMATION CONTAINER */
+        .fox-avatar-container {
+            width: 48px;
+            height: 48px;
+            background: #FFEAA7;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 14px;
-            border: 3px solid #CBD5E0;
-            box-shadow: 0 4px 0 rgba(0,0,0,0.08);
+            font-size: 24px;
+            animation: pulse-ring 2s infinite;
             flex-shrink: 0;
         }
 
-        .path-node.completed .node-icon {
-            border-color: #38A169;
-            color: #38A169;
-            background: #E6FFFA;
+        @keyframes pulse-ring {
+            0% { box-shadow: 0 0 0 0 rgba(253, 203, 110, 0.6); }
+            70% { box-shadow: 0 0 0 10px rgba(253, 203, 110, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(253, 203, 110, 0); }
         }
 
-        .node-details h3 {
+        /* WEEK SECTION */
+        .week-title {
             font-size: 16px;
-            color: #2D3748;
-            font-weight: 700;
+            font-weight: 800;
+            color: var(--primary);
+            margin: 25px 0 15px 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .node-details p {
-            font-size: 13px;
-            color: #718096;
-            font-weight: 500;
+        /* DAY CARDS */
+        .day-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 18px;
+            margin-bottom: 15px;
+            box-shadow: var(--shadow);
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
         }
 
-        .node-status {
-            margin-left: auto;
-            font-size: 20px;
-            color: #A0AEC0;
+        .day-card.active {
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(108, 92, 231, 0.25);
+            transform: scale(1.01);
         }
 
-        .path-node.completed .node-status {
-            color: #D69E2E;
+        .day-card.disabled {
+            opacity: 0.55;
+            background: #F1F2F6;
+            box-shadow: none;
         }
 
-        /* Контент карточки с аватаркой лисенка внутри */
-        .node-content {
-            display: none;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 2px dashed #CBD5E0;
+        .day-card.completed {
+            background: #E8F8F5;
+            border-color: var(--success);
         }
 
-        .path-node.active .node-content {
-            display: block;
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
-        .card-fox-row {
+        .card-header-left {
             display: flex;
             align-items: center;
             gap: 12px;
-            margin-bottom: 12px;
-            background: #FFF;
-            padding: 8px 12px;
-            border-radius: 16px;
-            border: 2px solid #E2E8F0;
         }
 
-        .card-mini-fox {
-            font-size: 28px;
-            background: #FEFCBF;
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
+        .day-number {
+            font-weight: 900;
+            font-size: 15px;
+            color: var(--primary);
+        }
+
+        .day-title {
+            font-size: 16px;
+            font-weight: 800;
+        }
+
+        .card-body {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed #DFE4EA;
+        }
+
+        .parent-instruction {
+            background: #FFF9E6;
+            border-left: 4px solid #F1C40F;
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            color: #7F8C8D;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        /* AUDIO BUTTON */
+        .btn-audio {
+            width: 100%;
+            background: linear-gradient(135deg, #0984E3, #74B9FF);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 14px;
+            font-weight: 800;
+            font-size: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 2px solid #D69E2E;
-            flex-shrink: 0;
-        }
-
-        .parent-hint {
-            font-size: 12px;
-            color: #4A5568;
-            font-weight: 600;
-        }
-
-        .audio-player {
-            width: 100%;
+            gap: 10px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(9, 132, 227, 0.3);
             margin-bottom: 12px;
-            height: 40px;
+            transition: transform 0.2s;
         }
 
-        .btn-done-container {
-            display: flex;
-            justify-content: center;
+        .btn-audio:active {
+            transform: scale(0.98);
         }
 
-        /* Объемная кнопка выполнения */
-        .btn-done {
-            background: linear-gradient(135deg, #FF6B6B 0%, #EE5253 100%);
+        /* ACTION BUTTON */
+        .btn-action {
+            width: 100%;
+            background: linear-gradient(135deg, #6C5CE7, #A29BFE);
             color: white;
             border: none;
-            padding: 14px 28px;
-            border-radius: 22px;
-            font-family: 'Quicksand', sans-serif;
-            font-weight: 700;
-            cursor: pointer;
+            padding: 14px;
+            border-radius: 14px;
+            font-weight: 800;
             font-size: 15px;
-            border: 3px solid #C53030;
-            box-shadow: 0 6px 0 #C53030;
-            transition: transform 0.1s, box-shadow 0.1s;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+            transition: all 0.2s ease;
         }
 
-        .btn-done:active {
-            transform: translateY(3px);
-            box-shadow: 0 3px 0 #C53030;
+        .btn-action.done {
+            background: linear-gradient(135deg, #00B894, #55E6C1);
+            box-shadow: 0 4px 15px rgba(0, 184, 148, 0.3);
         }
 
-        .path-node.completed .btn-done {
-            background: linear-gradient(135deg, #48BB78 0%, #38A169 100%);
-            border-color: #2F855A;
-            box-shadow: 0 6px 0 #2F855A;
-        }
-
-        /* Кнопка поделиться */
-        .share-section {
-            padding: 15px;
-            background: #FFF5F5;
-            border-top: 3px solid #FEB2B2;
+        /* MILESTONE BLOCK */
+        .milestone-block {
+            background: #E0F7FA;
+            border: 2px dashed #00ACC1;
+            border-radius: var(--border-radius);
+            padding: 18px;
             text-align: center;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
         }
 
-        .btn-share {
-            background: linear-gradient(135deg, #ED8936 0%, #DD6B20 100%);
+        .milestone-block.unlocked {
+            background: #E8F8F5;
+            border-style: solid;
+            border-color: var(--success);
+        }
+
+        .milestone-text {
+            font-weight: 800;
+            font-size: 16px;
+            color: #00796B;
+        }
+
+        /* ACCORDION WRAPPER */
+        .week-accordion-content {
+            transition: max-height 0.4s ease, opacity 0.3s ease;
+            overflow: hidden;
+        }
+
+        .week-accordion-content.collapsed {
+            max-height: 0 !important;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* BONUS SECTION */
+        .bonus-header {
+            text-align: center;
+            font-weight: 900;
+            font-size: 18px;
+            color: var(--accent);
+            margin: 35px 0 20px 0;
+            letter-spacing: 1.5px;
+        }
+
+        /* MEMORY GAME STYLES (DAY 29) */
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .memory-card {
+            aspect-ratio: 1;
+            background: #6C5CE7;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-weight: 800;
+            color: white;
+            font-size: 12px;
+            text-align: center;
+            padding: 5px;
+            perspective: 1000px;
+            transition: transform 0.3s;
+        }
+
+        .memory-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .memory-card.flipped {
+            background: white;
+            border: 2px solid var(--primary);
+        }
+
+        .memory-card.flipped img {
+            display: block;
+        }
+
+        .memory-card.matched {
+            background: #E8F8F5;
+            border-color: var(--success);
+            cursor: default;
+        }
+
+        /* COLORING DAY (DAY 30) */
+        .coloring-container {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .coloring-img {
+            max-width: 100%;
+            border-radius: 16px;
+            border: 2px solid #DFE4EA;
+        }
+
+        /* FOOTER & CERTIFICATE */
+        .footer-section {
+            margin-top: 40px;
+            text-align: center;
+            border-top: 2px solid #DFE4EA;
+            padding-top: 25px;
+        }
+
+        .btn-copy-link {
+            background: #6C5CE7;
             color: white;
             border: none;
             padding: 12px 20px;
-            border-radius: 18px;
-            font-family: 'Quicksand', sans-serif;
-            font-weight: 700;
-            font-size: 14px;
+            border-radius: 12px;
+            font-weight: 800;
             cursor: pointer;
-            border: 3px solid #C05621;
-            box-shadow: 0 5px 0 #C05621;
-            width: 100%;
-            transition: transform 0.1s;
-        }
-
-        .btn-share:active {
-            transform: translateY(2px);
-            box-shadow: 0 2px 0 #C05621;
-        }
-
-        /* Подвал */
-        footer {
-            background: #EDF2F7;
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
+            margin-bottom: 20px;
+            display: inline-flex;
             align-items: center;
-            border-top: 3px solid #CBD5E0;
+            gap: 8px;
         }
 
         .teacher-info {
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 700;
-            color: #4A5568;
+            color: var(--text);
+            margin-bottom: 10px;
         }
 
         .btn-contact {
-            background: #48BB78;
+            background: #00B894;
             color: white;
-            padding: 8px 16px;
-            border-radius: 16px;
             text-decoration: none;
-            font-weight: 700;
-            font-size: 13px;
-            border: 2px solid #2F855A;
-            box-shadow: 0 4px 0 #2F855A;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-weight: 800;
+            display: inline-block;
+            margin-bottom: 25px;
         }
 
-        /* Конфетти */
-        .confetti {
-            position: absolute;
-            width: 12px;
-            height: 12px;
-            background-color: #FFD166;
-            animation: fall 1s ease-in-out forwards;
-            z-index: 100;
-            border-radius: 50%;
-        }
-
-        @keyframes fall {
-            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(180px) rotate(360deg); opacity: 0; }
+        .copyright {
+            font-size: 11px;
+            color: var(--text-muted);
+            line-height: 1.5;
+            max-width: 480px;
+            margin: 0 auto;
         }
     </style>
 </head>
 <body>
 
-    <div class="container" id="mainContainer">
-        <!-- Шапка с персонажем и облачком -->
-        <header>
-            <div class="mascot-row">
-                <div class="mascot">🦊</div>
-                <div class="speech-bubble">
-                    Привет! Поиграем в английский? 🌟
-                </div>
+<div class="container">
+    <!-- HEADER -->
+    <div class="header">
+        <h1>Привет! 🌟 Поиграем в Английский?</h1>
+        <div class="subtitle">✨ Методика TPR: учим английский через движение и игры</div>
+        
+        <div class="child-info">
+            <div class="child-name-container">
+                <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+                <span class="child-name" id="child-name-display">Загрузка...</span>
             </div>
-        </header>
-
-        <!-- Плашка методики для родителей -->
-        <div class="method-badge">
-            ✨ Методика TPR: учим английский через движение и игры
+            <div class="progress-badge" id="progress-badge">0/30 заданий</div>
         </div>
 
-        <!-- Профиль с бантиком -->
-        <div class="profile-card">
-            <div class="student-info"><i class="fa-solid fa-ribbon" style="color: #FF6B6B;"></i> Алиса, 5 лет</div>
-            <div id="progressText">0 / 30 заданий</div>
+        <div class="module-banner">
+            <svg class="svg-icon" viewBox="0 0 24 24"><path d="M13.13 22.19l-1.63-3.83c-.12-.27-.38-.44-.67-.44s-.55.17-.67.44l-1.63 3.83c-.22.52.16 1.1.72 1.1h3.16c.56 0 .94-.58.72-1.1zM12 2C6.48 2 2 6.48 2 12c0 2.17.69 4.19 1.87 5.85l1.62-1.62C4.54 14.97 4 13.55 4 12c0-4.41 3.59-8 8-8s8 3.59 8 8c0 1.55-.54 2.97-1.49 4.23l1.62 1.62C21.31 16.19 22 14.17 22 12c0-5.52-4.48-10-10-10z"/></svg>
+            МАРАФОН НА 30 ДНЕЙ | МОДУЛЬ 1
         </div>
 
-        <!-- Шкала прогресса с бегущей звездочкой -->
-        <div class="progress-wrapper">
-            <div class="progress-container">
-                <div id="progressBar"></div>
-                <div id="progressRunner" class="progress-runner">
-                    <i class="fa-solid fa-star"></i>
-                </div>
-            </div>
-        </div>
-
-        <!-- Баннер марафона -->
-        <div class="week-banner">МАРАФОН НА 30 ДНЕЙ 🚀</div>
-
-        <!-- Список заданий по неделям -->
-        <div class="map-path">
-            
-            <!-- НЕДЕЛЯ 1 -->
-            <div class="week-divider">НЕДЕЛЯ 1 : ЦВЕТА</div>
-
-            <!-- День 1 -->
-            <div class="path-node" id="day-1">
-                <div class="node-header" onclick="toggleCard('day-1')">
-                    <div class="node-icon"><i class="fa-solid fa-palette"></i></div>
-                    <div class="node-details">
-                        <h3>День 1: Цвета (Красный)</h3>
-                        <p>Найти и коснуться</p>
-                    </div>
-                    <div class="node-status"><i class="fa-solid fa-lock"></i></div>
-                </div>
-                <div class="node-content">
-                    <div class="card-fox-row">
-                        <div class="card-mini-fox">🦊</div>
-                        <div class="parent-hint">💡 <b>Родителям:</b> Включите аудио, покажите ребенку задачу. Нужно быстро найти дома красный предмет, дотронуться до него и громко сказать «RED!».</div>
-                    </div>
-                    <audio class="audio-player" controls src="https://www.w3schools.com/html/horse.mp3"></audio>
-                    <div class="btn-done-container">
-                        <button class="btn-done" onclick="completeTask(event, 'day-1')">ТОП-ТОП, ГОТОВО!</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- НЕДЕЛЯ 2 -->
-            <div class="week-divider">НЕДЕЛЯ 2 : ДВИЖЕНИЯ</div>
-
-            <!-- День 2 -->
-            <div class="path-node" id="day-2">
-                <div class="node-header" onclick="toggleCard('day-2')">
-                    <div class="node-icon"><i class="fa-solid fa-person-running"></i></div>
-                    <div class="node-details">
-                        <h3>День 2: Команды (Jump)</h3>
-                        <p>Прыжки по комнате</p>
-                    </div>
-                    <div class="node-status"><i class="fa-solid fa-lock"></i></div>
-                </div>
-                <div class="node-content">
-                    <div class="card-fox-row">
-                        <div class="card-mini-fox">🦊</div>
-                        <div class="parent-hint">💡 <b>Родителям:</b> Когда играет аудио с командой «Jump!», ребенок должен прыгать на месте, как лягушка, повторяя слово.</div>
-                    </div>
-                    <audio class="audio-player" controls src="https://www.w3schools.com/html/horse.mp3"></audio>
-                    <div class="btn-done-container">
-                        <button class="btn-done" onclick="completeTask(event, 'day-2')">ТОП-ТОП, ГОТОВО!</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- НЕДЕЛЯ 3 -->
-            <div class="week-divider">НЕДЕЛЯ 3 : УЧИМ ЧАСТИ ТЕЛА</div>
-
-            <!-- НЕДЕЛЯ 4 -->
-            <div class="week-divider">НЕДЕЛЯ 4 : ЖИВОТНЫЕ</div>
-
-            <!-- День 30 -->
-            <div class="path-node" id="day-30">
-                <div class="node-header" onclick="toggleCard('day-30')">
-                    <div class="node-icon"><i class="fa-solid fa-cat"></i></div>
-                    <div class="node-details">
-                        <h3>День 30: Итоговый квест</h3>
-                        <p>Звуки животных в квартире</p>
-                    </div>
-                    <div class="node-status"><i class="fa-solid fa-lock"></i></div>
-                </div>
-                <div class="node-content">
-                    <div class="card-fox-row">
-                        <div class="card-mini-fox">🦊</div>
-                        <div class="parent-hint">💡 <b>Родителям:</b> Финальный квест-бродилка! Имитируем животных и повторяем их названия на английском.</div>
-                    </div>
-                    <audio class="audio-player" controls src="https://www.w3schools.com/html/horse.mp3"></audio>
-                    <div class="btn-done-container">
-                        <button class="btn-done" onclick="completeTask(event, 'day-30')">ТОП-ТОП, ГОТОВО!</button>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- Кнопка «Поделиться результатом» -->
-        <div class="share-section">
-            <button class="btn-share" onclick="shareResult()"><i class="fa-solid fa-share-nodes"></i> Поделиться результатом</button>
-        </div>
-
-        <!-- Подвал -->
-        <footer>
-            <div class="teacher-info">Педагог: Татьяна 👩‍🏫</div>
-            <a href="https://t.me/tati_khi" target="_blank" class="btn-contact"><i class="fa-brands fa-telegram"></i> СВЯЗАТЬСЯ</a>
-        </footer>
+        <button class="btn-gift-header" onclick="openGift()">ПОДАРОК! 🎁</button>
     </div>
 
-    <script>
-        function toggleCard(dayId) {
-            const card = document.getElementById(dayId);
-            card.classList.toggle('active');
-        }
+    <!-- TRACKER DAYS CONTAINER -->
+    <div id="tracker-container"></div>
 
-        function completeTask(event, dayId) {
-            event.stopPropagation();
-            const card = document.getElementById(dayId);
-            const status = card.querySelector('.node-status');
-            const btn = card.querySelector('.btn-done');
+    <!-- FOOTER -->
+    <div class="footer-section">
+        <button class="btn-copy-link" onclick="copyPersonalLink()">
+            <svg class="svg-icon" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+            Скопировать мою ссылку
+        </button>
 
-            if (card.classList.contains('completed')) {
-                card.classList.remove('completed');
-                status.innerHTML = '<i class="fa-solid fa-lock"></i>';
-                btn.textContent = 'ТОП-ТОП, ГОТОВО!';
-            } else {
-                card.classList.add('completed');
-                status.innerHTML = '<i class="fa-solid fa-star"></i>';
-                btn.textContent = 'УРА, СДЕЛАНО! 🎉';
-                
-                createConfetti(btn);
-            }
-            updateProgress();
-        }
+        <div id="certificate-block" style="display: none; margin-bottom: 25px;">
+            <button class="btn-action done" onclick="generateCertificate()">🎓 СКАЧАТЬ ИМЕННОЙ СЕРТИФИКАТ</button>
+        </div>
 
-        function createConfetti(element) {
-            const rect = element.getBoundingClientRect();
-            const container = document.getElementById('mainContainer');
-            const colors = ['#FF6B6B', '#4ECDC4', '#FFD166', '#48BB78', '#ED8936'];
+        <div class="teacher-info">Ваш педагог: Татьяна</div>
+        <a href="https://t.me/tatikhi" target="_blank" class="btn-contact">Написать педагогу в Telegram</a>
+
+        <div class="copyright">
+            2026 [Татьяна / @tatikhi ]. Все права защищены. Материалы предназначены исключительно для индивидуального личного использования. Распространение, копирование и передача доступа третьим лицам запрещены.
+        </div>
+    </div>
+</div>
+
+<script>
+// --- 1. ДАННЫЕ МАРАФОНА (30 ДНЕЙ) ---
+const daysData = [
+    // НЕДЕЛЯ 1
+    { day: 1, week: 1, title: "КРАСНЫЙ (RED)", color: "#FF4757", parentText: "Включите аудио. Задача — быстро найти красный предмет и повторить слово за педагогом." },
+    { day: 2, week: 1, title: "СИНИЙ (BLUE)", color: "#2ED573", parentText: "Включите аудио. Задача — быстро найти синий предмет и повторить слово за педагогом." },
+    { day: 3, week: 1, title: "ЖЁЛТЫЙ (YELLOW)", color: "#FFA502", parentText: "Включите аудио. Задача — быстро найти желтый предмет и повторить слово за педагогом." },
+    { day: 4, week: 1, title: "ЗЕЛЁНЫЙ (GREEN)", color: "#2ED573", parentText: "Включите аудио. Задача — быстро найти зеленый предмет и повторить слово за педагогом." },
+    { day: 5, week: 1, title: "ОРАНЖЕВЫЙ (ORANGE)", color: "#FF7F50", parentText: "Включите аудио. Задача — быстро найти оранжевый предмет и повторить слово за педагогом." },
+    { day: 6, week: 1, title: "РОЗОВЫЙ (PINK)", color: "#FF6B81", parentText: "Включите аудио. Задача — быстро найти розовый предмет и повторить слово за педагогом." },
+    { day: 7, week: 1, title: "КОРИЧНЕВЫЙ (BROWN)", color: "#A4B0BE", parentText: "Включите аудио. Задача — быстро найти коричневый предмет и повторить слово за педагогом." },
+    
+    // НЕДЕЛЯ 2
+    { day: 8, week: 2, title: "БЕГАТЬ (RUN)", parentText: "Включите аудио. Задача — побегать и повторить слово за педагогом." },
+    { day: 9, week: 2, title: "ОСТАНОВИТЬСЯ (STOP)", parentText: "Включите аудио. Задача — после активного движения замереть и повторить слово за педагогом." },
+    { day: 10, week: 2, title: "ШАГАТЬ (WALK)", parentText: "Включите аудио. Задача — пошагать и повторить слово за педагогом." },
+    { day: 11, week: 2, title: "ТОПАТЬ (STOMP)", parentText: "Включите аудио. Задача — потопать ножками и повторить слово за педагогом." },
+    { day: 12, week: 2, title: "ХЛОПАТЬ (CLAP)", parentText: "Включите аудио. Задача — похлопать в ладоши и повторить слово за педагогом." },
+    { day: 13, week: 2, title: "ЛЕТАТЬ (FLY)", parentText: "Включите аудио. Задача — помахать руками как птица и повторить слово за педагогом." },
+    { day: 14, week: 2, title: "ПРЫГАТЬ (JUMP)", parentText: "Включите аудио. Задача — попрыгать и повторить слово за педагогом." },
+
+    // НЕДЕЛЯ 3
+    { day: 15, week: 3, title: "РУКИ (HANDS)", parentText: "Включите аудио. Задача — вытянуть/поднять руки и повторить слово за педагогом." },
+    { day: 16, week: 3, title: "НОГИ (FEET)", parentText: "Включите аудио. Задача — поболтать ногами и повторить слово за педагогом." },
+    { day: 17, week: 3, title: "ГОЛОВА (HEAD)", parentText: "Включите аудио. Задача — дотронуться до головы и повторить слово за педагогом." },
+    { day: 18, week: 3, title: "НОС (NOSE)", parentText: "Включите аудио. Задача — наморщить нос и повторить слово за педагогом." },
+    { day: 19, week: 3, title: "ГЛАЗА (EYES)", parentText: "Включите аудио. Задача — поморгать и повторить слово за педагогом." },
+    { day: 20, week: 3, title: "УШИ (EARS)", parentText: "Включите аудио. Задача — потрогать уши и повторить слово за педагогом." },
+    { day: 21, week: 3, title: "ЛИЦО (FACE)", parentText: "Включите аудио. Задача — состроить рожицу и повторить слово за педагогом." },
+
+    // НЕДЕЛЯ 4
+    { day: 22, week: 4, title: "ЛЕВ (LION)", parentText: "Включите аудио. Задача — изобразить льва и повторить слово за педагогом." },
+    { day: 23, week: 4, title: "ОБЕЗЬЯНА (MONKEY)", parentText: "Включите аудио. Задача — изобразить обезьянку и повторить слово за педагогом." },
+    { day: 24, week: 4, title: "МЕДВЕДЬ (BEAR)", parentText: "Включите аудио. Задача — изобразить медведя и повторить слово за педагогом." },
+    { day: 25, week: 4, title: "ЗАЯЦ (RABBIT)", parentText: "Включите аудио. Задача — изобразить зайца и повторить слово за педагогом." },
+    { day: 26, week: 4, title: "СЛОН (ELEPHANT)", parentText: "Включите аудио. Задача — изобразить слона и повторить слово за педагогом." },
+    { day: 27, week: 4, title: "ТИГР (TIGER)", parentText: "Включите аудио. Задача — изобразить тигра и повторить слово за педагогом." },
+    { day: 28, week: 4, title: "СОБАКА (DOG)", parentText: "Включите аудио. Задача — изобразить собаку и повторить слово за педагогом." },
+
+    // БОНУСНЫЕ ДНИ
+    { day: 29, week: 5, isBonus: true, title: "МИНИ-ИГРА «МЕМОРИ»", parentText: "Мини-игра «Мемори»! Переворачивайте карточки, находите пары и повторяйте слова вслух!" },
+    { day: 30, week: 5, isBonus: true, title: "ТВОРЧЕСКОЕ ЗАДАНИЕ «РАСКРАСКА»", parentText: "Финальное творческое задание! Раскрасьте собачку, используя изученные цвета, и скажите: «DOG!»." }
+];
+
+// --- 2. ИНИЦИАЛИЗАЦИЯ ИМЕНИ И ИНТЕРФЕЙСА ---
+const urlParams = new URLSearchParams(window.location.search);
+const rawName = urlParams.get('name');
+const childName = rawName ? decodeURIComponent(rawName) : 'СУПЕРГЕРОЙ';
+
+document.getElementById('child-name-display').textContent = childName + ', 5 лет';
+document.title = `Трекер — ${childName}`;
+
+const STORAGE_KEY = `tracker_progress_${childName}`;
+let completedDays = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+
+// --- 3. РЕНДЕР ТРЕКЕРА ---
+function renderTracker() {
+    const container = document.getElementById('tracker-container');
+    container.innerHTML = '';
+
+    let currentWeek = 0;
+    let weekWrapper = null;
+
+    daysData.forEach((data) => {
+        // Заголовки недель
+        if (data.week !== currentWeek && !data.isBonus) {
+            currentWeek = data.week;
             
-            for (let i = 0; i < 15; i++) {
-                const confetti = document.createElement('div');
-                confetti.className = 'confetti';
-                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                confetti.style.left = (rect.left - container.getBoundingClientRect().left + rect.width / 2 + (Math.random() - 0.5) * 100) + 'px';
-                confetti.style.top = (rect.top - container.getBoundingClientRect().top + 20) + 'px';
-                confetti.style.animationDuration = (0.6 + Math.random() * 0.6) + 's';
-                container.appendChild(confetti);
-                
-                setTimeout(() => confetti.remove(), 1200);
-            }
+            const weekTitle = document.createElement('div');
+            weekTitle.className = 'week-title';
+            weekTitle.innerHTML = `НЕДЕЛЯ ${currentWeek}`;
+            container.appendChild(weekTitle);
+
+            weekWrapper = document.createElement('div');
+            weekWrapper.id = `week-wrapper-${currentWeek}`;
+            weekWrapper.className = 'week-accordion-content';
+            container.appendChild(weekWrapper);
         }
 
-        function updateProgress() {
-            const completedCount = document.querySelectorAll('.path-node.completed').length;
-            const totalCount = 30;
-            const percent = (completedCount / totalCount) * 100;
-            
-            document.getElementById('progressBar').style.width = percent + '%';
-            document.getElementById('progressRunner').style.left = percent + '%';
-            document.getElementById('progressText').textContent = `${completedCount} / ${totalCount} заданий`;
+        if (data.day === 29) {
+            const bonusHeader = document.createElement('div');
+            bonusHeader.className = 'bonus-header';
+            bonusHeader.textContent = 'БОНУСНЫЕ ДНИ';
+            container.appendChild(bonusHeader);
         }
 
-        function shareResult() {
-            const completedCount = document.querySelectorAll('.path-node.completed').length;
-            const text = `🏆 Успехи Алисы в английском марафоне!\nМы выполнили уже ${completedCount} из 30 заданий! 🎉 Учим английский через движения и игры с Татьяной.`;
-            
-            navigator.clipboard.writeText(text).then(() => {
-                alert('Прогресс скопирован! Теперь им можно поделиться!');
-            }).catch(err => {
-                prompt('Скопируйте текст ниже для отправки:', text);
-            });
+        const isCompleted = completedDays.includes(data.day);
+        const isActive = isDayUnlocked(data.day);
+
+        const card = document.createElement('div');
+        card.className = `day-card ${isCompleted ? 'completed' : ''} ${isActive && !isCompleted ? 'active' : ''} ${!isActive ? 'disabled' : ''}`;
+        
+        let iconSvg = getWeekIconSvg(data);
+
+        card.innerHTML = `
+            <div class="card-header">
+                <div class="card-header-left">
+                    <div class="fox-avatar-container">🦊</div>
+                    <div>
+                        <div class="day-number">ДЕНЬ ${data.day}</div>
+                        <div class="day-title">${data.title}</div>
+                    </div>
+                </div>
+                <div>${iconSvg}</div>
+            </div>
+
+            ${isActive ? `
+                <div class="card-body">
+                    <div class="parent-instruction">💡 <b>Родителям:</b> ${data.parentText}</div>
+                    
+                    ${data.day <= 28 ? `
+                        <button class="btn-audio" onclick="playAudio(${data.day})">
+                            <svg class="svg-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            СЛУШАТЬ ЗАДАНИЕ
+                        </button>
+                    ` : ''}
+
+                    ${data.day === 29 ? renderMemoryGameHtml() : ''}
+                    ${data.day === 30 ? renderColoringHtml() : ''}
+
+                    <button class="btn-action ${isCompleted ? 'done' : ''}" onclick="toggleDay(${data.day})">
+                        ${isCompleted ? 'УРА! СДЕЛАНО! 🎉' : 'Я ВСЁ СДЕЛАЛ! 🚀'}
+                    </button>
+                </div>
+            ` : ''}
+        `;
+
+        if (data.week <= 4) {
+            weekWrapper.appendChild(card);
+        } else {
+            container.appendChild(card);
         }
-    </script>
+
+        // Блок завершения недели (Milestone)
+        if (data.day % 7 === 0 && data.week <= 4) {
+            const isWeekDone = isWeekCompleted(data.week);
+            const milestone = document.createElement('div');
+            milestone.className = `milestone-block ${isWeekDone ? 'unlocked' : ''}`;
+            milestone.innerHTML = isWeekDone ? `
+                <div class="fox-avatar-container">🦊</div>
+                <div class="milestone-text">МОЛОДЕЦ! ИДЁМ ДАЛЬШЕ!</div>
+            ` : `<div style="font-size:24px;">🔒</div>`;
+            
+            container.appendChild(milestone);
+        }
+    });
+
+    updateProgressBadge();
+    checkWeekAccordionState();
+}
+
+// --- 4. ВСПУТСТВУЮЩИЕ ФУНКЦИИ ЛОГИКИ ---
+function isDayUnlocked(day) {
+    if (day === 1) return true;
+    return completedDays.includes(day - 1);
+}
+
+function isWeekCompleted(weekNum) {
+    const startDay = (weekNum - 1) * 7 + 1;
+    for (let d = startDay; d < startDay + 7; d++) {
+        if (!completedDays.includes(d)) return false;
+    }
+    return true;
+}
+
+function toggleDay(day) {
+    if (completedDays.includes(day)) {
+        completedDays = completedDays.filter(d => d !== day);
+    } else {
+        completedDays.push(day);
+    }
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(completedDays));
+    renderTracker();
+}
+
+function updateProgressBadge() {
+    document.getElementById('progress-badge').textContent = `${completedDays.length}/30 заданий`;
+    if (completedDays.length === 30) {
+        document.getElementById('certificate-block').style.display = 'block';
+    }
+}
+
+function checkWeekAccordionState() {
+    for (let w = 1; w <= 4; w++) {
+        const wrapper = document.getElementById(`week-wrapper-${w}`);
+        if (wrapper && isWeekCompleted(w)) {
+            wrapper.classList.add('collapsed');
+        }
+    }
+}
+
+function getWeekIconSvg(data) {
+    if (data.week === 1) {
+        return `<svg class="svg-icon" style="color: ${data.color || '#6C5CE7'}" viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 19.4c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l1.9-1.9C9.22 19.56 10.57 20 12 20c4.97 0 9-4.03 9-9s-4.03-9-9-9zm0 15c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/></svg>`;
+    }
+    return `<svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>`;
+}
+
+// --- 5. ВОСПРОИЗВЕДЕНИЕ АУДИО ---
+function playAudio(dayNumber) {
+    const audio = new Audio(`audio${dayNumber}.mp3`);
+    audio.play().catch(() => alert(`Аудио файл audio${dayNumber}.mp3 пока не добавлен в папку.`));
+}
+
+// --- 6. ДЕНЬ 29: ИГРА МЕМОРИ ---
+function renderMemoryGameHtml() {
+    return `
+        <div class="memory-grid" id="memory-grid">
+            <div class="memory-card" onclick="flipCard(this, 'YELLOW')">CARD</div>
+            <div class="memory-card" onclick="flipCard(this, 'YELLOW')">CARD</div>
+            <div class="memory-card" onclick="flipCard(this, 'RUN')">CARD</div>
+            <div class="memory-card" onclick="flipCard(this, 'RUN')">CARD</div>
+            <div class="memory-card" onclick="flipCard(this, 'HANDS')">CARD</div>
+            <div class="memory-card" onclick="flipCard(this, 'HANDS')">CARD</div>
+            <div class="memory-card" onclick="flipCard(this, 'TIGER')">CARD</div>
+            <div class="memory-card" onclick="flipCard(this, 'TIGER')">CARD</div>
+        </div>
+    `;
+}
+
+let activeCards = [];
+function flipCard(card, word) {
+    if (activeCards.length < 2 && !card.classList.contains('flipped')) {
+        card.classList.add('flipped');
+        card.textContent = word;
+        activeCards.push({ card, word });
+
+        if (activeCards.length === 2) {
+            setTimeout(() => {
+                if (activeCards[0].word === activeCards[1].word) {
+                    activeCards[0].card.classList.add('matched');
+                    activeCards[1].card.classList.add('matched');
+                } else {
+                    activeCards[0].card.classList.remove('flipped');
+                    activeCards[1].card.classList.remove('flipped');
+                    activeCards[0].card.textContent = 'CARD';
+                    activeCards[1].card.textContent = 'CARD';
+                }
+                activeCards = [];
+            }, 800);
+        }
+    }
+}
+
+// --- 7. ДЕНЬ 30: РАСКРАСКА ---
+function renderColoringHtml() {
+    return `
+        <div class="coloring-container">
+            <img src="dog_coloring.png" alt="Dog Coloring" class="coloring-img" onerror="this.src='https://via.placeholder.com/400x300?text=dog_coloring.png'">
+        </div>
+    `;
+}
+
+// --- 8. ПОДАРОК И СЕРТИФИКАТ ---
+function openGift() {
+    window.open('gift.pdf', '_blank');
+}
+
+function copyPersonalLink() {
+    navigator.clipboard.writeText(window.location.href);
+    alert('Персональная ссылка скопирована!');
+}
+
+function generateCertificate() {
+    const canvas = document.createElement('canvas');
+    canvas.width = 1000;
+    canvas.height = 700;
+    const ctx = canvas.getContext('2d');
+
+    ctx.fillStyle = '#6C5CE7';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    ctx.fillStyle = '#FFFFFF';
+    ctx.font = 'bold 40px Nunito';
+    ctx.textAlign = 'center';
+    ctx.fillText('СЕРТИФИКАТ О ПРОХОЖДЕНИИ МАРАФОНА', 500, 200);
+
+    ctx.fillStyle = '#FFE17D';
+    ctx.font = 'bold 60px Nunito';
+    ctx.fillText(childName, 500, 350);
+
+    ctx.fillStyle = '#FFFFFF';
+    ctx.font = '24px Nunito';
+    ctx.fillText('Успешно завершил(а) 30 дней английского языка!', 500, 480);
+
+    const link = document.createElement('a');
+    link.download = `Certificate_${childName}.png`;
+    link.href = canvas.toDataURL();
+    link.click();
+}
+
+// Старт рендера при загрузке
+renderTracker();
+</script>
 </body>
 </html>
