@@ -7,14 +7,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --header-bg: #1ABC9C;
-            --header-dark: #16A085;
-            --yellow-box: #FFF3CD;
-            --yellow-border: #FFE69C;
-            --red-banner: #E56B6F; /* Мягкий приглушённый красный цвет */
-            --red-button: #E56B6F;
-            --active-green: #2ECC71;
-            --blue-dashed: #3498DB;
+            --header-bg: #68C4C6;       /* Пастельный бирюзовый */
+            --header-dark: #50A3A6;     /* Мягкий тёмно-бирюзовый */
+            --yellow-box: #FFE066;      /* Яркая жёлтая плашка */
+            --yellow-border: #FCC419;
+            --red-banner: #E56B6F;      /* Приглушённый кораллово-красный */
+            --pastel-green: #42C882;    /* Пастельный зелёный */
+            --grey-btn: #A0AEC0;        /* Серая неактивная кнопка */
+            --blue-dashed: #3498DB;     /* Цвет пунктира */
             --text-color: #2C3E50;
             --bg-color: #EBF5FB;
             --card-radius: 20px;
@@ -28,18 +28,10 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* ФОН ИЗ СВЕТЛО-ГОЛУБЫХ И ТЁМНО-ГОЛУБЫХ КРУЖКОВ */
+        /* ПЛОТНЫЙ ПАТТЕРН ИЗ ГОЛУБЫХ КРУЖКОВ */
         body {
             background-color: var(--bg-color);
-            background-image: 
-                radial-gradient(circle at 10% 12%, rgba(52, 152, 219, 0.22) 22px, transparent 23px),
-                radial-gradient(circle at 85% 8%, rgba(41, 128, 185, 0.25) 38px, transparent 39px),
-                radial-gradient(circle at 18% 45%, rgba(41, 128, 185, 0.18) 16px, transparent 17px),
-                radial-gradient(circle at 82% 40%, rgba(52, 152, 219, 0.26) 46px, transparent 47px),
-                radial-gradient(circle at 12% 75%, rgba(41, 128, 185, 0.22) 32px, transparent 33px),
-                radial-gradient(circle at 88% 72%, rgba(52, 152, 219, 0.2) 24px, transparent 25px),
-                radial-gradient(circle at 48% 92%, rgba(41, 128, 185, 0.22) 28px, transparent 29px),
-                radial-gradient(circle at 52% 18%, rgba(52, 152, 219, 0.18) 14px, transparent 15px);
+            background-image: url("data:image/svg+xml,%3Csvg width='36' height='36' viewBox='0 0 36 36' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='9' cy='9' r='4' fill='%233498db' opacity='0.25'/%3E%3Ccircle cx='27' cy='27' r='2.5' fill='%2368c4c6' opacity='0.35'/%3E%3Ccircle cx='27' cy='9' r='2' fill='%2368c4c6' opacity='0.25'/%3E%3Ccircle cx='9' cy='27' r='3.5' fill='%233498db' opacity='0.25'/%3E%3C/svg%3E");
             background-attachment: fixed;
             color: var(--text-color);
             padding: 15px 10px;
@@ -70,20 +62,20 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 15px;
+            gap: 12px;
             margin-bottom: 15px;
         }
 
-        /* АНИМИРОВАННЫЙ ЛИСЕНОК В ДВИЖУЩЕМСЯ КРУЖКЕ */
+        /* АНИМИРОВАННЫЙ ЛИСЕНОК */
         .fox-avatar {
-            width: 52px;
-            height: 52px;
+            width: 50px;
+            height: 50px;
             background: #FFFFFF;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 28px;
+            font-size: 26px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.12);
             animation: floatVertical 2.5s ease-in-out infinite;
             flex-shrink: 0;
@@ -92,7 +84,7 @@
 
         @keyframes floatVertical {
             0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-7px); }
+            50% { transform: translateY(-6px); }
         }
 
         .speech-bubble {
@@ -107,17 +99,6 @@
             text-align: center;
         }
 
-        .speech-bubble::before {
-            content: '';
-            position: absolute;
-            left: -8px;
-            top: 50%;
-            transform: translateY(-50%);
-            border-width: 6px 8px 6px 0;
-            border-style: solid;
-            border-color: transparent #FFFFFF transparent transparent;
-        }
-
         .tpr-banner {
             background: #FFFFFF;
             color: #34495E;
@@ -130,13 +111,15 @@
             text-align: center;
         }
 
+        /* КНОПКА СКОПИРОВАТЬ ССЫЛКУ В СТИЛЕ ПЛАШЕК НЕДЕЛЬ */
         .btn-copy-top {
-            width: 100%;
-            background: var(--red-button);
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 12px;
+            width: fit-content;
+            margin: 0 auto 15px auto;
+            background: #FFFFFF;
+            border: 2px dashed var(--blue-dashed);
+            color: #2980B9;
+            padding: 8px 18px;
+            border-radius: 20px;
             font-weight: 800;
             font-size: 14px;
             cursor: pointer;
@@ -144,11 +127,14 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            margin-bottom: 15px;
-            box-shadow: 0 4px 10px rgba(229, 107, 111, 0.3);
+            transition: all 0.2s ease;
         }
 
-        /* CHILD INFO & PROGRESS BAR */
+        .btn-copy-top:hover {
+            background: #F4F9FC;
+        }
+
+        /* ИНФОРМАЦИЯ О РЕБЕНКЕ (ЯРКАЯ) */
         .child-info-box {
             background: var(--yellow-box);
             border: 2px solid var(--yellow-border);
@@ -157,10 +143,11 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            color: #D63031;
-            font-weight: 800;
+            color: #7A4300;
+            font-weight: 900;
             font-size: 16px;
             margin-bottom: 10px;
+            box-shadow: 0 2px 8px rgba(252, 196, 25, 0.3);
         }
 
         .progress-bar-container {
@@ -198,10 +185,10 @@
             text-align: center;
         }
 
-        /* WEEK HEADERS */
+        /* ЗАГОЛОВКИ НЕДЕЛЬ С ОДИНАКОВЫМИ ОТСТУПАМИ СВЕРХУ И СНИЗУ */
         .week-title {
             text-align: center;
-            margin: 25px auto 15px auto;
+            margin: 20px auto 20px auto;
             padding: 8px 20px;
             border: 2px dashed var(--blue-dashed);
             border-radius: 20px;
@@ -212,7 +199,7 @@
             background: #FFFFFF;
         }
 
-        /* DAY CARDS */
+        /* КАРТОЧКА ДНЯ */
         .day-card {
             background: #FFFFFF;
             border: 2px solid #E2E8F0;
@@ -225,8 +212,8 @@
         }
 
         .day-card.active {
-            border-color: var(--active-green);
-            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.2);
+            border-color: var(--pastel-green);
+            box-shadow: 0 4px 15px rgba(66, 200, 130, 0.2);
             opacity: 1;
         }
 
@@ -236,7 +223,7 @@
         }
 
         .day-card.completed {
-            border-color: var(--active-green);
+            border-color: var(--pastel-green);
             background: #F0FDF4;
         }
 
@@ -258,15 +245,10 @@
 
         .day-title-text {
             font-weight: 800;
-            font-size: 16px;
+            font-size: 15px;
             color: #2C3E50;
             text-align: center;
-        }
-
-        .day-subtitle {
-            font-size: 13px;
-            color: #7F8C8D;
-            text-align: center;
+            text-transform: uppercase;
         }
 
         .card-body {
@@ -285,6 +267,7 @@
             margin-bottom: 12px;
             line-height: 1.4;
             text-align: left;
+            text-transform: uppercase;
         }
 
         .btn-audio {
@@ -304,9 +287,10 @@
             margin-bottom: 10px;
         }
 
+        /* ДИНАМИЧЕСКАЯ КНОПКА ВЫПОЛНЕНИЯ */
         .btn-action {
             width: 100%;
-            background: var(--active-green);
+            background: var(--grey-btn);
             color: white;
             border: none;
             padding: 12px;
@@ -314,17 +298,21 @@
             font-weight: 800;
             font-size: 15px;
             cursor: pointer;
-            box-shadow: 0 4px 10px rgba(46, 204, 113, 0.3);
+            transition: all 0.3s ease;
         }
 
-        /* SVG ICONS */
+        .btn-action.completed {
+            background: var(--pastel-green);
+            box-shadow: 0 4px 10px rgba(66, 200, 130, 0.3);
+        }
+
         .svg-icon {
-            width: 24px;
-            height: 24px;
+            width: 20px;
+            height: 20px;
             fill: currentColor;
         }
 
-        /* DAY 29 MEMORY SPACING */
+        /* МЕМОРИ ИГРА (ДЕНЬ 29) */
         .memory-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -360,7 +348,7 @@
         }
 
         .memory-card.matched {
-            background: #2ECC71;
+            background: var(--pastel-green);
             color: white;
         }
 
@@ -373,7 +361,7 @@
         }
 
         .btn-contact {
-            background: #2ECC71;
+            background: var(--pastel-green);
             color: white;
             text-decoration: none;
             padding: 10px 20px;
@@ -409,8 +397,8 @@
         </button>
 
         <div class="child-info-box">
-            <span id="child-name-display">Алиса, 5 лет</span>
-            <span id="progress-text">0 / 30 заданий</span>
+            <span id="child-name-display">АЛИСА, 5 ЛЕТ</span>
+            <span id="progress-text">0 / 30 ЗАДАНИЙ</span>
         </div>
 
         <div class="progress-bar-container">
@@ -428,7 +416,7 @@
     <!-- FOOTER -->
     <div class="footer">
         <div id="certificate-block" style="display:none; margin-bottom: 20px;">
-            <button class="btn-action" onclick="generateCertificate()">🎓 СКАЧАТЬ ИМЕННОЙ СЕРТИФИКАТ</button>
+            <button class="btn-action completed" onclick="generateCertificate()">🎓 СКАЧАТЬ ИМЕННОЙ СЕРТИФИКАТ</button>
         </div>
 
         <div style="font-weight: 800; margin-bottom: 10px;">Ваш педагог: Татьяна</div>
@@ -441,47 +429,47 @@
 </div>
 
 <script>
-// --- 1. ДАННЫЕ ДНЕЙ ---
+// --- 1. ДАННЫЕ ДНЕЙ (КАПСЛОК, ПРОБЕЛ ПОСЛЕ ДВОЕТОЧИЯ) ---
 const daysData = [
     // Неделя 1
-    { day: 1, week: 1, title: "День 1: Цвета (Красный)", subtitle: "Найти и коснуться", parentText: "Включите аудио, покажите ребенку задачу. Нужно быстро найти дома красный предмет, дотронуться до него и громко сказать «RED!»." },
-    { day: 2, week: 1, title: "День 2: Цвета (Синий)", subtitle: "Найти и коснуться", parentText: "Включите аудио. Задача — быстро найти синий предмет и повторить слово за педагогом." },
-    { day: 3, week: 1, title: "День 3: Цвета (Жёлтый)", subtitle: "Найти и коснуться", parentText: "Включите аудио. Задача — быстро найти желтый предмет и повторить слово за педагогом." },
-    { day: 4, week: 1, title: "День 4: Цвета (Зелёный)", subtitle: "Найти и коснуться", parentText: "Включите аудио. Задача — быстро найти зеленый предмет и повторить слово за педагогом." },
-    { day: 5, week: 1, title: "День 5: Цвета (Оранжевый)", subtitle: "Найти и коснуться", parentText: "Включите аудио. Задача — быстро найти оранжевый предмет и повторить слово за педагогом." },
-    { day: 6, week: 1, title: "День 6: Цвета (Розовый)", subtitle: "Найти и коснуться", parentText: "Включите аудио. Задача — быстро найти розовый предмет и повторить слово за педагогом." },
-    { day: 7, week: 1, title: "День 7: Цвета (Коричневый)", subtitle: "Найти и коснуться", parentText: "Включите аудио. Задача — быстро найти коричневый предмет и повторить слово за педагогом." },
+    { day: 1, week: 1, title: "ДЕНЬ 1 : ЦВЕТА (КРАСНЫЙ)", parentText: "ВКЛЮЧИТЕ АУДИО, ПОКАЖИТЕ РЕБЕНКУ ЗАДАЧУ. НУЖНО БЫСТРО НАЙТИ ДОМА КРАСНЫЙ ПРЕДМЕТ, ДОТРОНУТЬСЯ ДО НЕГО И ГРОМКО СКАЗАТЬ «RED!»." },
+    { day: 2, week: 1, title: "ДЕНЬ 2 : ЦВЕТА (СИНИЙ)", parentText: "ВКЛЮЧИТЕ АУДИО. ЗАДАЧА — БЫСТРО НАЙТИ СИНИЙ ПРЕДМЕТ И ПОВТОРИТЬ СЛОВО ЗА ПЕДАГОГОМ." },
+    { day: 3, week: 1, title: "ДЕНЬ 3 : ЦВЕТА (ЖЁЛТЫЙ)", parentText: "ВКЛЮЧИТЕ АУДИО. ЗАДАЧА — БЫСТРО НАЙТИ ЖЕЛТЫЙ ПРЕДМЕТ И ПОВТОРИТЬ СЛОВО ЗА ПЕДАГОГОМ." },
+    { day: 4, week: 1, title: "ДЕНЬ 4 : ЦВЕТА (ЗЕЛЁНЫЙ)", parentText: "ВКЛЮЧИТЕ АУДИО. ЗАДАЧА — БЫСТРО НАЙТИ ЗЕЛЕНЫЙ ПРЕДМЕТ И ПОВТОРИТЬ СЛОВО ЗА ПЕДАГОГОМ." },
+    { day: 5, week: 1, title: "ДЕНЬ 5 : ЦВЕТА (ОРАНЖЕВЫЙ)", parentText: "ВКЛЮЧИТЕ АУДИО. ЗАДАЧА — БЫСТРО НАЙТИ ОРАНЖЕВЫЙ ПРЕДМЕТ И ПОВТОРИТЬ СЛОВО ЗА ПЕДАГОГОМ." },
+    { day: 6, week: 1, title: "ДЕНЬ 6 : ЦВЕТА (РОЗОВЫЙ)", parentText: "ВКЛЮЧИТЕ АУДИО. ЗАДАЧА — БЫСТРО НАЙТИ РОЗОВЫЙ ПРЕДМЕТ И ПОВТОРИТЬ СЛОВО ЗА ПЕДАГОГОМ." },
+    { day: 7, week: 1, title: "ДЕНЬ 7 : ЦВЕТА (КОРИЧНЕВЫЙ)", parentText: "ВКЛЮЧИТЕ АУДИО. ЗАДАЧА — БЫСТРО НАЙТИ КОРИЧНЕВЫЙ ПРЕДМЕТ И ПОВТОРИТЬ СЛОВО ЗА ПЕДАГОГОМ." },
 
     // Неделя 2
-    { day: 8, week: 2, title: "День 8: Команды (Run)", subtitle: "Прыжки по комнате", parentText: "Когда играет аудио с командой «Run», ребенок должен побегать на месте." },
-    { day: 9, week: 2, title: "День 9: Команды (Stop)", subtitle: "Замри на месте", parentText: "Замрите после активного движения и громко скажите «STOP!»." },
-    { day: 10, week: 2, title: "День 10: Команды (Walk)", subtitle: "Шагаем вместе", parentText: "Пошагайте красиво по комнате и повторите слово «WALK!»." },
-    { day: 11, week: 2, title: "День 11: Команды (Stomp)", subtitle: "Топаем ногами", parentText: "Потопайте громко ножками и скажите «STOMP!»." },
-    { day: 12, week: 2, title: "День 12: Команды (Clap)", subtitle: "Хлопки в ладоши", parentText: "Похлопайте в ладоши и скажите «CLAP!»." },
-    { day: 13, week: 2, title: "День 13: Команды (Fly)", subtitle: "Летаем как птицы", parentText: "Помашите руками как крыльями и скажите «FLY!»." },
-    { day: 14, week: 2, title: "День 14: Команды (Jump)", subtitle: "Прыгаем высоко", parentText: "Попрыгайте как мячик и скажите «JUMP!»." },
+    { day: 8, week: 2, title: "ДЕНЬ 8 : КОМАНДЫ (RUN)", parentText: "КОГДА ИГРАЕТ АУДИО С КОМАНДОЙ «RUN», РЕБЕНОК ДОЛЖЕН ПОБЕГАТЬ НА МЕСТЕ." },
+    { day: 9, week: 2, title: "ДЕНЬ 9 : КОМАНДЫ (STOP)", parentText: "ЗАМРИТЕ ПОСЛЕ АКТИВНОГО ДВИЖЕНИЯ И ГРОМКО СКАЖИТЕ «STOP!»." },
+    { day: 10, week: 2, title: "ДЕНЬ 10 : КОМАНДЫ (WALK)", parentText: "ПОШАГАЙТЕ КРАСИВО ПО КОМНАТЕ И ПОВТОРИТЕ СЛОВО «WALK!»." },
+    { day: 11, week: 2, title: "ДЕНЬ 11 : КОМАНДЫ (STOMP)", parentText: "ПОТОПАЙТЕ ГРОМКО НОЖКАМИ И СКАЖИТЕ «STOMP!»." },
+    { day: 12, week: 2, title: "ДЕНЬ 12 : КОМАНДЫ (CLAP)", parentText: "ПОХЛОПАЙТЕ В ЛАДОШИ И СКАЖИТЕ «CLAP!»." },
+    { day: 13, week: 2, title: "ДЕНЬ 13 : КОМАНДЫ (FLY)", parentText: "ПОМАШИТЕ РУКАМИ КАК КРЫЛЬЯМИ И СКАЖИТЕ «FLY!»." },
+    { day: 14, week: 2, title: "ДЕНЬ 14 : КОМАНДЫ (JUMP)", parentText: "ПОПРЫГАЙТЕ КАК МЯЧИК И СКАЖИТЕ «JUMP!»." },
 
     // Неделя 3
-    { day: 15, week: 3, title: "День 15: Части тела (Hands)", subtitle: "Руки вверх", parentText: "Вытяните руки вперед или поднимите вверх и скажите «HANDS!»." },
-    { day: 16, week: 3, title: "День 16: Части тела (Feet)", subtitle: "Топаем ногами", parentText: "Поболтайте ногами и скажите «FEET!»." },
-    { day: 17, week: 3, title: "День 17: Части тела (Head)", subtitle: "Голова", parentText: "Дотроньтесь до головы и скажите «HEAD!»." },
-    { day: 18, week: 3, title: "День 18: Части тела (Nose)", subtitle: "Носик", parentText: "Наморщите носик и скажите «NOSE!»." },
-    { day: 19, week: 3, title: "День 19: Части тела (Eyes)", subtitle: "Глазки", parentText: "Поморгайте глазами и скажите «EYES!»." },
-    { day: 20, week: 3, title: "День 20: Части тела (Ears)", subtitle: "Ушки", parentText: "Потрогайте свои ушки и скажите «EARS!»." },
-    { day: 21, week: 3, title: "День 21: Части тела (Face)", subtitle: "Лицо", parentText: "Состройте смешную рожицу и скажите «FACE!»." },
+    { day: 15, week: 3, title: "ДЕНЬ 15 : ЧАСТИ ТЕЛА (HANDS)", parentText: "ВЫТЯНИТЕ РУКИ ВПЕРЕД ИЛИ ПОДНИМИТЕ ВВЕРХ И СКАЖИТЕ «HANDS!»." },
+    { day: 16, week: 3, title: "ДЕНЬ 16 : ЧАСТИ ТЕЛА (FEET)", parentText: "ПОБОЛТАЙТЕ НОГАМИ И СКАЖИТЕ «FEET!»." },
+    { day: 17, week: 3, title: "ДЕНЬ 17 : ЧАСТИ ТЕЛА (HEAD)", parentText: "ДОТРОНЬТЕСЬ ДО ГОЛОВЫ И СКАЖИТЕ «HEAD!»." },
+    { day: 18, week: 3, title: "ДЕНЬ 18 : ЧАСТИ ТЕЛА (NOSE)", parentText: "НАМОРЩИТЕ НОСИК И СКАЖИТЕ «NOSE!»." },
+    { day: 19, week: 3, title: "ДЕНЬ 19 : ЧАСТИ ТЕЛА (EYES)", parentText: "ПОМОРГАЙТЕ ГЛАЗАМИ И СКАЖИТЕ «EYES!»." },
+    { day: 20, week: 3, title: "ДЕНЬ 20 : ЧАСТИ ТЕЛА (EARS)", parentText: "ПОТРОГАЙТЕ СВОИ УШКИ И СКАЖИТЕ «EARS!»." },
+    { day: 21, week: 3, title: "ДЕНЬ 21 : ЧАСТИ ТЕЛА (FACE)", parentText: "СОСТРОЙТЕ СМЕШНУЮ РОЖИЦУ И СКАЖИТЕ «FACE!»." },
 
     // Неделя 4
-    { day: 22, week: 4, title: "День 22: Животные (Lion)", subtitle: "Рычим как лев", parentText: "Изобразите льва и громко прорычите слово «LION!»." },
-    { day: 23, week: 4, title: "День 23: Животные (Monkey)", subtitle: "Обезьянка", parentText: "Изобразите весёлую обезьянку и скажите «MONKEY!»." },
-    { day: 24, week: 4, title: "День 24: Животные (Bear)", subtitle: "Медведь", parentText: "Покачайтесь как медведь и скажите «BEAR!»." },
-    { day: 25, week: 4, title: "День 25: Животные (Rabbit)", subtitle: "Зайчик", parentText: "Покажите ушки зайчика и скажите «RABBIT!»." },
-    { day: 26, week: 4, title: "День 26: Животные (Elephant)", subtitle: "Слон", parentText: "Покажите хобот слона и скажите «ELEPHANT!»." },
-    { day: 27, week: 4, title: "День 27: Животные (Tiger)", subtitle: "Тигр", parentText: "Покажите когти тигра и скажите «TIGER!»." },
-    { day: 28, week: 4, title: "День 28: Животные (Dog)", subtitle: "Собачка", parentText: "Изобразите добрую собачку и скажите «DOG!»." },
+    { day: 22, week: 4, title: "ДЕНЬ 22 : ЖИВОТНЫЕ (LION)", parentText: "ИЗОБРАЗИТЕ ЛЬВА И ГРОМКО ПРОРЫЧИТЕ СЛОВО «LION!»." },
+    { day: 23, week: 4, title: "ДЕНЬ 23 : ЖИВОТНЫЕ (MONKEY)", parentText: "ИЗОБРАЗИТЕ ВЕСЁЛУЮ ОБЕЗЬЯНКУ И СКАЖИТЕ «MONKEY!»." },
+    { day: 24, week: 4, title: "ДЕНЬ 24 : ЖИВОТНЫЕ (BEAR)", parentText: "ПОКАЧАЙТЕСЬ КАК МЕДВЕДЬ И СКАЖИТЕ «BEAR!»." },
+    { day: 25, week: 4, title: "ДЕНЬ 25 : ЖИВОТНЫЕ (RABBIT)", parentText: "ПОКАЖИТЕ УШКИ ЗАЙЧИКА И СКАЖИТЕ «RABBIT!»." },
+    { day: 26, week: 4, title: "ДЕНЬ 26 : ЖИВОТНЫЕ (ELEPHANT)", parentText: "ПОКАЖИТЕ ХОБОТ СЛОНА И СКАЖИТЕ «ELEPHANT!»." },
+    { day: 27, week: 4, title: "ДЕНЬ 27 : ЖИВОТНЫЕ (TIGER)", parentText: "ПОКАЖИТЕ КОГТИ ТИГРА И СКАЖИТЕ «TIGER!»." },
+    { day: 28, week: 4, title: "ДЕНЬ 28 : ЖИВОТНЫЕ (DOG)", parentText: "ИЗОБРАЗИТЕ ДОБРУЮ СОБАЧКУ И СКАЖИТЕ «DOG!»." },
 
     // Бонусные дни
-    { day: 29, week: 5, isBonus: true, title: "День 29: Мини-игра «Мемори»", subtitle: "Найди пару", parentText: "Переворачивайте карточки и находите одинаковые пары!" },
-    { day: 30, week: 5, isBonus: true, title: "День 30: Итоговый квест", subtitle: "Финальная раскраска", parentText: "Раскрасьте собачку, используя изученные цвета!" }
+    { day: 29, week: 5, isBonus: true, title: "ДЕНЬ 29 : МИНИ-ИГРА «МЕМОРИ»", parentText: "ПЕРЕВОРАЧИВАЙТЕ КАРТОЧКИ И НАХОДИТЕ ОДИНАКОВЫЕ ПАРЫ!" },
+    { day: 30, week: 5, isBonus: true, title: "ДЕНЬ 30 : ИТОГОВЫЙ КВЕСТ", parentText: "РАСКРАСЬТЕ СОБАЧКУ, ИСПОЛЬЗУЯ ИЗУЧЕННЫЕ ЦВЕТА!" }
 ];
 
 // --- 2. ИНИЦИАЛИЗАЦИЯ ИМЕНИ И URL ---
@@ -489,7 +477,7 @@ const urlParams = new URLSearchParams(window.location.search);
 const rawName = urlParams.get('name');
 const childName = rawName ? decodeURIComponent(rawName) : 'СУПЕРГЕРОЙ';
 
-document.getElementById('child-name-display').textContent = `${childName}, 5 лет`;
+document.getElementById('child-name-display').textContent = `${childName.toUpperCase()}, 5 ЛЕТ`;
 document.title = `Трекер — ${childName}`;
 
 const STORAGE_KEY = `tracker_progress_${childName}`;
@@ -503,7 +491,7 @@ function renderTracker() {
     let currentWeek = 0;
 
     daysData.forEach((data) => {
-        // Добавление центрированного заголовка недели
+        // Добавление заголовка недели с одинаковыми отступами
         if (data.week !== currentWeek && !data.isBonus) {
             currentWeek = data.week;
             const weekTitlesMap = ["", "НЕДЕЛЯ 1 : ЦВЕТА", "НЕДЕЛЯ 2 : ДВИЖЕНИЯ", "НЕДЕЛЯ 3 : ЧАСТИ ТЕЛА", "НЕДЕЛЯ 4 : ЖИВОТНЫЕ"];
@@ -517,8 +505,6 @@ function renderTracker() {
         if (data.day === 29) {
             const bonusTitle = document.createElement('div');
             bonusTitle.className = 'week-title';
-            bonusTitle.style.borderColor = '#E56B6F';
-            bonusTitle.style.color = '#D63031';
             bonusTitle.textContent = 'БОНУСНЫЕ ДНИ';
             container.appendChild(bonusTitle);
         }
@@ -533,16 +519,13 @@ function renderTracker() {
             <div class="card-top">
                 <div class="card-top-content">
                     <div class="fox-avatar">🦊</div>
-                    <div>
-                        <div class="day-title-text">${data.title}</div>
-                        <div class="day-subtitle">${data.subtitle}</div>
-                    </div>
+                    <div class="day-title-text">${data.title}</div>
                 </div>
             </div>
 
             ${isActive ? `
                 <div class="card-body">
-                    <div class="parent-box">💡 <b>Родителям:</b> ${data.parentText}</div>
+                    <div class="parent-box">💡 <b>РОДИТЕЛЯМ:</b> ${data.parentText}</div>
 
                     ${data.day <= 28 ? `
                         <button class="btn-audio" onclick="playAudio(${data.day})">
@@ -554,8 +537,8 @@ function renderTracker() {
                     ${data.day === 29 ? renderMemoryGameHtml() : ''}
                     ${data.day === 30 ? renderColoringHtml() : ''}
 
-                    <button class="btn-action" onclick="toggleDay(${data.day})">
-                        ${isCompleted ? 'УРА, СДЕЛАНО! 🎉' : 'ТОП-ТОП, ГОТОВО! 🚀'}
+                    <button class="btn-action ${isCompleted ? 'completed' : ''}" onclick="toggleDay(${data.day})">
+                        ${isCompleted ? 'УРА! СДЕЛАНО!🎉' : 'ВСЕ СДЕЛАНО!🚀'}
                     </button>
                 </div>
             ` : ''}
@@ -587,7 +570,7 @@ function updateProgress() {
     const current = completedDays.length;
     const percentage = Math.round((current / total) * 100);
 
-    document.getElementById('progress-text').textContent = `${current} / ${total} заданий`;
+    document.getElementById('progress-text').textContent = `${current} / ${total} ЗАДАНИЙ`;
     document.getElementById('progress-fill').style.width = `${percentage}%`;
 
     if (current === total) {
@@ -600,7 +583,7 @@ function playAudio(dayNumber) {
     audio.play().catch(() => alert(`Аудио файл audio${dayNumber}.mp3 пока не добавлен в папку.`));
 }
 
-// --- 4. ДЕНЬ 29 И 30 (СПЕЦИАЛЬНЫЕ БЛОКИ) ---
+// --- 4. МЕМОРИ И РАСКРАСКА ---
 function renderMemoryGameHtml() {
     return `
         <div class="memory-grid">
